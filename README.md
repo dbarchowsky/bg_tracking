@@ -1,2 +1,2 @@
-# bg_tracking
-App to track animation background painting progress.
+# Background Tracking
+App that tracks animation background painting progress.
