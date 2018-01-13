@@ -5,39 +5,44 @@
     <title>{{ episode.name }}</title>
 <style>
 .centered { text-align: center; }
-.yes { color: green; }
+.yes { color: #32cd32; }
+    table.data td {
+        padding: .2em 1em;
+        border-bottom: 1px solid #dddddd;
+        margin: 0;
+    }
 </style>
 </head>
 <body>
 <h1>{{ episode.show.name }} Season {{ episode.show.season }} &ndash; {{ episode.show.code}}-{{ episode.format_padded_number() }}: &ldquo;{{ episode.name }}&rdquo;</h1>
 <h2>Backgrounds</h2>
-<table>
+<table class="data">
     <tr>
-        <th>Scene</th>
-        <th>Dims</th>
-        <th>Location</th>
-        <th>Overlays</th>
-        <th>Establishing Shot</th>
-        <th>Partial</th>
-        <th>In Progress</th>
-        <th>Finished</th>
-        <th>Approved</th>
-        <th>Hours</th>
-        <th>Id</th>
+        <th>scene</th>
+        <th>dims</th>
+        <th>location</th>
+        <th>overlays</th>
+        <th>establishing shot</th>
+        <th>partial</th>
+        <th>in progress</th>
+        <th>finished</th>
+        <th>approved</th>
+        <th>hours</th>
+        <th>id</th>
     </tr>
 {% for bg in bgs %}
     <tr>
         <td>{{ bg.format_padded_scene() }}</td>
-        <td>{{ bg.width }}x{{ bg.height }}</td>
-        <td>{{ bg.location.name }}</td>
-        <td class="centered">{{ bg.overlays}}</td>
-        <td class="centered">{% if bg.establishing_shot %}yes{% else %}no{% endif %}</td>
-        <td class="centered">{% if bg.partial %}yes{% else %}no{% endif %}</td>
-        <td class="centered">{% if bg.date_started and not bg.date_finished %}yes{% else %}no{% endif %}</td>
-        <td class="centered{% if bg.date_finished %} yes{% endif %}">{% if bg.date_finished %}yes{% else %}no{% endif %}</td>
-        <td class="centered">{% if bg.approved %}yes{% else %}no{% endif %}</td>
-        <td>{% if bg.hours %}{{ bg.hours }}{% else %}--{% endif %}</td>
-        <td>{{ bg.id }}</td>
+        <td>{{ bg.width }} x {{ bg.height }}</td>
+        <td class="centered">{{ bg.location.name }}</td>
+        <td class="centered">{{ bg.overlay_count }}</td>
+        <td class="centered{% if bg.establishing_shot %} yes{% endif %}">{% if bg.establishing_shot %}yes{% else %}&ndash;{% endif %}</td>
+        <td class="centered{% if bg.partial %} yes{% endif %}">{% if bg.partial %}yes{% else %}&ndash;{% endif %}</td>
+        <td class="centered{% if bg.date_started and not bg.date_finished %} yes{% endif %}">{% if bg.date_started and not bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
+        <td class="centered{% if bg.date_finished %} yes{% endif %}">{% if bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
+        <td class="centered{% if bg.approved %} yes{% endif %}">{% if bg.approved %}yes{% else %}&ndash;{% endif %}</td>
+        <td>{% if bg.hours %}{{ bg.hours }}{% else %}-{% endif %}</td>
+        <td class="centered">{{ bg.id }}</td>
     </tr>
 {% endfor %}
 </table>
