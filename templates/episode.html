@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ episode.name }}</title>
-<style>
-.centered { text-align: center; }
-.yes { color: #32cd32; }
-    table.data td {
-        padding: .2em 1em;
-        border-bottom: 1px solid #dddddd;
-        margin: 0;
-    }
-</style>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}{{ episode.name }}{% endblock %}
+{% block content %}
 <h1>{{ episode.show.name }} Season {{ episode.show.season }} &ndash; {{ episode.show.code}}-{{ episode.format_padded_number() }}: &ldquo;{{ episode.name }}&rdquo;</h1>
 <h2>Backgrounds</h2>
 <table class="data">
@@ -45,6 +32,4 @@
         <td class="centered">{{ bg.id }}</td>
     </tr>
 {% endfor %}
-</table>
-</body>
-</html>
+{% endblock %}

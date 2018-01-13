@@ -1,7 +1,14 @@
 from flask import Flask
 from flask import render_template
+import urllib
+from markupsafe import Markup
 from bg_tracking import *
 app = Flask(__name__)
+
+
+def varunencode(s):
+    s = s.replace('_', ' ')
+    return urllib.parse.unquote(s)
 
 
 @app.before_request
@@ -16,22 +23,35 @@ def after_request(response):
 
 
 @app.route('/')
-def list_bgs():
-    return 'Hello.'
+def landing():
+    shows = Show.select().order_by(Show.name).order_by(Show.name, Show.season)
+    return render_template('landing.html', title='Shows', shows=shows)
 
 
-@app.route('/show/<show>')
-def list_episodes(show):
+@app.route('/show/<show_title>')
+def show_detail(show_title):
     """
     List the episodes available in the requested show.
     :param show: Show name
     :return: Response
     """
-    return 'Show is "{}"'.format(show)
+    show_title = varunencode(show_title)
+    try:
+        show = Show.get(Show.name == show_title)
+        title = show.name
+    except:
+        title = 'Show "{}" not found'.format(show_title)
+        show = []
+    if type(show) is Show:
+        try:
+            episodes = Episode.select().where(Episode.show == show.id)
+        except:
+            title = 'Error retrieving episodes in {}'.format(show.name)
+    return render_template('show.html', title=title, show=show, episodes=episodes)
 
 
 @app.route('/episode/<episode_id>')
-def show_episode(episode_id):
+def episode_detail(episode_id):
     """
     List backgrounds in the requested episode.
     :param episode_id:
@@ -41,6 +61,15 @@ def show_episode(episode_id):
     bgs = Background.select().where(Background.episode == episode_id).order_by(Background.scene)
     return render_template('episode.html', episode=e, bgs=bgs)
 
+
+@app.template_filter('varencode')
+def varencode_filter(s):
+    if type(s) == 'Markup':
+        s = s.unescape()
+    s = s.replace(' ', '_')
+    s = s.encode('utf8')
+    s = urllib.parse.quote_plus(s)
+    return Markup(s)
 
 # allow running from the command line
 if __name__ == '__main__':
