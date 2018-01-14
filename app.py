@@ -24,7 +24,11 @@ def after_request(response):
 
 @app.route('/')
 def landing():
-    bgs = Background.select().order_by(Background.episode.number, Background.scene)
+    bgs = (Background
+        .select()
+        .join(Episode)
+        .order_by(Episode.number, Background.scene)
+        )
     return render_template('backgrounds.html', bgs=bgs)    
     
     
