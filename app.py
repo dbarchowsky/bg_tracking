@@ -24,7 +24,7 @@ def after_request(response):
 
 @app.route('/')
 def landing():
-    bgs = Background.select().order_by(Background.scene)
+    bgs = Background.select().order_by(Background.episode.number, Background.scene)
     return render_template('backgrounds.html', bgs=bgs)    
     
     
@@ -44,8 +44,8 @@ def show_detail(show_title):
     show_title = varunencode(show_title)
     try:
         show = Show.get(Show.name == show_title)
-    except:
-        msg = 'Show "{}" not found'.format(show_title)
+    except Show.DoesNotExist:
+        msg = 'The show "{}" was not found.'.format(show_title)
         return render_template('error.html', error_msg=msg)
     else:
         title = show.name
