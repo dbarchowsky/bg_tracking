@@ -23,6 +23,7 @@ def after_request(response):
 
 
 @app.route('/')
+@app.route('/shows/')
 def landing():
     shows = Show.select().order_by(Show.name).order_by(Show.name, Show.season)
     return render_template('landing.html', title='Shows', shows=shows)
@@ -38,10 +39,11 @@ def show_detail(show_title):
     show_title = varunencode(show_title)
     try:
         show = Show.get(Show.name == show_title)
-        title = show.name
     except:
-        title = 'Show "{}" not found'.format(show_title)
-        show = []
+        msg = 'Show "{}" not found'.format(show_title)
+        return render_template('error.html', error_msg=msg)
+    else:
+        title = show.name
     if type(show) is Show:
         try:
             episodes = Episode.select().where(Episode.show == show.id)
@@ -50,7 +52,7 @@ def show_detail(show_title):
     return render_template('show.html', title=title, show=show, episodes=episodes)
 
 
-@app.route('/episode/<episode_id>')
+@app.route('/episode/<int:episode_id>')
 def episode_detail(episode_id):
     """
     List backgrounds in the requested episode.
