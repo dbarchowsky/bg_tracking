@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>BGs</h1>
+<table class="data">
+    <tr>
+        <th>episode</th>
+        <th>scene</th>
+        <th>dims</th>
+        <th>location</th>
+        <th>overlays</th>
+        <th>establishing shot</th>
+        <th>partial</th>
+        <th>in progress</th>
+        <th>finished</th>
+        <th>approved</th>
+        <th>hours</th>
+        <th>id</th>
+    </tr>
+{% for bg in bgs %}
+    <tr>
+        <td>{{bg.episode.show.code}} {{ bg.episode.name }}</td>
+        <td>{{ bg.format_padded_scene() }}</td>
+        <td>{{ bg.width }} x {{ bg.height }}</td>
+        <td class="centered">{{ bg.location.name }}</td>
+        <td class="centered">{{ bg.overlay_count }}</td>
+        <td class="centered{% if bg.establishing_shot %} yes{% endif %}">{% if bg.establishing_shot %}yes{% else %}&ndash;{% endif %}</td>
+        <td class="centered{% if bg.partial %} yes{% endif %}">{% if bg.partial %}yes{% else %}&ndash;{% endif %}</td>
+        <td class="centered{% if bg.date_started and not bg.date_finished %} yes{% endif %}">{% if bg.date_started and not bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
+        <td class="centered{% if bg.date_finished %} yes{% endif %}">{% if bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
+        <td class="centered{% if bg.approved %} yes{% endif %}">{% if bg.approved %}yes{% else %}&ndash;{% endif %}</td>
+        <td>{% if bg.hours %}{{ bg.hours }}{% else %}-{% endif %}</td>
+        <td class="centered">{{ bg.id }}</td>
+    </tr>
+{% endfor %}
+{% endblock %}

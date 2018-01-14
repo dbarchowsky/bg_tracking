@@ -23,8 +23,13 @@ def after_request(response):
 
 
 @app.route('/')
-@app.route('/shows/')
 def landing():
+    bgs = Background.select().order_by(Background.scene)
+    return render_template('backgrounds.html', bgs=bgs)    
+    
+    
+@app.route('/shows/')
+def show_list():
     shows = Show.select().order_by(Show.name).order_by(Show.name, Show.season)
     return render_template('landing.html', title='Shows', shows=shows)
 

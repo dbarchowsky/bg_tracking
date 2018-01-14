@@ -3,15 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}{% if self.title() %} - {% endif %}Background Tracker</title>
-<style>
-.centered { text-align: center; }
-.yes { color: #32cd32; }
-    table.data td {
-        padding: .2em 1em;
-        border-bottom: 1px solid #dddddd;
-        margin: 0;
-    }
-</style>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 {% block content %}{% endblock %}

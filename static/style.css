@@ -1,0 +1,16 @@
+* {
+	font-family: arial;
+	font-size: .9em;
+}
+.centered { 
+	text-align: center; 
+}
+.yes { color: #32cd32; }
+td {
+	text-align: left;
+}
+table.data td {
+	padding: .2em 1em;
+	border-bottom: 1px solid #dddddd;
+	margin: 0;
+}
