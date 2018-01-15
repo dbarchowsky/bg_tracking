@@ -7,7 +7,7 @@
 {% block content %}
 <div>
     <form action="{{ url_for('edit_show') }}" method="post">
-        <div><label for="title">Title<input type="text" value="{{ show.name if show.name }}" name="title" maxlength="100" /></label></div>
+        <div><label for="title">Title<input type="text" value="{{ show.name if show.name }}" name="name" maxlength="100" /></label></div>
         <div><label for="season">Season<input type="text" value="{{ show.season if show.season }}" name="season" maxlength="4" /></label></div>
         <div><label for="code">Code<input type="text" value="{{ show.code if show.code }}" name="code" maxlength="100" /></label></div>
         <div><input type="submit" name="submit" value="submit" /></div>

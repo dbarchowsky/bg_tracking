@@ -1,4 +1,4 @@
-from flask import Flask, request, session
+from flask import Flask, request, session, abort
 from flask import render_template
 import os
 import string
@@ -74,18 +74,18 @@ def existing_show_form():
 @app.route('/show/edit', methods=['POST', 'GET'])
 def edit_show():
     """Validate and serialize show data."""
-    error = None
     if request.method == 'POST':
 
         show = Show()
         try:
             show.collect_form_data(request.form)
+            return "after collect_form_data show id: {}".format(show.id)
         except ValueError as e: 
-            return render_template('show_form.html', show=show, error_msg=error)
+            return render_template('error.html', show=show, error_msg=e)
         try: 
             show.validate_form_data(request.form)
         except ValueError as e: 
-            return render_template('show_form.html', title=title, show=show, error_msg=error)
+            return render_template('error.html', title=title, show=show, error_msg=e)
                             
         # display record details
         title = "{} season {}".format(show.name, show.season)
@@ -183,7 +183,7 @@ def generate_csrf_token():
     return session['_csrf_token']
 
 
-app.jinja_env.globals['csrf_token'] = generate_csrf_token  
+app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
 if not app.secret_key:
     app.secret_key = os.urandom(24)
