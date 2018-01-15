@@ -5,7 +5,8 @@ import string
 import random
 from urllib import parse
 from markupsafe import Markup
-from bg_tracking import *
+from bg_tracking.models import *
+
 app = Flask(__name__)
 
 
