@@ -1,5 +1,8 @@
-from flask import Flask
+from flask import Flask, request, session
 from flask import render_template
+import os
+import string
+import random
 import urllib
 from markupsafe import Markup
 from bg_tracking import *
@@ -13,7 +16,14 @@ def varunencode(s):
 
 @app.before_request
 def before_request():
+    # database connection
     base_model.db.connect()
+
+    # CSRF token
+    if request.method == "POST":
+        token = session.pop('_csrf_token', None)
+        if not token or token != request.form.get('_csrf_token'):
+            abort(403)
 
 
 @app.after_request
@@ -37,14 +47,56 @@ def show_list():
     shows = Show.select().order_by(Show.name).order_by(Show.name, Show.season)
     return render_template('show_list.html', title='Shows', shows=shows)
 
-@app.route('/episodes/')
-def episode_list():
-    episodes = (Episode
-        .select()
-        .join(Show)
-        .order_by(Show.name, Episode.number)
-        )
-    return render_template('episode_list.html', title='Episodes', episodes=episodes)
+
+@app.route('/show/edit')
+def new_show_form():
+    """Edit new show."""
+    title = 'New Show'
+    show = Show()
+    return render_template('show_form.html', title=title, show=show)
+
+
+@app.route('/show/<int:show_id>/edit')
+def existing_show_form():
+    """
+    Edit existing show records.
+    """
+    try:
+        show = Show.get(Show.id == show_id)
+    except Show.DoesNotExist:
+        msg = 'The requested show was not found. '
+        return render_template('error.html', error_msg=msg)
+    else:
+        title = 'Editing {} season {}'.format(show.name, show.season)
+    return render_template('show_form.html', title=title, show=show)
+
+
+@app.route('/show/edit', methods=['POST', 'GET'])
+def edit_show():
+    """Validate and serialize show data."""
+    error = None
+    if request.method == 'POST':
+
+        show = Show()
+        try:
+            show.collect_form_data(request.form)
+        except ValueError as e: 
+            return render_template('show_form.html', show=show, error_msg=error)
+        try: 
+            show.validate_form_data(request.form)
+        except ValueError as e: 
+            return render_template('show_form.html', title=title, show=show, error_msg=error)
+                            
+        # display record details
+        title = "{} season {}".format(show.name, show.season)
+        try:
+            episodes = Episode.select().where(Episode.show == show.id)
+        except:
+            title = 'Error retrieving episodes in {}'.format(show.name)
+        return render_template('show_detail.html', title=title, show=show)
+    else:
+        return render_template('error.html', error_msg='Bad request.')
+
 
 @app.route('/show/<string:show_title>')
 def show_detail_by_title(show_title):
@@ -78,7 +130,7 @@ def show_detail_by_id(show_id):
     try:
         show = Show.get(Show.id == show_id)
     except Show.DoesNotExist:
-        msg = 'The requested show was not found. (id:{})'.format(show_id)
+        msg = 'The requested show was not found.'
         return render_template('error.html', error_msg=msg)
     else:
         title = "{} season {}".format(show.name, show.season)
@@ -87,6 +139,16 @@ def show_detail_by_id(show_id):
         except:
             title = 'Error retrieving episodes in {}'.format(show.name)
     return render_template('show_detail.html', title=title, show=show, episodes=episodes)
+
+
+@app.route('/episodes/')
+def episode_list():
+    episodes = (Episode
+        .select()
+        .join(Show)
+        .order_by(Show.name, Episode.number)
+        )
+    return render_template('episode_list.html', title='Episodes', episodes=episodes)
 
 
 @app.route('/episode/<int:episode_id>')
@@ -110,6 +172,23 @@ def varencode_filter(s):
     s = urllib.parse.quote_plus(s)
     return Markup(s)
 
+
+def generate_random_string(size=6, chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+
+def generate_csrf_token():
+    if '_csrf_token' not in session:
+        session['_csrf_token'] = generate_random_string(12)
+    return session['_csrf_token']
+
+
+app.jinja_env.globals['csrf_token'] = generate_csrf_token  
+
+if not app.secret_key:
+    app.secret_key = os.urandom(24)
+
 # allow running from the command line
 if __name__ == '__main__':
-    app.run()
+    app.run(use_reloader=False, debug=True)
+    # app.run()

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{% if show.id %}Editing {{ show.name }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
+{% block page_title %}{% if show.id %}Editing {{ show.name }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
+{% block breadcrumbs %}
+        <li><a href="{{ url_for('show_list') }}">all shows</a></li>
+{% endblock %}
+{% block content %}
+<div>
+    <form action="{{ url_for('edit_show') }}" method="post">
+        <div><label for="title">Title<input type="text" value="{{ show.name if show.name }}" name="title" maxlength="100" /></label></div>
+        <div><label for="season">Season<input type="text" value="{{ show.season if show.season }}" name="season" maxlength="4" /></label></div>
+        <div><label for="code">Code<input type="text" value="{{ show.code if show.code }}" name="code" maxlength="100" /></label></div>
+        <div><input type="submit" name="submit" value="submit" /></div>
+        <input type="hidden" name="id" value="{{ show.id | escape }}" />
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
+    </form>
+</div>
+{% endblock %}
