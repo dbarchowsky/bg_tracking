@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Error{% endblock %}
-{% block page_title %}{{ title }}{% endblock %}
+{% block page_title %}Error{% endblock %}
 {% block content %}
-<h1>Error</h1>
-<p class="error">{{ error_msg }}</p>
+<p class="alert alert-error">{{ error_msg }}</p>
 {% endblock %}
