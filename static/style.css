@@ -19,3 +19,21 @@ table.data td {
 	border-bottom: 1px solid #dddddd;
 	margin: 0;
 }
+
+/* navigation */
+ul.hlinkstrip {
+	clear: both;
+	overflow: auto;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+ul.hlinkstrip li {
+	float: left;
+	padding: 0 6px;
+	border-left: $dim-border;
+	margin: 0;
+}
+ul.hlinkstrip li:first-child {
+	border-left: none;
+}

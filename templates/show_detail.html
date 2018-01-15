@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block breadcrumbs %}
+        <li><a href="{{ url_for('show_list') }}">all shows</a></li>
+{% endblock %}
+{% block content %}
+<table>
+    <tr>
+        <th>episode</th>
+        <th>&nbsp;</th>
+    </tr>
+{% for episode in episodes %}
+    <tr>
+        <td>{{ episode.format_padded_number() }} &ldquo;{{ episode.name }}&rdquo;</td>
+        <td><a href="{{ url_for('episode_detail', episode_id=episode.id) }}">details</a></td>
+    </tr>
+{% endfor %}
+<table>
+{% endblock %}

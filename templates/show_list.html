@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{{ title }}{% endblock %}
 {% block page_title %}{{ title }}{% endblock %}
-{% block breadcrumbs_element %}{% endblock %}
 {% block content %}
-<h1>{{ title }}</h1>
 <ul>
 {% for show in shows %}
-    <li><a href="{{ url_for('show_detail', show_title=show.name | varencode) }}">{{ show.name }}</a></li>
+    <li><a href="{{ url_for('show_detail_by_title', show_title=show.name | varencode) }}">{{ show.name }} season {{ show.season }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

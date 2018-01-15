@@ -6,6 +6,15 @@
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+{% block page_title_element %}
+    <h1>{% block page_title %}{% endblock %}</h1>
+{% endblock %}
+{% block breadcrumbs_element %}
+    <ul class="hlinkstrip breadcrumbs">
+    <li><a href="{{ url_for('landing') }}">home</a></li>
+{% block breadcrumbs %}{% endblock %}
+    </ul>
+{% endblock %}
 {% block content %}{% endblock %}
 </body>
 </html>

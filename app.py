@@ -35,11 +35,19 @@ def landing():
 @app.route('/shows/')
 def show_list():
     shows = Show.select().order_by(Show.name).order_by(Show.name, Show.season)
-    return render_template('landing.html', title='Shows', shows=shows)
+    return render_template('show_list.html', title='Shows', shows=shows)
 
+@app.route('/episodes/')
+def episode_list():
+    episodes = (Episode
+        .select()
+        .join(Show)
+        .order_by(Show.name, Episode.number)
+        )
+    return render_template('episode_list.html', title='Episodes', episodes=episodes)
 
-@app.route('/show/<show_title>')
-def show_detail(show_title):
+@app.route('/show/<string:show_title>')
+def show_detail_by_title(show_title):
     """
     List the episodes available in the requested show.
     :param show: Show name
@@ -52,13 +60,33 @@ def show_detail(show_title):
         msg = 'The show "{}" was not found.'.format(show_title)
         return render_template('error.html', error_msg=msg)
     else:
-        title = show.name
-    if type(show) is Show:
+        title = "{} season {}".format(show.name, show.season)
         try:
             episodes = Episode.select().where(Episode.show == show.id)
         except:
             title = 'Error retrieving episodes in {}'.format(show.name)
-    return render_template('show.html', title=title, show=show, episodes=episodes)
+    return render_template('show_detail.html', title=title, show=show, episodes=episodes)
+
+
+@app.route('/show/<int:show_id>')
+def show_detail_by_id(show_id):
+    """
+    List the episodes available in the requested show.
+    :param show: Show name
+    :return: Response
+    """
+    try:
+        show = Show.get(Show.id == show_id)
+    except Show.DoesNotExist:
+        msg = 'The requested show was not found. (id:{})'.format(show_id)
+        return render_template('error.html', error_msg=msg)
+    else:
+        title = "{} season {}".format(show.name, show.season)
+        try:
+            episodes = Episode.select().where(Episode.show == show.id)
+        except:
+            title = 'Error retrieving episodes in {}'.format(show.name)
+    return render_template('show_detail.html', title=title, show=show, episodes=episodes)
 
 
 @app.route('/episode/<int:episode_id>')
@@ -70,7 +98,7 @@ def episode_detail(episode_id):
     """
     e = Episode.get(Episode.id == episode_id)
     bgs = Background.select().where(Background.episode == episode_id).order_by(Background.scene)
-    return render_template('episode.html', episode=e, bgs=bgs)
+    return render_template('episode_detail.html', episode=e, bgs=bgs)
 
 
 @app.template_filter('varencode')
