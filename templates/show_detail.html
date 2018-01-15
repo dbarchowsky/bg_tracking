@@ -5,16 +5,27 @@
         <li><a href="{{ url_for('show_list') }}">all shows</a></li>
 {% endblock %}
 {% block content %}
+{% if status %}
+    <div class="alert alert-info">{{ status }}</div>
+{% endif %}
+<h2>Episodes</h2>
 <table>
     <tr>
-        <th>episode</th>
+        <th>#</th>
+        <th>title</th>
         <th>&nbsp;</th>
     </tr>
 {% for episode in episodes %}
     <tr>
-        <td>{{ episode.format_padded_number() }} &ldquo;{{ episode.name }}&rdquo;</td>
+        <td>{{ episode.format_padded_number() }}</td>
+        <td>&ldquo;{{ episode.name }}&rdquo;</td>
         <td><a href="{{ url_for('episode_detail', episode_id=episode.id) }}">details</a></td>
     </tr>
 {% endfor %}
-<table>
+{% if not episodes or episodes | length %}
+    <tr>
+        <td colspan="3">No episodes.</td>
+    </tr>
+{% endif %}
+</table>
 {% endblock %}

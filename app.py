@@ -3,7 +3,7 @@ from flask import render_template
 import os
 import string
 import random
-import urllib
+from urllib import parse
 from markupsafe import Markup
 from bg_tracking import *
 app = Flask(__name__)
@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 def varunencode(s):
     s = s.replace('_', ' ')
-    return urllib.parse.unquote(s)
+    return parse.unquote(s)
 
 
 @app.before_request
@@ -34,7 +34,8 @@ def after_request(response):
 
 @app.route('/')
 def landing():
-    bgs = (Background
+    bgs = (
+        Background
         .select()
         .join(Episode)
         .order_by(Episode.number, Background.scene)
@@ -52,23 +53,23 @@ def show_list():
 def new_show_form():
     """Edit new show."""
     title = 'New Show'
-    show = Show()
-    return render_template('show_form.html', title=title, show=show)
+    s = Show()
+    return render_template('show_form.html', title=title, show=s)
 
 
 @app.route('/show/<int:show_id>/edit')
-def existing_show_form():
+def existing_show_form(show_id):
     """
     Edit existing show records.
     """
     try:
-        show = Show.get(Show.id == show_id)
+        s = Show.get(Show.id == show_id)
     except Show.DoesNotExist:
         msg = 'The requested show was not found. '
         return render_template('error.html', error_msg=msg)
     else:
-        title = 'Editing {} season {}'.format(show.name, show.season)
-    return render_template('show_form.html', title=title, show=show)
+        title = 'Editing {} season {}'.format(s.name, s.season)
+    return render_template('show_form.html', title=title, show=s)
 
 
 @app.route('/show/edit', methods=['POST', 'GET'])
@@ -76,24 +77,28 @@ def edit_show():
     """Validate and serialize show data."""
     if request.method == 'POST':
 
-        show = Show()
+        s = Show()
         try:
-            show.collect_form_data(request.form)
-            return "after collect_form_data show id: {}".format(show.id)
-        except ValueError as e: 
-            return render_template('error.html', show=show, error_msg=e)
+            s.collect_form_data(request.form)
+        except ValueError as e:
+            return render_template('error.html', show=s, error_msg=e)
+
         try: 
-            show.validate_form_data(request.form)
+            s.validate_form_data()
         except ValueError as e: 
-            return render_template('error.html', title=title, show=show, error_msg=e)
-                            
+            return render_template('error.html', error_msg=e)
+
+        s.save()
+
         # display record details
-        title = "{} season {}".format(show.name, show.season)
+        title = '{} season {}'.format(s.name, s.season)
+        status = 'The changes were successfully saved.'
         try:
-            episodes = Episode.select().where(Episode.show == show.id)
-        except:
-            title = 'Error retrieving episodes in {}'.format(show.name)
-        return render_template('show_detail.html', title=title, show=show)
+            episodes = Episode.select().where(Episode.show == s.id)
+        except Episode.DoesNotExist:
+            msg = 'Error retrieving episodes in {}'.format(s.name)
+            return render_template('error.html', error_msg=msg)
+        return render_template('show_detail.html', title=title, status=status, episodes=episodes, show=s)
     else:
         return render_template('error.html', error_msg='Bad request.')
 
@@ -102,48 +107,53 @@ def edit_show():
 def show_detail_by_title(show_title):
     """
     List the episodes available in the requested show.
-    :param show: Show name
+    :param show_title: Show name
+    :type show_title: str
     :return: Response
     """
     show_title = varunencode(show_title)
     try:
-        show = Show.get(Show.name == show_title)
+        s = Show.get(Show.name == show_title)
     except Show.DoesNotExist:
         msg = 'The show "{}" was not found.'.format(show_title)
         return render_template('error.html', error_msg=msg)
     else:
-        title = "{} season {}".format(show.name, show.season)
+        title = "{} season {}".format(s.name, s.season)
         try:
-            episodes = Episode.select().where(Episode.show == show.id)
-        except:
-            title = 'Error retrieving episodes in {}'.format(show.name)
-    return render_template('show_detail.html', title=title, show=show, episodes=episodes)
+            episodes = Episode.select().where(Episode.show == s.id)
+        except Episode.DoesNotExist:
+            msg = 'Error retrieving episodes in {}'.format(s.name)
+            return render_template('error.html', error_msg=msg)
+    return render_template('show_detail.html', title=title, show=s, episodes=episodes)
 
 
 @app.route('/show/<int:show_id>')
 def show_detail_by_id(show_id):
     """
     List the episodes available in the requested show.
-    :param show: Show name
+    :param show_id: Show name
+    :type show_id: int
     :return: Response
     """
     try:
-        show = Show.get(Show.id == show_id)
+        s = Show.get(Show.id == show_id)
     except Show.DoesNotExist:
         msg = 'The requested show was not found.'
         return render_template('error.html', error_msg=msg)
     else:
-        title = "{} season {}".format(show.name, show.season)
+        title = "{} season {}".format(s.name, s.season)
         try:
-            episodes = Episode.select().where(Episode.show == show.id)
-        except:
-            title = 'Error retrieving episodes in {}'.format(show.name)
-    return render_template('show_detail.html', title=title, show=show, episodes=episodes)
+            episodes = Episode.select().where(Episode.show == s.id)
+        except Episode.DoesNotExist:
+            msg = 'Error retrieving episodes in {}'.format(s.name)
+            return render_template('error.html', error_msg=msg)
+    return render_template('show_detail.html', title=title, show=s, episodes=episodes)
 
 
 @app.route('/episodes/')
 def episode_list():
-    episodes = (Episode
+    episodes = (
+        Episode
         .select()
         .join(Show)
         .order_by(Show.name, Episode.number)
@@ -155,7 +165,8 @@ def episode_list():
 def episode_detail(episode_id):
     """
     List backgrounds in the requested episode.
-    :param episode_id:
+    :param episode_id: Id of the episode to display
+    :type episode_id: int
     :return:
     """
     e = Episode.get(Episode.id == episode_id)
@@ -169,7 +180,7 @@ def varencode_filter(s):
         s = s.unescape()
     s = s.replace(' ', '_')
     s = s.encode('utf8')
-    s = urllib.parse.quote_plus(s)
+    s = parse.quote_plus(s)
     return Markup(s)
 
 
@@ -190,5 +201,5 @@ if not app.secret_key:
 
 # allow running from the command line
 if __name__ == '__main__':
-    app.run(use_reloader=False, debug=True)
-    # app.run()
+    # app.run(use_reloader=False, debug=True)  # pythonista environment
+    app.run()

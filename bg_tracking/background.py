@@ -1,10 +1,12 @@
 from peewee import *
+from playhouse.sqlite_ext import PrimaryKeyAutoIncrementField
 from .base_model import BaseModel
 from .episode import Episode
 from .location import Location
 
 
 class Background(BaseModel):
+    id = PrimaryKeyAutoIncrementField()
     approved = IntegerField(null=True)
     date_finished = TextField(null=True)
     date_started = TextField(null=True)

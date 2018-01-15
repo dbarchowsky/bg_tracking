@@ -1,13 +1,14 @@
 from peewee import *
+from playhouse.sqlite_ext import PrimaryKeyAutoIncrementField
 from .base_model import BaseModel
 from .validator import Validator
 
 
 class Show(BaseModel):
+    id = PrimaryKeyAutoIncrementField()
     code = TextField(null=True)
     name = TextField()
     season = IntegerField()
-
 
     def collect_form_data(self, form):
         """Validates form data
@@ -15,18 +16,15 @@ class Show(BaseModel):
             form (dict): Form data
         """
         error = ''
-        error += self.collect_request_var(form, 'id')
-        error += self.collect_request_var(form, 'name')
-        error += self.collect_request_var(form, 'season')
-        error += self.collect_request_var(form, 'code')
+        error += self.collect_request_int(form, 'id')
+        error += self.collect_request_string(form, 'name')
+        error += self.collect_request_int(form, 'season')
+        error += self.collect_request_string(form, 'code')
         if len(error) > 0:
             raise ValueError(error)
 
-
-    def validate_form_data(self, form):
+    def validate_form_data(self):
         """Validates form data
-        Args:
-            form (dict): Form data
         """
         error = ''
         if self.id:
@@ -34,11 +32,10 @@ class Show(BaseModel):
                 error += 'Invalid id value. \n'
         if not Validator.is_non_empty_string(self.name):
             error += 'Show name is required. \n'
-        if not Validator.validate_non_zero_int_value(self.season):
+        if not Validator.is_non_zero_int_value(self.season):
             error += 'Show season is required. \n'
         if len(error) > 0:
             raise ValueError(error)
-
 
     class Meta:
         db_table = 'show'

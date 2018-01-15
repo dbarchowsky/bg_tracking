@@ -1,9 +1,11 @@
 from peewee import *
+from playhouse.sqlite_ext import PrimaryKeyAutoIncrementField
 from .base_model import BaseModel
 from .show import Show
 
 
 class Episode(BaseModel):
+    id = PrimaryKeyAutoIncrementField()
     name = TextField()
     number = IntegerField()
     show = ForeignKeyField(db_column='show_id', rel_model=Show, to_field='id')

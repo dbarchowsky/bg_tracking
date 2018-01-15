@@ -17,6 +17,18 @@ class BaseModel(Model):
         except KeyError:
             return 'Expected input is missing: {} \n'.format(key)
         return ''
-    
+
+    def collect_request_int(self, form, key):
+        err = self.collect_request_var(form, key)
+        if len(err) > 0:
+            return err
+        v = getattr(self, key)
+        if v:
+            setattr(self, key, int(v))
+        return ''
+
+    def collect_request_string(self, form, key):
+        return self.collect_request_var(form, key)
+
     class Meta:
         database = db
