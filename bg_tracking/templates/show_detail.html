@@ -19,7 +19,7 @@
     <tr>
         <td>{{ episode.format_padded_number() }}</td>
         <td>&ldquo;{{ episode.name }}&rdquo;</td>
-        <td><a href="{{ url_for('episode_detail', episode_id=episode.id) }}">details</a></td>
+        <td><a href="{{ url_for('episode_routes.details_view', episode_id=episode.id) }}">details</a></td>
     </tr>
 {% endfor %}
 {% if not episodes or episodes | length %}

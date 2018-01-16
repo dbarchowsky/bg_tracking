@@ -7,9 +7,11 @@ from urllib import parse
 from markupsafe import Markup
 from bg_tracking.models import *
 from bg_tracking.show_routes import show_routes
+from bg_tracking.episode_routes import episode_routes
 
 app = Flask(__name__)
 app.register_blueprint(show_routes)
+app.register_blueprint(episode_routes)
 
 
 @app.before_request
@@ -39,30 +41,6 @@ def landing():
         .order_by(Episode.number, Background.scene)
         )
     return render_template('backgrounds.html', bgs=bgs)    
-
-
-@app.route('/episodes/')
-def episode_list():
-    episodes = (
-        Episode
-        .select()
-        .join(Show)
-        .order_by(Show.name, Episode.number)
-        )
-    return render_template('episode_list.html', title='Episodes', episodes=episodes)
-
-
-@app.route('/episode/<int:episode_id>')
-def episode_detail(episode_id):
-    """
-    List backgrounds in the requested episode.
-    :param episode_id: Id of the episode to display
-    :type episode_id: int
-    :return:
-    """
-    e = Episode.get(Episode.id == episode_id)
-    bgs = Background.select().where(Background.episode == episode_id).order_by(Background.scene)
-    return render_template('episode_detail.html', episode=e, bgs=bgs)
 
 
 @app.template_filter('varencode')
