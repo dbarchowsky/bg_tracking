@@ -5,7 +5,7 @@
 <h1>BGs</h1>
 <table class="data">
     <tr>
-        <th>episode</th>
+        <th class="left-align">episode</th>
         <th>scene</th>
         <th>dims</th>
         <th>location</th>
@@ -17,6 +17,7 @@
         <th>approved</th>
         <th>hours</th>
         <th>id</th>
+        <th>&nbsp;</th>
     </tr>
 {% for bg in bgs %}
     <tr>
@@ -32,6 +33,12 @@
         <td class="centered{% if bg.approved %} yes{% endif %}">{% if bg.approved %}yes{% else %}&ndash;{% endif %}</td>
         <td>{% if bg.hours %}{{ bg.hours }}{% else %}-{% endif %}</td>
         <td class="centered">{{ bg.id }}</td>
+        <td>
+            <ul class="hlinkstrip">
+                <li><a href="#">view</a></li>
+                <li><a href="#">edit</a></li>
+            </ul>
+        </td>
     </tr>
 {% endfor %}
 {% endblock %}

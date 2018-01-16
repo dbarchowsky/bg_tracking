@@ -4,6 +4,12 @@
 .centered { 
 	text-align: center; 
 }
+.left-align {
+	text-align: left;
+}
+.right-align {
+	text-align: right;
+}
 .yes { color: #32cd32; }
 p, div, li {
 	font-size: .9em;
@@ -30,8 +36,8 @@ ul.hlinkstrip {
 }
 ul.hlinkstrip li {
 	float: left;
-	padding: 0 6px;
-	border-left: $dim-border;
+	padding: 0 .5em;
+	border-left: .5em;
 	margin: 0;
 }
 ul.hlinkstrip li:first-child {
