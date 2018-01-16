@@ -2,7 +2,7 @@
 {% block title %}{{ title }}{% endblock %}
 {% block page_title %}{{ title }}{% endblock %}
 {% block breadcrumbs %}
-        <li><a href="{{ url_for('show_list') }}">all shows</a></li>
+        <li><a href="{{ url_for('show_routes.listings') }}">all shows</a></li>
 {% endblock %}
 {% block content %}
 {% if status %}

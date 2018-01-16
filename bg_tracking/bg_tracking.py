@@ -6,13 +6,10 @@ import random
 from urllib import parse
 from markupsafe import Markup
 from bg_tracking.models import *
+from bg_tracking.show_routes import show_routes
 
 app = Flask(__name__)
-
-
-def varunencode(s):
-    s = s.replace('_', ' ')
-    return parse.unquote(s)
+app.register_blueprint(show_routes)
 
 
 @app.before_request
@@ -42,115 +39,6 @@ def landing():
         .order_by(Episode.number, Background.scene)
         )
     return render_template('backgrounds.html', bgs=bgs)    
-    
-    
-@app.route('/shows/')
-def show_list():
-    shows = Show.select().order_by(Show.name).order_by(Show.name, Show.season)
-    return render_template('show_list.html', title='Shows', shows=shows)
-
-
-@app.route('/show/edit')
-def new_show_form():
-    """Edit new show."""
-    title = 'New Show'
-    s = Show()
-    return render_template('show_form.html', title=title, show=s)
-
-
-@app.route('/show/<int:show_id>/edit')
-def existing_show_form(show_id):
-    """
-    Edit existing show records.
-    """
-    try:
-        s = Show.get(Show.id == show_id)
-    except Show.DoesNotExist:
-        msg = 'The requested show was not found. '
-        return render_template('error.html', error_msg=msg)
-    else:
-        title = 'Editing {} season {}'.format(s.name, s.season)
-    return render_template('show_form.html', title=title, show=s)
-
-
-@app.route('/show/edit', methods=['POST', 'GET'])
-def edit_show():
-    """Validate and serialize show data."""
-    if request.method == 'POST':
-
-        s = Show()
-        try:
-            s.collect_form_data(request.form)
-        except ValueError as e:
-            return render_template('error.html', show=s, error_msg=e)
-
-        try: 
-            s.validate_form_data()
-        except ValueError as e: 
-            return render_template('error.html', error_msg=e)
-
-        s.save()
-
-        # display record details
-        title = '{} season {}'.format(s.name, s.season)
-        status = 'The changes were successfully saved.'
-        try:
-            episodes = Episode.select().where(Episode.show == s.id)
-        except Episode.DoesNotExist:
-            msg = 'Error retrieving episodes in {}'.format(s.name)
-            return render_template('error.html', error_msg=msg)
-        return render_template('show_detail.html', title=title, status=status, episodes=episodes, show=s)
-    else:
-        return render_template('error.html', error_msg='Bad request.')
-
-
-@app.route('/show/<string:show_title>/season/<int:season>')
-def show_detail_by_title(show_title, season):
-    """
-    List the episodes available in the requested show.
-    :param show_title: Show name
-    :type show_title: str
-    :param season: Season
-    :type season: int
-    :return: Response
-    """
-    show_title = varunencode(show_title)
-    try:
-        s = Show.get(Show.name == show_title, Show.season == season)
-    except Show.DoesNotExist:
-        msg = 'The show "{}" was not found.'.format(show_title)
-        return render_template('error.html', error_msg=msg)
-    else:
-        title = "{} season {}".format(s.name, s.season)
-        try:
-            episodes = Episode.select().where(Episode.show == s.id)
-        except Episode.DoesNotExist:
-            msg = 'Error retrieving episodes in {}'.format(s.name)
-            return render_template('error.html', error_msg=msg)
-    return render_template('show_detail.html', title=title, show=s, episodes=episodes)
-
-
-@app.route('/show/<int:show_id>')
-def show_detail_by_id(show_id):
-    """
-    List the episodes available in the requested show.
-    :param show_id: Show name
-    :type show_id: int
-    :return: Response
-    """
-    try:
-        s = Show.get(Show.id == show_id)
-    except Show.DoesNotExist:
-        msg = 'The requested show was not found.'
-        return render_template('error.html', error_msg=msg)
-    else:
-        title = "{} season {}".format(s.name, s.season)
-        try:
-            episodes = Episode.select().where(Episode.show == s.id)
-        except Episode.DoesNotExist:
-            msg = 'Error retrieving episodes in {}'.format(s.name)
-            return render_template('error.html', error_msg=msg)
-    return render_template('show_detail.html', title=title, show=s, episodes=episodes)
 
 
 @app.route('/episodes/')

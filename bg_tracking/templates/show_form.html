@@ -2,11 +2,11 @@
 {% block title %}{% if show.id %}Editing {{ show.name }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
 {% block page_title %}{% if show.id %}Editing {{ show.name }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
 {% block breadcrumbs %}
-        <li><a href="{{ url_for('show_list') }}">all shows</a></li>
+        <li><a href="{{ url_for('show_routes.listings') }}">all shows</a></li>
 {% endblock %}
 {% block content %}
 <div>
-    <form action="{{ url_for('edit_show') }}" method="post">
+    <form action="{{ url_for('show_routes.save_edit') }}" method="post">
         <div>
             <label for="name">Title</label>
             <input type="text" value="{{ show.name if show.name }}" title="name" id="name" name="name" maxlength="100" />

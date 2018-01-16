@@ -12,8 +12,8 @@
         <td>{{ show.name }} season {{ show.season }}</td>
         <td>
             <ul class="hlinkstrip">
-                <li><a href="{{ url_for('show_detail_by_title', show_title=show.name | varencode, season=show.season) }}">view</a></li>
-                <li><a href="{{ url_for('existing_show_form', show_id=show.id) }}">edit</a></li>
+                <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.name | varencode, season=show.season) }}">view</a></li>
+                <li><a href="{{ url_for('show_routes.edit_existing_record_form', show_id=show.id) }}">edit</a></li>
             </ul>
         </td>
     </tr>
