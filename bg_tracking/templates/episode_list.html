@@ -5,13 +5,13 @@
 <table>
     <tr>
        <th>show</th>
-       <th>#</th>
        <th>episode</th>
+       <th>title</th>
        <th>&nbsp;</th>
    </tr> 
-{% for episode in spisodes %}
+{% for episode in episodes %}
     <tr>
-        <td>{{ episode.show.name }} season {{ episode.show.season }}</td>
+        <td><a href="{{ url_for('show_routes.details_view', show_id=episode.show.id) }}">{{ episode.show.name }} season {{ episode.show.season }}</a></td>
         <td>{{ episode.format_padded_number() }}</td>
         <td>{{ episode.name }}</td>
         <td>

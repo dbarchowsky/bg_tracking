@@ -7,6 +7,7 @@ episode_routes = Blueprint('episode_routes', __name__, template_folder='template
 
 @episode_routes.route('/episodes/')
 def listings():
+    """List all episodes in database."""
     episodes = (
         Episode
         .select()
@@ -22,8 +23,28 @@ def details_view(episode_id):
     List backgrounds in the requested episode.
     :param episode_id: Id of the episode to display
     :type episode_id: int
-    :return:
+    :return: Response
     """
     e = Episode.get(Episode.id == episode_id)
     bgs = Background.select().where(Background.episode == episode_id).order_by(Background.scene)
     return render_template('episode_detail.html', episode=e, bgs=bgs)
+
+
+@episode_routes.route('/episode/<int:episode_id>/edit/')
+def edit_record_form(episode_id):
+    """
+    Edit existing episode record.
+    :param episode_id: Episode id in database.
+    :type episode_id: int
+    :return: Response
+    """
+    return render_template('error.html', error_msg='Not implemented.')
+
+
+@episode_routes.route('/episode/edit/')
+def new_record_form():
+    """
+    Create new episode record.
+    :return: Response
+    """
+    return render_template('error.html', error_msg='Not implemented.')
