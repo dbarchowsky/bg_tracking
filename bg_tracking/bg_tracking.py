@@ -104,17 +104,19 @@ def edit_show():
         return render_template('error.html', error_msg='Bad request.')
 
 
-@app.route('/show/<string:show_title>')
-def show_detail_by_title(show_title):
+@app.route('/show/<string:show_title>/season/<int:season>')
+def show_detail_by_title(show_title, season):
     """
     List the episodes available in the requested show.
     :param show_title: Show name
     :type show_title: str
+    :param season: Season
+    :type season: int
     :return: Response
     """
     show_title = varunencode(show_title)
     try:
-        s = Show.get(Show.name == show_title)
+        s = Show.get(Show.name == show_title, Show.season == season)
     except Show.DoesNotExist:
         msg = 'The show "{}" was not found.'.format(show_title)
         return render_template('error.html', error_msg=msg)
