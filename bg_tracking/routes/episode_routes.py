@@ -12,7 +12,7 @@ def listings():
         Episode
         .select()
         .join(Show)
-        .order_by(Show.name, Episode.number)
+        .order_by(Show.title, Episode.number)
         )
     return render_template('episode_list.html', title='Episodes', episodes=episodes)
 

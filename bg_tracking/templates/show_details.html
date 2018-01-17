@@ -18,7 +18,7 @@
 {% for episode in episodes %}
         <tr>
             <td>{{ episode.format_padded_number() }}</td>
-            <td>&ldquo;{{ episode.name }}&rdquo;</td>
+            <td>&ldquo;{{ episode.title }}&rdquo;</td>
             <td>
                 <ul class="hlinkstrip">
                     <li><a href="{{ url_for('episode_routes.details_view', episode_id=episode.id) }}">view</a></li>

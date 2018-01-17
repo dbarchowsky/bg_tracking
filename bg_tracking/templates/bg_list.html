@@ -20,7 +20,7 @@
         </tr>
 {% for bg in bgs %}
         <tr>
-            <td><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">{{bg.episode.show.code}} {{ bg.episode.name }}</a></td>
+            <td><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">{{bg.episode.show.code}} {{ bg.episode.title }}</a></td>
             <td>{{ bg.format_padded_scene() }}</td>
             <td>{{ bg.width }} x {{ bg.height }}</td>
             <td class="centered">{{ bg.location.name }}</td>

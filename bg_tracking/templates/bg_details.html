@@ -3,7 +3,7 @@
 {% block page_title %}{{ title }}{% endblock %}
 {% block breadcrumbs %}
     <li><a href="{{ url_for('show_routes.details_view', show_id=bg.episode.show.id) }}">&ldquo;{{ bg.episode.show.title }}&rdquo; season {{ bg.episode.show.season }}</a></li>
-    <li><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">&ldquo;{{ bg.episode.name }}&rdquo; scene {{ bg.scene }}</a></li>
+    <li><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">&ldquo;{{ bg.episode.title }}&rdquo; scene {{ bg.scene }}</a></li>
 {% endblock %}
 {% block content %}
     <div class="record-details">
@@ -13,7 +13,7 @@
         </div>
         <div class="details-row">
             <div class="row-title">Episode</div>
-            <div>Episode {{ bg.episode.format_padded_number() }} &ldquo;{{ bg.episode.name }}&rdquo;</div>
+            <div>Episode {{ bg.episode.format_padded_number() }} &ldquo;{{ bg.episode.title }}&rdquo;</div>
         </div>
         <div class="details-row">
             <div class="row-title">Scene</div>

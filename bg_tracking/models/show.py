@@ -31,7 +31,7 @@ class Show(BaseModel):
             if not Validator.is_integer(self.id):
                 error += 'Invalid id value. \n'
         if not Validator.is_non_empty_string(self.title):
-            error += 'Show name is required. \n'
+            error += 'Show title is required. \n'
         if not Validator.is_non_zero_int_value(self.season):
             error += 'Show season is required. \n'
         if len(error) > 0:
