@@ -6,7 +6,7 @@
 <h1>{{ title }}</h1>
 <ul>
 {% for show in shows %}
-    <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.name | varencode, season=show.season) }}">{{ show.name }}</a></li>
+    <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}">{{ show.title }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

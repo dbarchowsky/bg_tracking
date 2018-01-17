@@ -7,7 +7,7 @@ from .validator import Validator
 class Show(BaseModel):
     id = PrimaryKeyAutoIncrementField()
     code = TextField(null=True)
-    name = TextField()
+    title = TextField()
     season = IntegerField()
 
     def collect_form_data(self, form):
@@ -17,7 +17,7 @@ class Show(BaseModel):
         """
         error = ''
         error += self.collect_request_int(form, 'id')
-        error += self.collect_request_string(form, 'name')
+        error += self.collect_request_string(form, 'title')
         error += self.collect_request_int(form, 'season')
         error += self.collect_request_string(form, 'code')
         if len(error) > 0:
@@ -30,7 +30,7 @@ class Show(BaseModel):
         if self.id:
             if not Validator.is_integer(self.id):
                 error += 'Invalid id value. \n'
-        if not Validator.is_non_empty_string(self.name):
+        if not Validator.is_non_empty_string(self.title):
             error += 'Show name is required. \n'
         if not Validator.is_non_zero_int_value(self.season):
             error += 'Show season is required. \n'

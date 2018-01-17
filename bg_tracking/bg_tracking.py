@@ -33,6 +33,10 @@ def after_request(response):
 
 @app.route('/')
 def landing():
+    """
+    Site landing page.
+    :return: Response
+    """
     return redirect('/bgs')
 
 

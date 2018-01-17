@@ -9,10 +9,10 @@
    </tr> 
 {% for show in shows %}
     <tr>
-        <td>{{ show.name }} season {{ show.season }}</td>
+        <td>{{ show.title }} season {{ show.season }}</td>
         <td>
             <ul class="hlinkstrip">
-                <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.name | varencode, season=show.season) }}">view</a></li>
+                <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}">view</a></li>
                 <li><a href="{{ url_for('show_routes.edit_record_form', show_id=show.id) }}">edit</a></li>
             </ul>
         </td>

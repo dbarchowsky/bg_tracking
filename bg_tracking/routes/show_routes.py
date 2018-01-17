@@ -8,7 +8,7 @@ show_routes = Blueprint('show_routes', __name__, template_folder='templates')
 
 @show_routes.route('/shows/')
 def listings():
-    shows = Show.select().order_by(Show.name).order_by(Show.name, Show.season)
+    shows = Show.select().order_by(Show.title).order_by(Show.title, Show.season)
     return render_template('show_list.html', title='Shows', shows=shows)
 
 
@@ -31,13 +31,16 @@ def edit_record_form(show_id):
         msg = 'The requested show was not found. '
         return render_template('error.html', error_msg=msg)
     else:
-        title = 'Editing {} season {}'.format(s.name, s.season)
+        title = 'Editing {} season {}'.format(s.title, s.season)
     return render_template('show_form.html', title=title, show=s)
 
 
 @show_routes.route('/show/edit', methods=['POST', 'GET'])
 def save_edit():
-    """Validate and serialize show data."""
+    """
+    Validate and serialize show data.
+    :return: Response
+    """
     if request.method == 'POST':
 
         s = Show()
@@ -54,12 +57,12 @@ def save_edit():
         s.save()
 
         # display record details
-        title = '{} season {}'.format(s.name, s.season)
+        title = '{} season {}'.format(s.title, s.season)
         status = 'The changes were successfully saved.'
         try:
             episodes = Episode.select().where(Episode.show == s.id)
         except Episode.DoesNotExist:
-            msg = 'Error retrieving episodes in {}'.format(s.name)
+            msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
         return render_template('show_details.html', title=title, status=status, episodes=episodes, show=s)
     else:
@@ -70,7 +73,7 @@ def save_edit():
 def details_view(show_id):
     """
     List the episodes available in the requested show.
-    :param show_id: Show name
+    :param show_id: Show id matching database record.
     :type show_id: int
     :return: Response
     """
@@ -80,11 +83,11 @@ def details_view(show_id):
         msg = 'The requested show was not found.'
         return render_template('error.html', error_msg=msg)
     else:
-        title = "{} season {}".format(s.name, s.season)
+        title = "{} season {}".format(s.title, s.season)
         try:
             episodes = Episode.select().where(Episode.show == s.id)
         except Episode.DoesNotExist:
-            msg = 'Error retrieving episodes in {}'.format(s.name)
+            msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
     return render_template('show_details.html', title=title, show=s, episodes=episodes)
 
@@ -93,7 +96,7 @@ def details_view(show_id):
 def details_by_title(show_title, season):
     """
     List the episodes available in the requested show.
-    :param show_title: Show name
+    :param show_title: Show title
     :type show_title: str
     :param season: Season
     :type season: int
@@ -101,16 +104,15 @@ def details_by_title(show_title, season):
     """
     show_title = varunencode(show_title)
     try:
-        s = Show.get(Show.name == show_title, Show.season == season)
+        s = Show.get(Show.title == show_title, Show.season == season)
     except Show.DoesNotExist:
         msg = 'The show "{}" was not found.'.format(show_title)
         return render_template('error.html', error_msg=msg)
     else:
-        title = "{} season {}".format(s.name, s.season)
+        title = "{} season {}".format(s.title, s.season)
         try:
             episodes = Episode.select().where(Episode.show == s.id)
         except Episode.DoesNotExist:
-            msg = 'Error retrieving episodes in {}'.format(s.name)
+            msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
     return render_template('show_details.html', title=title, show=s, episodes=episodes)
-

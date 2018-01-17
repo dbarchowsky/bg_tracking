@@ -11,7 +11,7 @@
    </tr> 
 {% for episode in episodes %}
     <tr>
-        <td><a href="{{ url_for('show_routes.details_view', show_id=episode.show.id) }}">{{ episode.show.name }} season {{ episode.show.season }}</a></td>
+        <td><a href="{{ url_for('show_routes.details_view', show_id=episode.show.id) }}">{{ episode.show.title }} season {{ episode.show.season }}</a></td>
         <td>{{ episode.format_padded_number() }}</td>
         <td>{{ episode.name }}</td>
         <td>

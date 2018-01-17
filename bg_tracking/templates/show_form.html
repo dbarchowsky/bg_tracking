@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}{% if show.id %}Editing {{ show.name }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
-{% block page_title %}{% if show.id %}Editing {{ show.name }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
+{% block title %}{% if show.id %}Editing {{ show.title }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
+{% block page_title %}{% if show.id %}Editing {{ show.title }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
 {% block breadcrumbs %}
         <li><a href="{{ url_for('show_routes.listings') }}">all shows</a></li>
 {% endblock %}
@@ -9,7 +9,7 @@
     <form action="{{ url_for('show_routes.save_edit') }}" method="post">
         <div>
             <label for="name">Title</label>
-            <input type="text" value="{{ show.name if show.name }}" title="name" id="name" name="name" maxlength="100" />
+            <input type="text" value="{{ show.title if show.title }}" title="title" id="title" name="title" maxlength="100" />
         </div>
         <div>
             <label for="season">Season</label>

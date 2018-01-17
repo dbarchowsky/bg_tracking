@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}{{ episode.name }}{% endblock %}
-{% block page_title %}{{ episode.show.name }} Season {{ episode.show.season }} &ndash; {{ episode.show.code}}-{{ episode.format_padded_number() }}: &ldquo;{{ episode.name }}&rdquo;{% endblock %}
+{% block page_title %}{{ episode.show.title }} Season {{ episode.show.season }} &ndash; {{ episode.show.code}}-{{ episode.format_padded_number() }}: &ldquo;{{ episode.name }}&rdquo;{% endblock %}
 {% block breadcrumbs %}
-    <li><a href="{{ url_for('show_routes.details_view', show_id=episode.show.id) }}">{{ episode.show.name }} season {{ episode.show.season }}</a></li>
+    <li><a href="{{ url_for('show_routes.details_view', show_id=episode.show.id) }}">{{ episode.show.title }} season {{ episode.show.season }}</a></li>
     <li><a href="{{ url_for('episode_routes.listings') }}">episodes</a></li>
 {% endblock %}
 {% block content %}
