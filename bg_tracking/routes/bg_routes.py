@@ -1,6 +1,5 @@
 from flask import Blueprint
 from flask import render_template
-from peewee import *
 from bg_tracking.models import *
 
 bg_routes = Blueprint('bg_routes', __name__, template_folder='templates')
@@ -8,13 +7,12 @@ bg_routes = Blueprint('bg_routes', __name__, template_folder='templates')
 
 @bg_routes.route('/bgs')
 def landing():
-    bgs = (
-        Background
-        .select()
-        .join(Episode)
-        .order_by(Episode.number, Background.scene)
-        )
-    return render_template('bg_list.html', bgs=bgs)
+    bgs = (Background
+           .select()
+           .join(Episode)
+           .order_by(Episode.number, Background.scene)
+           )
+    return render_template('bg_list.html', title='BGs', bgs=bgs)
 
 
 @bg_routes.route('/bg/<int:bg_id>')
@@ -26,9 +24,7 @@ def details_view(bg_id):
     :return: Response
     """
     try:
-        bg = (Background
-              .get(Background.id == bg_id)
-              )
+        bg = Background.get(Background.id == bg_id)
     except Background.DoesNotExist:
         err = "Background with id {} not found. ".format(bg_id)
         return render_template('error.html', error_msg=err)
@@ -49,7 +45,8 @@ def edit_record_form(bg_id):
     :type bg_id: int
     :return: Response
     """
-    return render_template('error.html', error_msg='Not implemented.')
+    bg = Background.get(Background.id == bg_id)
+    return render_template('error.html', error_msg='Not implemented.', bg=bg)
 
 
 @bg_routes.route('/bg/edit/')

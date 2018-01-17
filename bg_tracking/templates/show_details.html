@@ -8,29 +8,29 @@
 {% if status %}
     <div class="alert alert-info">{{ status }}</div>
 {% endif %}
-<h2>Episodes</h2>
-<table>
-    <tr>
-        <th class="left-align">#</th>
-        <th class="left-align">title</th>
-        <th>&nbsp;</th>
-    </tr>
+    <h2>Episodes</h2>
+    <table>
+        <tr>
+            <th class="left-align">#</th>
+            <th class="left-align">title</th>
+            <th>&nbsp;</th>
+        </tr>
 {% for episode in episodes %}
-    <tr>
-        <td>{{ episode.format_padded_number() }}</td>
-        <td>&ldquo;{{ episode.name }}&rdquo;</td>
-        <td>
-            <ul class="hlinkstrip">
-                <li><a href="{{ url_for('episode_routes.details_view', episode_id=episode.id) }}">view</a></li>
-                <li><a href="{{ url_for('episode_routes.edit_record_form', episode_id=episode.id) }}">edit</a></li>
-            </ul>
-        </td>
-    </tr>
+        <tr>
+            <td>{{ episode.format_padded_number() }}</td>
+            <td>&ldquo;{{ episode.name }}&rdquo;</td>
+            <td>
+                <ul class="hlinkstrip">
+                    <li><a href="{{ url_for('episode_routes.details_view', episode_id=episode.id) }}">view</a></li>
+                    <li><a href="{{ url_for('episode_routes.edit_record_form', episode_id=episode.id) }}">edit</a></li>
+                </ul>
+            </td>
+        </tr>
 {% endfor %}
 {% if not episodes or episodes | length %}
-    <tr>
-        <td colspan="3">No episodes.</td>
-    </tr>
+        <tr>
+            <td colspan="3">No episodes.</td>
+        </tr>
 {% endif %}
-</table>
+    </table>
 {% endblock %}
