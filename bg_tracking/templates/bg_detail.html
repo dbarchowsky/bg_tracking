@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block breadcrumbs %}
+    <li><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">{{ bg.episode.name }} scene {{ bg.scene }}</a></li>
+{% endblock %}
+{% block content %}
+    <div class="record-details">
+        <div class="details-row">
+            <div class="row-title">Show</div>
+            <div>Episode {{ bg.episode.show.name }}</div>
+        </div>
+        <div class="details-row">
+            <div class="row-title">Episode</div>
+            <div>Episode {{ bg.episode.format_padded_number() }} &ldquo;{{ bg.episode.name }}&rdquo;</div>
+        </div>
+        <div class="details-row">
+            <div class="row-title">Scene</div>
+            <div>{{  }}</div>
+        </div>
+        <div class="details-row">
+            <div class="row-title">Dims</div>
+            <div>{{  }}</div>
+        </div>
+        <div class="details-row">
+            <div class="row-title">Location</div>
+            <div>{{  }}</div>
+        </div>
+        <div class="details-row">
+            <table>
+                <tr>
+                    <th>overlays</th>
+                    <th>establishing shot</th>
+                    <th>partial</th>
+                </tr>
+                <tr>
+                    <td class="centered">{{ bg.overlay_count }}</td>
+                    <td class="centered">{{ 'yes' if bg.establishing_shot else '' }}</td>
+                    <td class="centered">{{ 'yes' if bg.partial else '' }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="details-row">
+            <table>
+                <tr>
+                    <th>hours</th>
+                    <th>started</th>
+                    <th>finished</th>
+                    <th>approved</th>
+                </tr>
+                <tr>
+                    <td class="centered">{{ bg.hours}}</td>
+                    <td class="centered">{{ bg.date_stared }}</td>
+                    <td class="centered">{{ bg.date_finished }}</td>
+                    <td class="centered">{{ 'yes' if bg.approved else '' }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div><a href="{{ url_for('bg_routes.edit_existing_form', bg_id=bg.id) }}">edit</a></div>
+{% endfor %}
+{% endblock %}
+

@@ -1,4 +1,4 @@
-from flask import Flask, request, session, abort
+from flask import Flask, request, session, abort, redirect
 from flask import render_template
 import os
 import string
@@ -6,12 +6,12 @@ import random
 from urllib import parse
 from markupsafe import Markup
 from bg_tracking.models import *
-from bg_tracking.show_routes import show_routes
-from bg_tracking.episode_routes import episode_routes
+from bg_tracking.routes import *
 
 app = Flask(__name__)
 app.register_blueprint(show_routes)
 app.register_blueprint(episode_routes)
+app.register_blueprint(bg_routes)
 
 
 @app.before_request
@@ -34,13 +34,7 @@ def after_request(response):
 
 @app.route('/')
 def landing():
-    bgs = (
-        Background
-        .select()
-        .join(Episode)
-        .order_by(Episode.number, Background.scene)
-        )
-    return render_template('backgrounds.html', bgs=bgs)    
+    return redirect('/bgs')
 
 
 @app.template_filter('varencode')
