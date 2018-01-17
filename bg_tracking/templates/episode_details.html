@@ -6,43 +6,48 @@
     <li><a href="{{ url_for('episode_routes.listings') }}">episodes</a></li>
 {% endblock %}
 {% block content %}
-<h2>BGs</h2>
-<table class="data">
-    <tr>
-        <th>scene</th>
-        <th>dims</th>
-        <th>location</th>
-        <th>overlays</th>
-        <th>establishing shot</th>
-        <th>partial</th>
-        <th>in progress</th>
-        <th>finished</th>
-        <th>approved</th>
-        <th>hours</th>
-        <th>id</th>
-        <th>&nbsp;</th>
-    </tr>
+    <h2>{{ stats.count }}</h2>
+    <div class="record-details">
+        <div class="details-row">
+            <div>{{ stats.total_hours }}, {{ stats.avg_hours }}</div>
+        </div>
+    </div>
+    <table class="data">
+        <tr>
+            <th>scene</th>
+            <th>dims</th>
+            <th>location</th>
+            <th>overlays</th>
+            <th>establishing shot</th>
+            <th>partial</th>
+            <th>in progress</th>
+            <th>finished</th>
+            <th>approved</th>
+            <th>hours</th>
+            <th>id</th>
+            <th>&nbsp;</th>
+        </tr>
 {% for bg in bgs %}
-    <tr>
-        <td>{{ bg.format_padded_scene() }}</td>
-        <td>{{ bg.width }} x {{ bg.height }}</td>
-        <td class="centered">{{ bg.location.name }}</td>
-        <td class="centered">{{ bg.overlay_count }}</td>
-        <td class="centered{% if bg.establishing_shot %} yes{% endif %}">{% if bg.establishing_shot %}yes{% else %}&ndash;{% endif %}</td>
-        <td class="centered{% if bg.partial %} yes{% endif %}">{% if bg.partial %}yes{% else %}&ndash;{% endif %}</td>
-        <td class="centered{% if bg.date_started and not bg.date_finished %} yes{% endif %}">{% if bg.date_started and not bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
-        <td class="centered{% if bg.date_finished %} yes{% endif %}">{% if bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
-        <td class="centered{% if bg.approved %} yes{% endif %}">{% if bg.approved %}yes{% else %}&ndash;{% endif %}</td>
-        <td>{% if bg.hours %}{{ bg.hours }}{% else %}-{% endif %}</td>
-        <td class="centered">{{ bg.id }}</td>
-        <td>
-            <ul class="hlinkstrip">
-                <li><a href="{{ url_for('bg_routes.details_view', bg_id=bg.id) }}">view</a></li>
-                <li><a href="{{ url_for('bg_routes.edit_record_form', bg_id=bg.id) }}">edit</a></li>
-            </ul>
-        </td>
-    </tr>
+        <tr>
+            <td>{{ bg.format_padded_scene() }}</td>
+            <td>{{ bg.width }} x {{ bg.height }}</td>
+            <td class="centered">{{ bg.location.name }}</td>
+            <td class="centered">{{ bg.overlay_count }}</td>
+            <td class="centered{% if bg.establishing_shot %} yes{% endif %}">{% if bg.establishing_shot %}yes{% else %}&ndash;{% endif %}</td>
+            <td class="centered{% if bg.partial %} yes{% endif %}">{% if bg.partial %}yes{% else %}&ndash;{% endif %}</td>
+            <td class="centered{% if bg.date_started and not bg.date_finished %} yes{% endif %}">{% if bg.date_started and not bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
+            <td class="centered{% if bg.date_finished %} yes{% endif %}">{% if bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
+            <td class="centered{% if bg.approved %} yes{% endif %}">{% if bg.approved %}yes{% else %}&ndash;{% endif %}</td>
+            <td>{% if bg.hours %}{{ bg.hours }}{% else %}-{% endif %}</td>
+            <td class="centered">{{ bg.id }}</td>
+            <td>
+                <ul class="hlinkstrip">
+                    <li><a href="{{ url_for('bg_routes.details_view', bg_id=bg.id) }}">view</a></li>
+                    <li><a href="{{ url_for('bg_routes.edit_record_form', bg_id=bg.id) }}">edit</a></li>
+                </ul>
+            </td>
+        </tr>
 {% endfor %}
-</table>
+    </table>
     <div class="utility-links"><a href="{{ url_for('bg_routes.new_record_form') }}">add BG</a></div>
 {% endblock %}
