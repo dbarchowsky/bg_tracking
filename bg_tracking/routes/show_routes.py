@@ -61,7 +61,7 @@ def save_edit():
         except Episode.DoesNotExist:
             msg = 'Error retrieving episodes in {}'.format(s.name)
             return render_template('error.html', error_msg=msg)
-        return render_template('show_detail.html', title=title, status=status, episodes=episodes, show=s)
+        return render_template('show_details.html', title=title, status=status, episodes=episodes, show=s)
     else:
         return render_template('error.html', error_msg='Bad request.')
 
@@ -86,7 +86,7 @@ def details_view(show_id):
         except Episode.DoesNotExist:
             msg = 'Error retrieving episodes in {}'.format(s.name)
             return render_template('error.html', error_msg=msg)
-    return render_template('show_detail.html', title=title, show=s, episodes=episodes)
+    return render_template('show_details.html', title=title, show=s, episodes=episodes)
 
 
 @show_routes.route('/show/<string:show_title>/season/<int:season>')
@@ -112,5 +112,5 @@ def details_by_title(show_title, season):
         except Episode.DoesNotExist:
             msg = 'Error retrieving episodes in {}'.format(s.name)
             return render_template('error.html', error_msg=msg)
-    return render_template('show_detail.html', title=title, show=s, episodes=episodes)
+    return render_template('show_details.html', title=title, show=s, episodes=episodes)
 

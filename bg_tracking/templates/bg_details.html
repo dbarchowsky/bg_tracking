@@ -2,13 +2,14 @@
 {% block title %}{{ title }}{% endblock %}
 {% block page_title %}{{ title }}{% endblock %}
 {% block breadcrumbs %}
-    <li><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">{{ bg.episode.name }} scene {{ bg.scene }}</a></li>
+    <li><a href="{{ url_for('show_routes.details_view', show_id=bg.episode.show.id) }}">&ldquo;{{ bg.episode.show.name }}&rdquo; season {{ bg.episode.show.season }}</a></li>
+    <li><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">&ldquo;{{ bg.episode.name }}&rdquo; scene {{ bg.scene }}</a></li>
 {% endblock %}
 {% block content %}
     <div class="record-details">
         <div class="details-row">
             <div class="row-title">Show</div>
-            <div>Episode {{ bg.episode.show.name }}</div>
+            <div>{{ bg.episode.show.name }}</div>
         </div>
         <div class="details-row">
             <div class="row-title">Episode</div>
@@ -16,15 +17,15 @@
         </div>
         <div class="details-row">
             <div class="row-title">Scene</div>
-            <div>{{  }}</div>
+            <div>{{ bg.format_padded_scene() }}</div>
         </div>
         <div class="details-row">
             <div class="row-title">Dims</div>
-            <div>{{  }}</div>
+            <div>{{ bg.width }} x {{ bg.height }}</div>
         </div>
         <div class="details-row">
             <div class="row-title">Location</div>
-            <div>{{  }}</div>
+            <div>{{ bg.location.name }}</div>
         </div>
         <div class="details-row">
             <table>
@@ -50,14 +51,13 @@
                 </tr>
                 <tr>
                     <td class="centered">{{ bg.hours}}</td>
-                    <td class="centered">{{ bg.date_stared }}</td>
+                    <td class="centered">{{ bg.date_started }}</td>
                     <td class="centered">{{ bg.date_finished }}</td>
                     <td class="centered">{{ 'yes' if bg.approved else '' }}</td>
                 </tr>
             </table>
         </div>
     </div>
-    <div><a href="{{ url_for('bg_routes.edit_existing_form', bg_id=bg.id) }}">edit</a></div>
-{% endfor %}
+    <div><a href="{{ url_for('bg_routes.edit_record_form', bg_id=bg.id) }}">edit</a></div>
 {% endblock %}
 

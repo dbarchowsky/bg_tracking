@@ -27,7 +27,7 @@ def details_view(episode_id):
     """
     e = Episode.get(Episode.id == episode_id)
     bgs = Background.select().where(Background.episode == episode_id).order_by(Background.scene)
-    return render_template('episode_detail.html', episode=e, bgs=bgs)
+    return render_template('episode_details.html', episode=e, bgs=bgs)
 
 
 @episode_routes.route('/episode/<int:episode_id>/edit/')

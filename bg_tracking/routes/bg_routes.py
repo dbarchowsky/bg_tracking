@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask import render_template
+from peewee import *
 from bg_tracking.models import *
 
 bg_routes = Blueprint('bg_routes', __name__, template_folder='templates')
@@ -13,11 +14,11 @@ def landing():
         .join(Episode)
         .order_by(Episode.number, Background.scene)
         )
-    return render_template('backgrounds.html', bgs=bgs)
+    return render_template('bg_list.html', bgs=bgs)
 
 
 @bg_routes.route('/bg/<int:bg_id>')
-def bg_details(bg_id):
+def details_view(bg_id):
     """
     Display details for single BG record.
     :param bg_id: Background id matching record in database.
@@ -26,10 +27,8 @@ def bg_details(bg_id):
     """
     try:
         bg = (Background
-                .select(Background.id == bg_id)
-                .join(Episode)
-                .get()
-                )
+              .get(Background.id == bg_id)
+              )
     except Background.DoesNotExist:
         err = "Background with id {} not found. ".format(bg_id)
         return render_template('error.html', error_msg=err)
