@@ -1,5 +1,4 @@
 from flask import Flask, request, session, abort, redirect
-from flask import render_template
 import os
 import string
 import random
