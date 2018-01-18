@@ -49,5 +49,8 @@
         </tr>
 {% endfor %}
     </table>
-    <div class="utility-links"><a href="{{ url_for('bg_routes.new_record_form') }}">add BG</a></div>
+    <ul class="hlinkstrip utility-links">
+        <li><a href="{{ url_for('episode_routes.edit_record_form', episode_id=episode.id) }}">edit</a></li>
+        <li><a href="{{ url_for('bg_routes.new_record_form', episode_id=episode.id) }}">add bg</a></li>
+    </ul>
 {% endblock %}
