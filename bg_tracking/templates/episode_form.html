@@ -1,0 +1,22 @@
+{%- extends "base.html" %}
+{%- block title %}{% if episode.id %}Episode {{ episode.format_padded_number() }} {{ episode.title }}{% else %}New Episode{% endif %}{% endblock %}
+{%- block page_title %}{% if episode.id %}Editing {{ episode.format_padded_number() }} {{ episode.title }}{% else %}New Episode{% endif %}{% endblock %}
+{%- block breadcrumbs %}
+        <li><a href="{{ url_for('episode_routes.listings') }}">all episodes</a></li>
+    {%- if episode.show.id %}
+        <li><a href="{{ url_for('show_routes.details_view', record_id=episode.show.id) }}">&ldquo;{{ episode.show.title }}&rdquo; season {{ episode.show.season }}</a></li>
+    {% endif %}
+    {%- if episode.id %}
+        <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">view episode</a></li>
+    {% endif %}
+{%- endblock %}
+{%- block content %}
+<div>
+    <div class="alert alert-error">Not implemented.</div>
+    <form action="{{ url_for('episode_routes.save_edit') }}" method="post">
+        <div><input type="submit" name="submit" value="submit" /></div>
+        <input type="hidden" name="id" value="{{ episode.id if episode.id }}" />
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
+    </form>
+</div>
+{%- endblock %}

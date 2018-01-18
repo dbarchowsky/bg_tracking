@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import request, Blueprint
 from flask import render_template
 from peewee import *
 from bg_tracking.models import *
@@ -64,13 +64,38 @@ def edit_record_form(record_id):
     :type record_id: int
     :return: Response
     """
-    return render_template('error.html', error_msg='Not implemented.')
+    try:
+        e = Episode.get(Episode.id == record_id)
+    except Episode.DoesNotExist:
+        err = 'The requested episode could not be found.'
+        return render_template('error.html', error_msg=err)
+    return render_template('episode_form.html', episode=e)
 
 
-@episode_routes.route('/episode/edit/')
+@episode_routes.route('/episode/edit/', methods=['GET'])
 def new_record_form():
     """
     Create new episode record.
     :return: Response
     """
-    return render_template('error.html', error_msg='Not implemented.')
+    e = Episode()
+    if request.args.get('show_id'):
+        try:
+            e.show = Show.get(Show.id == int(request.args.get('show_id')))
+        except Show.DoesNotExist:
+            err = 'The requested show could not be found.'
+            return render_template('error.html', error_msg=err)
+    return render_template('episode_form.html', episode=e)
+
+
+@episode_routes.route('/episode/edit/', methods=['POST'])
+def save_edit():
+    """
+    Create new episode record.
+    :return: Response
+    """
+    if request.method == 'POST':
+        e = Episode()
+        return render_template('episode_form.html', episode=e)
+    else:
+        return render_template('error.html', error_msg='Bad request.')
