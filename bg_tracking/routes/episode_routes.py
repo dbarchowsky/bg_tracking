@@ -18,12 +18,12 @@ def listings():
     return render_template('episode_list.html', title='Episodes', episodes=episodes)
 
 
-@episode_routes.route('/episode/<int:episode_id>')
-def details_view(episode_id):
+@episode_routes.route('/episode/<record_id>')
+def details_view(record_id):
     """
     List backgrounds in the requested episode.
-    :param episode_id: Id of the episode to display
-    :type episode_id: int
+    :param record_id: Id of the episode to display
+    :type record_id: int
     :return: Response
     """
     try:
@@ -33,7 +33,7 @@ def details_view(episode_id):
                      fn.SUM(Background.hours).alias('total_hours'),
                      fn.AVG(Background.hours).alias('avg_hours'))
              .join(Background, JOIN.LEFT_OUTER)
-             .where(Episode.id == episode_id)
+             .where(Episode.id == record_id)
              .get()
              )
     except Episode.DoesNotExist:
@@ -42,7 +42,7 @@ def details_view(episode_id):
         try:
             bgs = (Background
                    .select()
-                   .where(Background.episode == episode_id)
+                   .where(Background.episode == record_id)
                    .order_by(Background.scene)
                    )
         except Background.DoesNotExist:
@@ -56,12 +56,12 @@ def details_view(episode_id):
     return render_template('episode_details.html', episode=e, bgs=bgs, stats=stats)
 
 
-@episode_routes.route('/episode/<int:episode_id>/edit/')
-def edit_record_form(episode_id):
+@episode_routes.route('/episode/<record_id>/edit/')
+def edit_record_form(record_id):
     """
     Edit existing episode record.
-    :param episode_id: Episode id in database.
-    :type episode_id: int
+    :param record_id: Episode id in database.
+    :type record_id: int
     :return: Response
     """
     return render_template('error.html', error_msg='Not implemented.')

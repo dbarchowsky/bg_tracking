@@ -20,7 +20,7 @@
         </tr>
 {% for bg in bgs %}
         <tr>
-            <td><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">{{bg.episode.show.code}} {{ bg.episode.title }}</a></td>
+            <td><a href="{{ url_for('episode_routes.details_view', record_id=bg.episode.id) }}">{{bg.episode.show.code}} {{ bg.episode.title }}</a></td>
             <td>{{ bg.format_padded_scene() }}</td>
             <td>{{ bg.width }} x {{ bg.height }}</td>
             <td class="centered">{{ bg.location.name }}</td>
@@ -34,8 +34,8 @@
             <td class="centered">{{ bg.id }}</td>
             <td>
                 <ul class="hlinkstrip">
-                    <li><a href="{{ url_for('bg_routes.details_view', bg_id=bg.id) }}">view</a></li>
-                    <li><a href="{{ url_for('bg_routes.edit_record_form', bg_id=bg.id) }}">edit</a></li>
+                    <li><a href="{{ url_for('bg_routes.details_view', record_id=bg.id) }}">view</a></li>
+                    <li><a href="{{ url_for('bg_routes.edit_record_form', record_id=bg.id) }}">edit</a></li>
                 </ul>
             </td>
         </tr>

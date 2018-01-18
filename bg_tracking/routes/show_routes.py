@@ -20,13 +20,13 @@ def new_record_form():
     return render_template('show_form.html', title=title, show=s)
 
 
-@show_routes.route('/show/<int:show_id>/edit')
-def edit_record_form(show_id):
+@show_routes.route('/show/<record_id>/edit')
+def edit_record_form(record_id):
     """
     Edit existing show records.
     """
     try:
-        s = Show.get(Show.id == show_id)
+        s = Show.get(Show.id == record_id)
     except Show.DoesNotExist:
         msg = 'The requested show was not found. '
         return render_template('error.html', error_msg=msg)
@@ -69,16 +69,16 @@ def save_edit():
         return render_template('error.html', error_msg='Bad request.')
 
 
-@show_routes.route('/show/<int:show_id>')
-def details_view(show_id):
+@show_routes.route('/show/<record_id>')
+def details_view(record_id):
     """
     List the episodes available in the requested show.
-    :param show_id: Show id matching database record.
-    :type show_id: int
+    :param record_id: Show id matching database record.
+    :type record_id: int
     :return: Response
     """
     try:
-        s = Show.get(Show.id == show_id)
+        s = Show.get(Show.id == record_id)
     except Show.DoesNotExist:
         msg = 'The requested show was not found.'
         return render_template('error.html', error_msg=msg)

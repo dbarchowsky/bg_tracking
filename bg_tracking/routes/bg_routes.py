@@ -15,18 +15,18 @@ def landing():
     return render_template('bg_list.html', title='BGs', bgs=bgs)
 
 
-@bg_routes.route('/bg/<int:bg_id>')
-def details_view(bg_id):
+@bg_routes.route('/bg/<record_id>')
+def details_view(record_id):
     """
     Display details for single BG record.
-    :param bg_id: Background id matching record in database.
-    :type bg_id: int
+    :param record_id: Background id matching record in database.
+    :type record_id: int
     :return: Response
     """
     try:
-        bg = Background.get(Background.id == bg_id)
+        bg = Background.get(Background.id == record_id)
     except Background.DoesNotExist:
-        err = "Background with id {} not found. ".format(bg_id)
+        err = "Background with id {} not found. ".format(record_id)
         return render_template('error.html', error_msg=err)
     else:
         title = 'Episode {} “{}” scene {}'.format(
@@ -37,15 +37,15 @@ def details_view(bg_id):
     return render_template('bg_details.html', title=title, bg=bg)
 
 
-@bg_routes.route('/bg/<int:bg_id>/edit/')
-def edit_record_form(bg_id):
+@bg_routes.route('/bg/<record_id>/edit/')
+def edit_record_form(record_id):
     """
     Edit existing background record.
-    :param bg_id: Background id matching record in database.
-    :type bg_id: int
+    :param record_id: Background id matching record in database.
+    :type record_id: int
     :return: Response
     """
-    bg = Background.get(Background.id == bg_id)
+    bg = Background.get(Background.id == record_id)
     return render_template('error.html', error_msg='Not implemented.', bg=bg)
 
 

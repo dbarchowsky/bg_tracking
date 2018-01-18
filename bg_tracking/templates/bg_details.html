@@ -2,8 +2,8 @@
 {%- block title %}{{ title }}{% endblock %}
 {%- block page_title %}{{ title }}{% endblock %}
 {%- block breadcrumbs %}
-    <li><a href="{{ url_for('show_routes.details_view', show_id=bg.episode.show.id) }}">&ldquo;{{ bg.episode.show.title }}&rdquo; season {{ bg.episode.show.season }}</a></li>
-    <li><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">&ldquo;{{ bg.episode.title }}&rdquo;</a></li>
+    <li><a href="{{ url_for('show_routes.details_view', record_id=bg.episode.show.id) }}">&ldquo;{{ bg.episode.show.title }}&rdquo; season {{ bg.episode.show.season }}</a></li>
+    <li><a href="{{ url_for('episode_routes.details_view', record_id=bg.episode.id) }}">&ldquo;{{ bg.episode.title }}&rdquo;</a></li>
 {%- endblock %}
 {%- block content %}
     <div class="record-details">
@@ -59,7 +59,7 @@
         </div>
     </div>
     <ul class="hlinkstrip utility-links">
-        <li><a href="{{ url_for('bg_routes.edit_record_form', bg_id=bg.id) }}">edit</a></li>
+        <li><a href="{{ url_for('bg_routes.edit_record_form', record_id=bg.id) }}">edit</a></li>
     </ul>
 {%- endblock %}
 

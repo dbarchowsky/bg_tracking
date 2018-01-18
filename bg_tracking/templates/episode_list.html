@@ -11,13 +11,13 @@
    </tr> 
 {% for episode in episodes %}
     <tr>
-        <td><a href="{{ url_for('show_routes.details_view', show_id=episode.show.id) }}">{{ episode.show.title }} season {{ episode.show.season }}</a></td>
+        <td><a href="{{ url_for('show_routes.details_view', record_id=episode.show.id) }}">{{ episode.show.title }} season {{ episode.show.season }}</a></td>
         <td>{{ episode.format_padded_number() }}</td>
         <td>{{ episode.title }}</td>
         <td>
             <ul class="hlinkstrip">
-                <li><a href="{{ url_for('episode_routes.details_view', episode_id=episode.id) }}">view</a></li>
-                <li><a href="{{ url_for('episode_routes.edit_record_form', episode_id=episode.id) }}">edit</a></li>
+                <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">view</a></li>
+                <li><a href="{{ url_for('episode_routes.edit_record_form', record_id=episode.id) }}">edit</a></li>
             </ul>
         </td>
     </tr>

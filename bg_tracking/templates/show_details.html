@@ -21,8 +21,8 @@
             <td>&ldquo;{{ episode.title }}&rdquo;</td>
             <td>
                 <ul class="hlinkstrip">
-                    <li><a href="{{ url_for('episode_routes.details_view', episode_id=episode.id) }}">view</a></li>
-                    <li><a href="{{ url_for('episode_routes.edit_record_form', episode_id=episode.id) }}">edit</a></li>
+                    <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">view</a></li>
+                    <li><a href="{{ url_for('episode_routes.edit_record_form', record_id=episode.id) }}">edit</a></li>
                 </ul>
             </td>
         </tr>
@@ -34,7 +34,7 @@
 {%- endif %}
     </table>
     <ul class="hlinkstrip utility-links">
-        <li><a href="{{ url_for('show_routes.edit_record_form', show_id=show.id) }}">edit</a></li>
-        <li><a href="{{ url_for('episode_routes.new_record_form', show_id=show.id) }}">add episode</a></li>
+        <li><a href="{{ url_for('show_routes.edit_record_form', record_id=show.id) }}">edit</a></li>
+        <li><a href="{{ url_for('episode_routes.new_record_form', record_id=show.id) }}">add episode</a></li>
     </ul>
 {%- endblock %}
