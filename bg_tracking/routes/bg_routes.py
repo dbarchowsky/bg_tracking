@@ -31,7 +31,7 @@ def details_view(bg_id):
     else:
         title = 'Episode {} “{}” scene {}'.format(
             bg.episode.format_padded_number(),
-            bg.episode.name,
+            bg.episode.title,
             bg.format_padded_scene()
             )
     return render_template('bg_details.html', title=title, bg=bg)

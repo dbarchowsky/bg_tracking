@@ -1,11 +1,11 @@
-{% extends "base.html" %}
-{% block title %}{{ title }}{% endblock %}
-{% block page_title %}{{ title }}{% endblock %}
-{% block breadcrumbs %}
+{%- extends "base.html" %}
+{%- block title %}{{ title }}{% endblock %}
+{%- block page_title %}{{ title }}{% endblock %}
+{%- block breadcrumbs %}
     <li><a href="{{ url_for('show_routes.details_view', show_id=bg.episode.show.id) }}">&ldquo;{{ bg.episode.show.title }}&rdquo; season {{ bg.episode.show.season }}</a></li>
-    <li><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">&ldquo;{{ bg.episode.title }}&rdquo; scene {{ bg.scene }}</a></li>
-{% endblock %}
-{% block content %}
+    <li><a href="{{ url_for('episode_routes.details_view', episode_id=bg.episode.id) }}">&ldquo;{{ bg.episode.title }}&rdquo;</a></li>
+{%- endblock %}
+{%- block content %}
     <div class="record-details">
         <div class="details-row">
             <div class="row-title">Show</div>
@@ -58,6 +58,8 @@
             </table>
         </div>
     </div>
-    <div><a href="{{ url_for('bg_routes.edit_record_form', bg_id=bg.id) }}">edit</a></div>
-{% endblock %}
+    <ul class="hlinkstrip utility-links">
+        <li><a href="{{ url_for('bg_routes.edit_record_form', bg_id=bg.id) }}">edit</a></li>
+    </ul>
+{%- endblock %}
 
