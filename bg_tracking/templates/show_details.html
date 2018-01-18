@@ -3,11 +3,11 @@
 {% block page_title %}{{ title }}{% endblock %}
 {% block breadcrumbs %}
         <li><a href="{{ url_for('show_routes.listings') }}">all shows</a></li>
-{% endblock %}
-{% block content %}
-{% if status %}
+{%- endblock %}
+{%- block content %}
+{%- if status %}
     <div class="alert alert-info">{{ status }}</div>
-{% endif %}
+{%- endif %}
     <h2>Episodes</h2>
     <table>
         <tr>
@@ -15,7 +15,7 @@
             <th class="left-align">title</th>
             <th>&nbsp;</th>
         </tr>
-{% for episode in episodes %}
+{%- for episode in episodes %}
         <tr>
             <td>{{ episode.format_padded_number() }}</td>
             <td>&ldquo;{{ episode.title }}&rdquo;</td>
@@ -26,11 +26,15 @@
                 </ul>
             </td>
         </tr>
-{% endfor %}
-{% if not episodes or episodes | length %}
+{%- endfor %}
+{%- if not episodes or episodes | length %}
         <tr>
             <td colspan="3">No episodes.</td>
         </tr>
-{% endif %}
+{%- endif %}
     </table>
-{% endblock %}
+    <ul class="hlinkstrip utility-links">
+        <li><a href="{{ url_for('show_routes.edit_record_form', show_id=show.id) }}">edit</a></li>
+        <li><a href="{{ url_for('episode_routes.new_record_form', show_id=show.id) }}">add episode</a></li>
+    </ul>
+{%- endblock %}
