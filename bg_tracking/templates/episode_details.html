@@ -1,11 +1,11 @@
-{% extends "base.html" %}
-{% block title %}{{ episode.title }}{% endblock %}
-{% block page_title %}{{ episode.show.title }} Season {{ episode.show.season }} &ndash; {{ episode.show.code}}-{{ episode.format_padded_number() }}: &ldquo;{{ episode.title }}&rdquo;{% endblock %}
-{% block breadcrumbs %}
+{%- extends "base.html" %}
+{%- block title %}{{ episode.title }}{% endblock %}
+{%- block page_title %}{{ episode.show.title }} Season {{ episode.show.season }} &ndash; {{ episode.show.code}}-{{ episode.format_padded_number() }}: &ldquo;{{ episode.title }}&rdquo;{% endblock %}
+{%- block breadcrumbs %}
     <li><a href="{{ url_for('show_routes.details_view', record_id=episode.show.id) }}">{{ episode.show.title }} season {{ episode.show.season }}</a></li>
     <li><a href="{{ url_for('episode_routes.listings') }}">episodes</a></li>
-{% endblock %}
-{% block content %}
+{%- endblock %}
+{%- block content %}
     <h2>{{ stats.count }}</h2>
     <div class="record-details">
         <div class="details-row">
@@ -27,7 +27,7 @@
             <th>id</th>
             <th>&nbsp;</th>
         </tr>
-{% for bg in bgs %}
+{%- for bg in bgs %}
         <tr>
             <td>{{ bg.format_padded_scene() }}</td>
             <td>{{ bg.width }} x {{ bg.height }}</td>
@@ -47,10 +47,10 @@
                 </ul>
             </td>
         </tr>
-{% endfor %}
+{%- endfor %}
     </table>
     <ul class="hlinkstrip utility-links">
         <li><a href="{{ url_for('episode_routes.edit_record_form', record_id=episode.id) }}">edit</a></li>
         <li><a href="{{ url_for('bg_routes.new_record_form', episode=episode.id) }}">add bg</a></li>
     </ul>
-{% endblock %}
+{%- endblock %}

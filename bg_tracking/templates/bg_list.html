@@ -1,7 +1,7 @@
-{% extends "base.html" %}
-{% block page_title %}{{ title }}{% endblock %}
-{% block breadcrumbs %}{% endblock %}
-{% block content %}
+{%- extends "base.html" %}
+{%- block page_title %}{{ title }}{% endblock %}
+{%- block breadcrumbs %}{% endblock %}
+{%- block content %}
     <table class="data">
         <tr>
             <th class="left-align">episode</th>
@@ -18,7 +18,7 @@
             <th>id</th>
             <th>&nbsp;</th>
         </tr>
-{% for bg in bgs %}
+{%- for bg in bgs %}
         <tr>
             <td><a href="{{ url_for('episode_routes.details_view', record_id=bg.episode.id) }}">{{bg.episode.show.code}} {{ bg.episode.title }}</a></td>
             <td>{{ bg.format_padded_scene() }}</td>
@@ -39,7 +39,7 @@
                 </ul>
             </td>
         </tr>
-{% endfor %}
+{%- endfor %}
     </table>
     <div class="utility-links"><a href="{{ url_for('bg_routes.new_record_form') }}">add BG</a></div>
-{% endblock %}
+{%- endblock %}

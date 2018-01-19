@@ -1,28 +1,30 @@
-{% extends "base.html" %}
-{% block title %}{{ title }}{% endblock %}
-{% block page_title %}{{ title }}{% endblock %}
-{% block content %}
-<table class="data">
-    <tr>
-       <th class="left-align">show</th>
-       <th>&nbsp;</th>
-   </tr> 
-{% for show in shows %}
-    <tr>
-        <td>{{ show.title }} season {{ show.season }}</td>
-        <td>
-            <ul class="hlinkstrip">
-                <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}">view</a></li>
-                <li><a href="{{ url_for('show_routes.edit_record_form', record_id=show.id) }}">edit</a></li>
-            </ul>
-        </td>
-    </tr>
-{% endfor %}
-{% if not shows or shows | length < 1 %}
-    <tr>
-        <td colspan="2">No matching records were found.</td>
-    </tr>
-{% endif %}
-</table>
-<div><a href="{{ url_for('show_routes.new_record_form') }}">add show</a></div>
+{%- extends "base.html" %}
+{%- block title %}{{ title }}{% endblock %}
+{%- block page_title %}{{ title }}{% endblock %}
+{%- block content %}
+    <table class="data">
+        <tr>
+           <th class="left-align">show</th>
+           <th>&nbsp;</th>
+       </tr>
+{%- for show in shows %}
+        <tr>
+            <td>{{ show.title }} season {{ show.season }}</td>
+            <td>
+                <ul class="hlinkstrip">
+                    <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}">view</a></li>
+                    <li><a href="{{ url_for('show_routes.edit_record_form', record_id=show.id) }}">edit</a></li>
+                </ul>
+            </td>
+        </tr>
+{%- endfor %}
+{%- if not shows or shows | length < 1 %}
+        <tr>
+            <td colspan="2">No matching records were found.</td>
+        </tr>
+{%- endif %}
+    </table>
+    <ul class="hlinkstrip utility-links">
+        <li><a href="{{ url_for('show_routes.new_record_form') }}">add show</a></li>
+    </ul>
 {% endblock %}
