@@ -48,10 +48,18 @@ def details_view(record_id):
         except Background.DoesNotExist:
             err = 'Error retrieving BGs for episode “{}”.'.format(e.title)
             return render_template('error.html', error_msg=err)
+        if e.total_hours:
+            total_hours = '{:.2f} total hour{}'.format(e.total_hours, '' if e.total_hours == 1 else 's')
+        else:
+            total_hours = '0 total hours'
+        if e.avg_hours:
+            avg_hours = '{:.2f} hour{} per BG'.format(e.avg_hours, '' if e.total_hours == 1 else 's')
+        else:
+            avg_hours = ''
         stats = {
                 'count': '{} BG{}'.format(e.bg_count, '' if e.bg_count == 1 else 's'),
-                'total_hours': '{:.2f} total hour{}'.format(e.total_hours, '' if e.total_hours == 1 else 's'),
-                'avg_hours': '{:.2f} hour{} per BG'.format(e.avg_hours, '' if e.total_hours == 1 else 's'),
+                'total_hours': total_hours,
+                'avg_hours': avg_hours,
                 }
     return render_template('episode_details.html', episode=e, bgs=bgs, stats=stats)
 

@@ -9,7 +9,11 @@
     <h2>{{ stats.count }}</h2>
     <div class="record-details">
         <div class="details-row">
+{%- if stats.avg_hours %}
             <div>{{ stats.total_hours }}, {{ stats.avg_hours }}</div>
+{%- else %}
+            <div>{{ stats.total_hours }}</div>
+{%- endif %}
         </div>
     </div>
     <table class="data">
