@@ -16,16 +16,31 @@
 p, div, li {
     font-size: .9rem;
 }
+table {
+    border-collapse: collapse;
+}
 th, td {
     font-size: .8rem;
 }
 td {
     text-align: left;
 }
-table.data td {
+table.data th {
+    background-color: #feeedf;
+}
+table.data td,
+table.data th {
     padding: .2rem 1rem;
-    border-bottom: 1px solid #dddddd;
     margin: 0;
+}
+table.data td {
+    border-bottom: 1px solid #dddddd;
+}
+table.data tr:hover {
+    background-color: #fff8ef;
+}
+table.data tr:first-child:hover {
+    background-color: transparent;
 }
 
 /* navigation */
