@@ -2,15 +2,15 @@ from flask import Flask, request, session, abort, redirect
 import os
 import string
 import random
-from urllib import parse
-from markupsafe import Markup
 from bg_tracking.models import *
 from bg_tracking.routes import *
+from bg_tracking import jinja_filters
 
 app = Flask(__name__)
 app.register_blueprint(show_routes)
 app.register_blueprint(episode_routes)
 app.register_blueprint(bg_routes)
+app.register_blueprint(jinja_filters.blueprint)
 
 
 @app.before_request
@@ -38,16 +38,6 @@ def landing():
     :return: Response
     """
     return redirect('/bgs')
-
-
-@app.template_filter('varencode')
-def varencode_filter(s):
-    if type(s) == 'Markup':
-        s = s.unescape()
-    s = s.replace(' ', '_')
-    s = s.encode('utf8')
-    s = parse.quote_plus(s)
-    return Markup(s)
 
 
 def generate_random_string(size=6, chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):

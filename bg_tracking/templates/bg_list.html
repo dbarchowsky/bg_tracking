@@ -22,7 +22,7 @@
         <tr>
             <td><a href="{{ url_for('episode_routes.details_view', record_id=bg.episode.id) }}">{{bg.episode.show.code}} {{ bg.episode.title }}</a></td>
             <td>{{ bg.format_padded_scene() }}</td>
-            <td>{{ bg.width }} x {{ bg.height }}</td>
+            <td class="{{ bg_size_css_class(bg.width, bg.height) }}">{{ bg.width }} x {{ bg.height }}</td>
             <td class="centered">{{ bg.location.name }}</td>
             <td class="centered">{{ bg.overlay_count }}</td>
             <td class="centered{% if bg.establishing_shot %} yes{% endif %}">{% if bg.establishing_shot %}yes{% else %}&ndash;{% endif %}</td>

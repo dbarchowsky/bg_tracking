@@ -76,3 +76,13 @@ ul.hlinkstrip li:first-child {
     font-weight: bold;
     background-color: #eeeeee;
 }
+
+.bg-sized-lg {
+    color: #999900;
+}
+.bg-sized-xl {
+    color: #cc6600;
+}
+.bg-sized-xxl {
+    color: #cc0000;
+}
