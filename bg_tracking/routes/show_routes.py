@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from flask import render_template
+from peewee import *
 from bg_tracking.models import *
 from bg_tracking.utils import varunencode
 
@@ -60,7 +61,7 @@ def save_edit():
         title = '{} season {}'.format(s.title, s.season)
         status = 'The changes were successfully saved.'
         try:
-            episodes = Episode.select().where(Episode.show == s.id)
+            episodes = get_episode_listings(s.id)
         except Episode.DoesNotExist:
             msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
@@ -85,7 +86,7 @@ def details_view(record_id):
     else:
         title = "{} season {}".format(s.title, s.season)
         try:
-            episodes = Episode.select().where(Episode.show == s.id)
+            episodes = get_episode_listings(s.id)
         except Episode.DoesNotExist:
             msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
@@ -111,8 +112,27 @@ def details_by_title(show_title, season):
     else:
         title = "{} season {}".format(s.title, s.season)
         try:
-            episodes = Episode.select().where(Episode.show == s.id)
+            episodes = get_episode_listings(s.id)
         except Episode.DoesNotExist:
             msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
     return render_template('show_details.html', title=title, show=s, episodes=episodes)
+
+
+def get_episode_listings(show_id):
+    """
+    Get Episode listings for a given show.
+    :param show_id: Show id
+    :return: list of Episode objects
+    """
+    return (Episode
+            .select(Episode.id,
+                    Episode.number,
+                    Episode.title,
+                    fn.COUNT(Episode.id).alias('bg_count'),
+                    )
+            .join(Background)
+            .where(Episode.show == show_id)
+            .group_by(Episode.id)
+            .order_by(Episode.number)
+            )
