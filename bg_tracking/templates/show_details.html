@@ -27,7 +27,7 @@
             </td>
         </tr>
 {%- endfor %}
-{%- if not episodes or episodes | length %}
+{%- if not episodes or episodes | length == 0 %}
         <tr>
             <td colspan="3">No episodes.</td>
         </tr>
