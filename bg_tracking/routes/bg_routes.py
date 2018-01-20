@@ -1,18 +1,36 @@
 from flask import Blueprint
 from flask import render_template
+from peewee import *
 from bg_tracking.models import *
 
 bg_routes = Blueprint('bg_routes', __name__, template_folder='templates')
 
 
 @bg_routes.route('/bgs')
-def landing():
+def listings():
     bgs = (Background
            .select()
            .join(Episode)
            .order_by(Episode.number, Background.scene)
            )
-    return render_template('bg_list.html', title='BGs', bgs=bgs)
+    s = (Background
+         .select(fn.COUNT(Background.id).alias('count'),
+                 fn.SUM(Background.hours).alias('total_hours'),
+                 fn.AVG(Background.hours).alias('avg_hours'),
+                 )
+         .get()
+         )
+    count = '{} BG{}'.format(s.count, '' if s.count == 1 else 's')
+    total = '{:.2f} total hour{}'.format(s.total_hours, '' if s.total_hours == 1 else 's')
+    if s.avg_hours:
+        avg = '{:.2f} hour{} per BG'.format(s.avg_hours, '' if s.avg_hours == 1 else 's')
+    else:
+        avg = None
+    stats = {'count': count,
+             'total_hours': total,
+             'avg_hours': avg,
+             }
+    return render_template('bg_list.html', title='BGs', bgs=bgs, stats=stats)
 
 
 @bg_routes.route('/bg/<record_id>')

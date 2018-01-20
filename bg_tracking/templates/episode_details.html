@@ -8,13 +8,10 @@
 {%- block content %}
     <h2>{{ stats.count }}</h2>
     <div class="record-details">
-        <div class="details-row">
+        <div class="stats-cell">{{ stats.total_hours }}</div>
 {%- if stats.avg_hours %}
-            <div>{{ stats.total_hours }}, {{ stats.avg_hours }}</div>
-{%- else %}
-            <div>{{ stats.total_hours }}</div>
+        <div class="stats-cell">{{ stats.avg_hours }}</div>
 {%- endif %}
-        </div>
     </div>
     <table class="data">
         <tr>

@@ -2,6 +2,13 @@
 {%- block page_title %}{{ title }}{% endblock %}
 {%- block breadcrumbs %}{% endblock %}
 {%- block content %}
+    <div class="record-details">
+        <div class="stats-cell">{{ stats.count }}</div>
+        <div class="stats-cell">{{ stats.total_hours }}</div>
+{%- if stats.avg_hours %}
+        <div class="stats-cell">{{ stats.avg_hours }}</div>
+{%- endif %}
+    </div>
     <table class="data">
         <tr>
             <th class="left-align">episode</th>
