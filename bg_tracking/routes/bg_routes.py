@@ -1,5 +1,4 @@
-from flask import Blueprint
-from flask import render_template
+from flask import request, render_template, Blueprint
 from peewee import *
 import operator
 from functools import reduce
@@ -67,13 +66,42 @@ def edit_record_form(record_id):
     return render_template('error.html', error_msg='Not implemented.', bg=bg)
 
 
-@bg_routes.route('/bg/edit/')
+@bg_routes.route('/bg/edit/', methods=['GET'])
 def new_record_form():
     """
     Create new background record.
     :return: Response
     """
-    return render_template('error.html', error_msg='Not implemented.')
+    bg = Background()
+    if request.args.get('episode_id'):
+        try:
+            bg.episode = Episode.get(Episode.id == int(request.args.get('episode_id')))
+        except Episode.DoesNotExist:
+            err = 'The requested episode could not be found.'
+            return render_template('error.html', error_msg=err)
+    if bg.id:
+        title = 'Editing Episode {} “{}” scene {}'.format(
+            bg.episode.format_padded_number(),
+            bg.episode.title,
+            bg.format_padded_scene()
+        )
+    else:
+        title = 'Editing New BG'
+    return render_template('bg_form.html', title=title, bg=bg)
+
+
+@bg_routes.route('/bg/edit/', methods=['POST'])
+def save_edit():
+    """
+    Create new episode record.
+    :return: Response
+    """
+    if request.method == 'POST':
+        bg = Background()
+        title = 'Not implemented.'
+        return render_template('bg_form.html', title=title, bg=bg)
+    else:
+        return render_template('error.html', error_msg='Bad request.')
 
 
 def get_sorted_bg_listings_data_by_episode(order_by_func):

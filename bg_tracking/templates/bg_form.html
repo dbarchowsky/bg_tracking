@@ -1,0 +1,21 @@
+{%- extends "base.html" %}
+{%- block title %}{{ title }}{% endblock %}
+{%- block page_title %}{{ title }}{% endblock %}
+{%- block breadcrumbs %}
+    {%- if bg.episode.id %}
+        <li><a href="{{ url_for('episode_routes.details_view', record_id=bg.episode.id) }}">{{ bg.episode.format_padded_number() }} &ldquo;{{ bg.episode.title }}&rdquo;</a></li>
+    {% endif %}
+    {%- if bg.id %}
+        <li><a href="{{ url_for('bg_routes.details_view', record_id=bg.id) }}">view BG</a></li>
+    {% endif %}
+{%- endblock %}
+{%- block content %}
+<div>
+    <div class="alert alert-error">Not implemented.</div>
+    <form action="{{ url_for('bg_routes.save_edit') }}" method="post">
+        <div><input type="submit" name="submit" value="submit" /></div>
+        <input type="hidden" name="id" value="{{ bg.id if bg.id }}" />
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
+    </form>
+</div>
+{%- endblock %}
