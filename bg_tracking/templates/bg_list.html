@@ -18,6 +18,7 @@
             <th><a href="{{ url_for('bg_routes.listings', sort_criteria='overlay_count', order='desc') }}">overlays</a></th>
             <th>establishing shot</th>
             <th>partial</th>
+            <th>pull</th>
             <th>in progress</th>
             <th>finished</th>
             <th>approved</th>
@@ -34,6 +35,7 @@
             <td class="centered">{{ bg.overlay_count }}</td>
             <td class="centered{% if bg.establishing_shot %} yes{% endif %}">{% if bg.establishing_shot %}yes{% else %}&ndash;{% endif %}</td>
             <td class="centered{% if bg.partial %} yes{% endif %}">{% if bg.partial %}yes{% else %}&ndash;{% endif %}</td>
+            <td class="centered{% if bg.pull %} yes{% endif %}">{% if bg.pull %}yes{% else %}&ndash;{% endif %}</td>
             <td class="centered{% if bg.date_started and not bg.date_finished %} yes{% endif %}">{% if bg.date_started and not bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
             <td class="centered{% if bg.date_finished %} yes{% endif %}">{% if bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
             <td class="centered{% if bg.approved %} yes{% endif %}">{% if bg.approved %}yes{% else %}&ndash;{% endif %}</td>

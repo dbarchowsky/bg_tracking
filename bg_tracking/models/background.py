@@ -15,6 +15,7 @@ class Background(BaseModel):
     height = IntegerField()
     hours = FloatField(null=True)
     location = ForeignKeyField(db_column='location_id', rel_model=Location, to_field='id')
+    pull = IntegerField(default=0)
     overlay_count = IntegerField()
     partial = IntegerField(null=True)
     scene = IntegerField()
