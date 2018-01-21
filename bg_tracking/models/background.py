@@ -18,11 +18,14 @@ class Background(BaseModel):
     pull = IntegerField(default=0)
     overlay_count = IntegerField()
     partial = IntegerField(null=True)
-    scene = IntegerField()
+    scene = IntegerField(null=False)
+    scene_modifier = TextField(null=True)
     width = IntegerField()
 
     def format_padded_scene(self):
-        return '%03d' % self.scene
+        return '{0:0>3}{1}'.format(self.scene,
+                                   self.scene_modifier if self.scene_modifier else ''
+                                   )
 
     class Meta:
         db_table = 'background'

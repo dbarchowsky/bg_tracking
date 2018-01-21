@@ -119,7 +119,7 @@ def get_sorted_bg_listings_data_by_episode(order_by_func):
                     )
             .join(Episode)
             .join(Show)
-            .order_by(Episode.number, order_by_func())
+            .order_by(Episode.number, order_by_func(), Background.scene_modifier)
             )
 
 
@@ -148,7 +148,7 @@ def get_sorted_bg_listings_data(order_by_func, episode_id=None):
             .join(Episode)
             .join(Show)
             .where(expr)
-            .order_by(order_by_func())
+            .order_by(order_by_func(), Background.scene_modifier)
             )
 
 
