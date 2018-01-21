@@ -15,16 +15,16 @@
     </div>
     <table class="data">
         <tr>
-            <th>scene</th>
+            <th><a href="{{ url_for('episode_routes.details_view', record_id=episode.id, sort_criteria='scene') }}">scene</a></th>
             <th>dims</th>
             <th>location</th>
-            <th>overlays</th>
+            <th><a href="{{ url_for('episode_routes.details_view', record_id=episode.id, sort_criteria='overlay_count', order='desc') }}">overlays</a></th>
             <th>establishing shot</th>
             <th>partial</th>
             <th>in progress</th>
             <th>finished</th>
             <th>approved</th>
-            <th>hours</th>
+            <th><a href="{{ url_for('episode_routes.details_view', record_id=episode.id, sort_criteria='hours', order='desc') }}">hours</a></th>
             <th>id</th>
             <th>&nbsp;</th>
         </tr>

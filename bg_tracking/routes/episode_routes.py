@@ -2,6 +2,7 @@ from flask import request, Blueprint
 from flask import render_template
 from peewee import *
 from bg_tracking.models import *
+from bg_tracking.routes.bg_routes import get_order_by_func, get_sorted_bg_listings_data
 
 episode_routes = Blueprint('episode_routes', __name__, template_folder='templates')
 
@@ -18,12 +19,21 @@ def listings():
     return render_template('episode_list.html', title='Episodes', episodes=episodes)
 
 
-@episode_routes.route('/episode/<record_id>')
-def details_view(record_id):
+@episode_routes.route('/episode/<int:record_id>', defaults={'sort_criteria': 'scene',
+                                                            'order': 'asc'
+                                                            })
+@episode_routes.route('/episode/<int:record_id>/sorted/by/<string:sort_criteria>',
+                      defaults={'order': 'desc'})
+@episode_routes.route('/episode/<int:record_id>/sorted/by/<string:sort_criteria>/<string:order>')
+def details_view(record_id, sort_criteria, order):
     """
     List backgrounds in the requested episode.
     :param record_id: Id of the episode to display
     :type record_id: int
+    :param sort_criteria: Criteria to use to display BG listings.
+    :type sort_criteria: string
+    :param order: Sort order, e.g. asc or desc
+    :type sort_criteria: string
     :return: Response
     """
     try:
@@ -40,14 +50,16 @@ def details_view(record_id):
         return render_template('error.html', error_msg='The requested episode was not found.')
     else:
         try:
-            bgs = (Background
-                   .select()
-                   .where(Background.episode == record_id)
-                   .order_by(Background.scene)
-                   )
+            oby = get_order_by_func(sort_criteria, order)
+        except AttributeError:
+            return render_template('error.html', error_msg='Invalid sort criteria.')
+
+        try:
+            bgs = get_sorted_bg_listings_data(oby, episode_id=e.id)
         except Background.DoesNotExist:
             err = 'Error retrieving BGs for episode “{}”.'.format(e.title)
             return render_template('error.html', error_msg=err)
+
         if e.total_hours:
             total_hours = '{:.2f} total hour{}'.format(e.total_hours, '' if e.total_hours == 1 else 's')
         else:
