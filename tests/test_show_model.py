@@ -1,5 +1,6 @@
 import unittest
 from peewee import *
+import time
 from bg_tracking.models import *
 
 
@@ -40,6 +41,117 @@ class ShowModelTestCase(unittest.TestCase):
 
         self.assertEqual(e[2].number, 10)
         self.assertEqual(e[2].bg_count, 15)
+
+    def _test_collect_form_data(self, data):
+        s = Show()
+        s.collect_form_data(data)
+        self.assertEqual(s.id, data['id'])
+        self.assertEqual(s.title, data['title'])
+        self.assertEqual(s.code, data['code'])
+        self.assertEqual(s.season, data['season'])
+
+    def test_collect_form_data(self):
+        self._test_collect_form_data({
+            'id': 2,
+            'title': 'unit test',
+            'code': time.strftime('%Y-%m-%d %M:%H'),
+            'season': 1
+            })
+
+    def test_collect_form_data_with_no_id(self):
+        self._test_collect_form_data({
+            'id': None,
+            'title': 'unit test',
+            'code': time.strftime('%Y-%m-%d %M:%H'),
+            'season': 1
+        })
+
+    def test_collect_form_data_empty(self):
+        data = {
+            'id': '',
+            'title': '',
+            'code': '',
+            'season': ''
+            }
+        s = Show()
+        s.collect_form_data(data)
+        self.assertEqual(s.id, None)
+        self.assertEqual(s.title, data['title'])
+        self.assertEqual(s.code, data['code'])
+        self.assertEqual(s.season, None)
+
+    def test_collect_form_data_invalid_key(self):
+        data = {
+            'bogus': 'value',
+            }
+        s = Show()
+        with self.assertRaises(ValueError) as e:
+            s.collect_form_data(data)
+        self.assertRegex(str(e.exception), 'Expected input is missing: id')
+
+    def test_collect_form_data_none(self):
+        data = {
+            'id': None,
+            'title': None,
+            'code': None,
+            'season': None
+            }
+        s = Show()
+        s.collect_form_data(data)
+        self.assertEqual(s.id, data['id'])
+        self.assertEqual(s.title, '')
+        self.assertEqual(s.code, '')
+        self.assertEqual(s.season, data['season'])
+
+    def test_validate_form_data(self):
+        data = {
+            'id': None,
+            'title': 'unit test',
+            'code': time.strftime('%Y-%m-%d %M:%H'),
+            'season': 1
+        }
+        s = Show()
+        s.collect_form_data(data)
+        s.validate_form_data()
+        self.assertEqual(s.title, data['title'])
+
+    def test_validate_form_data_missing_title(self):
+        data = {
+            'id': None,
+            'title': '',
+            'code': time.strftime('%Y-%m-%d %M:%H'),
+            'season': 1
+        }
+        s = Show()
+        s.collect_form_data(data)
+        with self.assertRaises(ValueError) as e:
+            s.validate_form_data()
+        self.assertRegex(str(e.exception), 'title is required')
+
+    def test_validate_form_data_invalid_id(self):
+        data = {
+            'id': 'abc',
+            'title': 'test',
+            'code': time.strftime('%Y-%m-%d %M:%H'),
+            'season': 1
+        }
+        s = Show()
+        with self.assertRaises(ValueError) as e:
+            s.collect_form_data(data)
+        self.assertRegex(str(e.exception), 'Invalid value for id')
+
+    def test_validate_form_data_missing_season(self):
+        data = {
+            'id': '',
+            'title': 'test',
+            'code': time.strftime('%Y-%m-%d %M:%H'),
+            'season': None
+        }
+        s = Show()
+        s.collect_form_data(data)
+        with self.assertRaises(ValueError) as e:
+            s.validate_form_data()
+        self.assertRegex(str(e.exception), 'season is required')
 
 
 if __name__ == '__main__':

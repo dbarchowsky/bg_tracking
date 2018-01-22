@@ -1,7 +1,6 @@
 from flask import Blueprint
 import jinja2
-from urllib import parse
-from markupsafe import Markup
+import bg_tracking
 
 blueprint = Blueprint('jinja_filters', __name__)
 
@@ -16,12 +15,7 @@ def varencode(context, s):
     :type s: basestring
     :return: URL encoded string.
     """
-    if type(s) == 'Markup':
-        s = s.unescape()
-    s = s.replace(' ', '_')
-    s = s.encode('utf8')
-    s = parse.quote_plus(s)
-    return Markup(s)
+    return bg_tracking.varencode(s)
 
 
 @jinja2.contextfilter
