@@ -62,7 +62,7 @@ class ShowRoutesTestCase(unittest.TestCase):
         response = self.atc.get(route)
         self.assertEqual(response.status_code, 200)
 
-    def test_new_show_form(self):
+    def test_existing_show_form(self):
         show_id = 2
         route = '/show/{}/edit'.format(show_id)
         response = self.atc.get(route)

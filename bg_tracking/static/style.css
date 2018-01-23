@@ -113,3 +113,18 @@ ul.hlinkstrip li:first-child {
     float: left;
     margin-right: 1rem;
 }
+.edit-form .input-row {
+    margin-bottom: .7rem;
+}
+.edit-form label {
+    display: inline-block;
+    padding: .4rem .5rem;
+    margin-right: .5rem;
+    min-width: 7rem;
+    background-color: #eeeeee;
+    border-radius: 4px;
+}
+.edit-form input,
+.edit-form select {
+    margin-right: .5rem;
+}

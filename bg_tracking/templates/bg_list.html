@@ -44,11 +44,11 @@
             <td>
                 <ul class="hlinkstrip">
                     <li><a href="{{ url_for('bg_routes.details_view', record_id=bg.id) }}">view</a></li>
-                    <li><a href="{{ url_for('bg_routes.edit_record_form', record_id=bg.id) }}">edit</a></li>
+                    <li><a href="{{ url_for('bg_routes.edit_record', record_id=bg.id) }}">edit</a></li>
                 </ul>
             </td>
         </tr>
 {%- endfor %}
     </table>
-    <div class="utility-links"><a href="{{ url_for('bg_routes.new_record_form') }}">add BG</a></div>
+    <div class="utility-links"><a href="{{ url_for('bg_routes.edit_record') }}">add BG</a></div>
 {%- endblock %}

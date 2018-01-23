@@ -1,7 +1,5 @@
 from flask import request, render_template, Blueprint
 from peewee import *
-import operator
-from functools import reduce
 from bg_tracking.models import *
 
 bg_routes = Blueprint('bg_routes', __name__, template_folder='templates')
@@ -54,40 +52,50 @@ def details_view(record_id):
     return render_template('bg_details.html', title=title, bg=bg)
 
 
-@bg_routes.route('/bg/<record_id>/edit/')
-def edit_record_form(record_id):
+@bg_routes.route('/bg/edit/', methods=['GET'], defaults={'record_id': None})
+@bg_routes.route('/bg/<int:record_id>/edit/')
+def edit_record(record_id):
     """
-    Edit existing background record.
+    Create new background record.
     :param record_id: Background id matching record in database.
     :type record_id: int
     :return: Response
     """
-    bg = Background.get(Background.id == record_id)
-    return render_template('error.html', error_msg='Not implemented.', bg=bg)
-
-
-@bg_routes.route('/bg/edit/', methods=['GET'])
-def new_record_form():
-    """
-    Create new background record.
-    :return: Response
-    """
-    bg = Background()
+    if record_id:
+        try:
+            bg = Background.get(Background.id == record_id)
+        except Background.DoesNotExist:
+            return record_not_found_response('BG')
+    else:
+        bg = Background()
     if request.args.get('episode_id'):
         try:
             bg.episode = Episode.get(Episode.id == int(request.args.get('episode_id')))
         except Episode.DoesNotExist:
-            err = 'The requested episode could not be found.'
-            return render_template('error.html', error_msg=err)
+            return record_not_found_response('episode')
     if bg.id:
-        title = 'Editing Episode {} “{}” scene {}'.format(
+        title = 'Editing {} “{}” scene {}{}'.format(
             bg.episode.format_padded_number(),
             bg.episode.title,
-            bg.format_padded_scene()
+            bg.format_padded_scene(),
+            bg.scene_modifier if bg.scene_modifier else '',
         )
     else:
         title = 'Editing New BG'
-    return render_template('bg_form.html', title=title, bg=bg)
+    try:
+        e = (Episode
+             .select(Episode.id,
+                     Episode.number,
+                     Episode.title,
+                     Show.title,
+                     Show.season
+                     )
+             .join(Show)
+             .order_by(Show.title, Show.season, Episode.number)
+             )
+    except Episode.DoesNotExist:
+        return record_not_found_response('episodes')
+    return render_template('bg_form.html', title=title, bg=bg, episodes=e)
 
 
 @bg_routes.route('/bg/edit/', methods=['POST'])
@@ -102,6 +110,16 @@ def save_edit():
         return render_template('bg_form.html', title=title, bg=bg)
     else:
         return render_template('error.html', error_msg='Bad request.')
+
+
+def record_not_found_response(type_name):
+    """
+    Return standard error template with message.
+    :param type_name: Name of the object that wasn't found.
+    :return: Response
+    """
+    err = 'The requested {} could not be retrieved.'.format(type_name)
+    return render_template('error.html', error_msg=err)
 
 
 def get_sorted_bg_listings_data_by_episode(order_by_func):
@@ -130,26 +148,31 @@ def get_sorted_bg_listings_data(order_by_func, episode_id=None):
     :param episode_id: Optional episode id to use to filter records.
     :return: List of Background objects.
     """
-    data = {}
     if episode_id:
-        data['episode'] = episode_id
-    clauses = []
-    for key, value in data.items():
-        field = getattr(Background, key)
-        clauses.append(field == value)
-    expr = reduce(operator.and_, clauses)
-    return (Background
-            .select(Background,
-                    Episode.id,
-                    Episode.number,
-                    Episode.title,
-                    Show.code,
-                    )
-            .join(Episode)
-            .join(Show)
-            .where(expr)
-            .order_by(order_by_func(), Background.scene_modifier)
-            )
+        return (Background
+                .select(Background,
+                        Episode.id,
+                        Episode.number,
+                        Episode.title,
+                        Show.code,
+                        )
+                .join(Episode)
+                .join(Show)
+                .where(Background.episode == episode_id)
+                .order_by(order_by_func(), Background.scene_modifier)
+                )
+    else:
+        return (Background
+                .select(Background,
+                        Episode.id,
+                        Episode.number,
+                        Episode.title,
+                        Show.code,
+                        )
+                .join(Episode)
+                .join(Show)
+                .order_by(order_by_func(), Background.scene_modifier)
+                )
 
 
 def get_order_by_func(sort_criteria, order):
