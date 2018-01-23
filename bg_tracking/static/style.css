@@ -13,13 +13,19 @@
 .yes {
     color: #32cd32;
 }
-p, div, li {
+p, div, li, a {
     font-size: .9rem;
+}
+/* iPad Pro landscape mode */
+@media screen and (max-width: 1024px) {
+    p, div, li, a {
+        font-size: .8rem;
+    }
 }
 table {
     border-collapse: collapse;
 }
-th, td {
+th, td, th a, td a {
     font-size: .8rem;
 }
 td {
@@ -32,6 +38,17 @@ table.data td,
 table.data th {
     padding: .2rem 1rem;
     margin: 0;
+}
+/* iPad Pro landscape mode */
+@media screen and (max-width: 1024px) {
+    th, td, th a, td a {
+        font-size: .7rem;
+    }
+    table.data td,
+    table.data th {
+        padding: .1rem .5rem;
+        margin: 0;
+    }
 }
 table.data td {
     border-bottom: 1px solid #dddddd;
