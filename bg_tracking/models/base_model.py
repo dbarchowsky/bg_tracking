@@ -40,5 +40,24 @@ class BaseModel(Model):
                 setattr(self, key, '')
         return err
 
+    def collect_request_bool(self, form, key):
+        err = self.collect_request_var(form, key)
+        if err == '':
+            if form[key] is None or form[key] == '':
+                setattr(self, key, None)
+            elif (form[key].lower() == 'true' or
+                  form[key].lower == '1' or
+                  form[key].lower() == 'yes' or
+                  form[key] == 'on'):
+                setattr(self, key, True)
+            elif (form[key].lower() == 'false' or
+                  form[key].lower == '0' or
+                  form[key].lower() == 'no' or
+                  form[key] == 'off'):
+                setattr(self, key, False)
+            else:
+                raise ValueError('Invalid boolean value: {}'.format(form[key]))
+        return err
+
     class Meta:
         database = db

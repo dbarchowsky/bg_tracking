@@ -3,6 +3,7 @@ from playhouse.sqlite_ext import PrimaryKeyAutoIncrementField
 from .base_model import BaseModel
 from .episode import Episode
 from .location import Location
+from .validator import Validator
 
 
 class Background(BaseModel):
@@ -21,6 +22,43 @@ class Background(BaseModel):
     scene = IntegerField(null=False)
     scene_modifier = TextField(null=True)
     width = IntegerField()
+
+    def collect_form_data(self, form):
+        """Validates form data
+        Args:
+            form (dict): Form data
+        """
+        error = ''
+        error += self.collect_request_int(form, 'id')
+        error += self.collect_request_int(form, 'episode')
+        error += self.collect_request_int(form, 'scene')
+        error += self.collect_request_string(form, 'scene_modifier')
+        error += self.collect_request_int(form, 'width')
+        error += self.collect_request_int(form, 'height')
+        error += self.collect_request_int(form, 'overlay_count')
+        error += self.collect_request_bool(form, 'establishing_shot')
+        error += self.collect_request_bool(form, 'pull')
+        error += self.collect_request_int(form, 'location')
+        error += self.collect_request_float(form, 'hours')
+        error += self.collect_request_date(form, 'date_started')
+        error += self.collect_request_date(form, 'date_finished')
+        error += self.collect_request_bool(form, 'approved')
+        if len(error) > 0:
+            raise ValueError(error)
+
+    def validate_form_data(self):
+        """Validates form data
+        """
+        error = ''
+        if self.id:
+            if not Validator.is_integer(self.id):
+                error += 'Invalid id value. \n'
+        if not Validator.is_non_empty_string(self.title):
+            error += 'Show title is required. \n'
+        if not Validator.is_non_zero_int_value(self.season):
+            error += 'Show season is required. \n'
+        if len(error) > 0:
+            raise ValueError(error)
 
     def format_padded_scene(self):
         """
