@@ -1,6 +1,7 @@
 import unittest
+
 from peewee import *
-import bg_tracking
+
 from bg_tracking.models import *
 
 

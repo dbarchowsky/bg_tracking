@@ -9,5 +9,6 @@ setup(
         'flask',
         'peewee',
         'markupsafe',
+        'python-dateutil',
     ],
 )

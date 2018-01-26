@@ -9,8 +9,8 @@ from .validator import Validator
 class Background(BaseModel):
     id = PrimaryKeyAutoIncrementField()
     approved = IntegerField(null=True)
-    date_finished = TextField(null=True)
-    date_started = TextField(null=True)
+    date_finished = DateField(null=True)
+    date_started = DateField(null=True)
     episode = ForeignKeyField(db_column='episode_id', rel_model=Episode, to_field='id')
     establishing_shot = IntegerField(null=True)
     height = IntegerField()
@@ -29,20 +29,66 @@ class Background(BaseModel):
             form (dict): Form data
         """
         error = ''
-        error += self.collect_request_int(form, 'id')
-        error += self.collect_request_int(form, 'episode')
-        error += self.collect_request_int(form, 'scene')
-        error += self.collect_request_string(form, 'scene_modifier')
-        error += self.collect_request_int(form, 'width')
-        error += self.collect_request_int(form, 'height')
-        error += self.collect_request_int(form, 'overlay_count')
-        error += self.collect_request_bool(form, 'establishing_shot')
-        error += self.collect_request_bool(form, 'pull')
-        error += self.collect_request_int(form, 'location')
-        error += self.collect_request_float(form, 'hours')
-        error += self.collect_request_date(form, 'date_started')
-        error += self.collect_request_date(form, 'date_finished')
-        error += self.collect_request_bool(form, 'approved')
+        try:
+            self.collect_request_int(form, 'id')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_int(form, 'episode')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_int(form, 'scene')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_string(form, 'scene_modifier')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_int(form, 'width')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_int(form, 'height')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_int(form, 'overlay_count')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_bool(form, 'establishing_shot')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_bool(form, 'partial')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_bool(form, 'pull')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_int(form, 'location')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_float(form, 'hours')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_date(form, 'date_started')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_date(form, 'date_finished')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_bool(form, 'approved')
+        except ValueError as e:
+            error += e.args[0]
         if len(error) > 0:
             raise ValueError(error)
 

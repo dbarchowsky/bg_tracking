@@ -16,10 +16,22 @@ class Show(BaseModel):
             form (dict): Form data
         """
         error = ''
-        error += self.collect_request_int(form, 'id')
-        error += self.collect_request_string(form, 'title')
-        error += self.collect_request_int(form, 'season')
-        error += self.collect_request_string(form, 'code')
+        try:
+            self.collect_request_int(form, 'id')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_string(form, 'title')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_int(form, 'season')
+        except ValueError as e:
+            error += e.args[0]
+        try:
+            self.collect_request_string(form, 'code')
+        except ValueError as e:
+            error += e.args[0]
         if len(error) > 0:
             raise ValueError(error)
 

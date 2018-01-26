@@ -85,7 +85,7 @@ class ShowModelTestCase(unittest.TestCase):
             'bogus': 'value',
             }
         s = Show()
-        with self.assertRaises(ValueError) as e:
+        with self.assertRaises(KeyError) as e:
             s.collect_form_data(data)
         self.assertRegex(str(e.exception), 'Expected input is missing: id')
 

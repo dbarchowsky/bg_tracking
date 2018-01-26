@@ -1,5 +1,5 @@
 import unittest
-from flask import Flask, request
+
 import bg_tracking
 
 
