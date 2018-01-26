@@ -24,10 +24,16 @@ class EpisodeRoutesTestCase(unittest.TestCase):
         with self.app.test_request_context(route):
             self.assertIsNone(request.args.get('show_id'))
 
+    def test_edit_existing(self):
+        episode_id = 4
+        route = '/episode/{}/edit'.format(episode_id)
+        response = self.atc.get(route, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
     def test_default_details_view(self):
         episode_id = 1
         route = '/episode/{}'.format(episode_id)
-        response = self.atc.get(route)
+        response = self.atc.get(route, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         # assert b'<title>Error</title>' in response.data
 

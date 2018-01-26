@@ -12,10 +12,18 @@
 {%- endblock %}
 {%- block content %}
 <div>
-    <div class="alert alert-error">Not implemented.</div>
-    <form action="{{ url_for('episode_routes.save_edit') }}" method="post">
+{%- if status %}
+    {%- if status.success %}
+    <div class="alert alert-info">{{ status.success }}</div>
+    {%- elif status.error %}
+    <div class="alert alert-error">{{ status.error }}</div>
+    {%- endif %}
+{%- endif %}
+    <form action="{{ url_for('episode_routes.save_edit') }}" method="post" class="edit-form">
+    {%- for field in form %}
+        <div class="input-row">{{ field.label }} {{ field }}</div>
+    {%- endfor %}
         <div><input type="submit" name="submit" value="submit" /></div>
-        <input type="hidden" name="id" value="{{ episode.id if episode.id }}" />
         <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
     </form>
 </div>

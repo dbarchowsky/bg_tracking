@@ -53,7 +53,7 @@
 {%- endfor %}
     </table>
     <ul class="hlinkstrip utility-links">
-        <li><a href="{{ url_for('episode_routes.edit_record_form', record_id=episode.id) }}">edit</a></li>
+        <li><a href="{{ url_for('episode_routes.edit_record', record_id=episode.id) }}">edit</a></li>
         <li><a href="{{ url_for('bg_routes.edit_record', episode_id=episode.id) }}">add bg</a></li>
     </ul>
 {%- endblock %}
