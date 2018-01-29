@@ -104,6 +104,7 @@ ul.hlinkstrip li:first-child {
     color: #cc0000;
 }
 
+/* statistics */
 .record-details {
     overflow: hidden;
     margin-bottom: 1rem;
@@ -113,6 +114,63 @@ ul.hlinkstrip li:first-child {
     float: left;
     margin-right: 1rem;
 }
+.stats-cell .label {
+  display: inline-block;
+  float: left;
+  margin-right: .4rem;
+}
+.status-bar {
+  width: 60px;
+  height: 18px;
+  background-color: #dddddd;
+  border-radius: 6px;
+}
+.stats-cell .status-bar {
+  float: left;
+}
+.status-bar .progress-bar {
+  height: 100%;
+  border-radius: 6px;
+}
+.status-bar .progress-pct {
+  background-color: #ffb000;
+}
+.status-bar .progress-0-pct {
+  width: 0%;
+}
+.status-bar .progress-10-pct {
+  width: 10%;
+}
+.status-bar .progress-20-pct {
+  width: 20%;
+}
+.status-bar .progress-30-pct {
+  width: 30%;
+}
+.status-bar .progress-40-pct {
+  width: 40%;
+}
+.status-bar .progress-50-pct {
+  width: 50%;
+}
+.status-bar .progress-60-pct {
+  width: 60%;
+}
+.status-bar .progress-70-pct {
+  width: 70%;
+}
+.status-bar .progress-80-pct {
+  width: 80%;
+}
+.status-bar .progress-90-pct {
+  width: 90%;
+}
+.status-bar .progress-100-pct {
+  background-color: #33ff33;
+  width: 100%;
+}
+
+/* forms */
 .edit-form .input-row {
     margin-bottom: .7rem;
 }
@@ -127,4 +185,68 @@ ul.hlinkstrip li:first-child {
 .edit-form input,
 .edit-form select {
     margin-right: .5rem;
+}
+
+/* tooltips */
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -40px;
+    padding: 7px;
+    width: 80px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 40%, 0.9);
+    color: #fff;
+    content: attr(data-tooltip);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    border-top: 5px solid #000;
+    border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
 }

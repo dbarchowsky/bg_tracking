@@ -10,12 +10,11 @@ episode_routes = Blueprint('episode_routes', __name__, template_folder='template
 @episode_routes.route('/episodes/')
 def listings():
     """List all episodes in database."""
-    episodes = (
-        Episode
-        .select()
-        .join(Show)
-        .order_by(Show.title, Episode.number)
-        )
+    episodes = (Episode
+                .select()
+                .join(Show)
+                .order_by(Show.title, Episode.number)
+                )
     return render_template('episode_list.html', title='Episodes', episodes=episodes)
 
 

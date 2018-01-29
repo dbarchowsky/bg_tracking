@@ -14,6 +14,8 @@
             <th class="left-align">#</th>
             <th class="left-align">title</th>
             <th class="left-align">BGs</th>
+            <th class="left-align">finished</th>
+            <th class="left-align">approved</th>
             <th>&nbsp;</th>
         </tr>
 {%- for episode in episodes %}
@@ -21,6 +23,16 @@
             <td>{{ episode.format_padded_number() }}</td>
             <td>&ldquo;{{ episode.title }}&rdquo;</td>
             <td>{{ episode.bg_count }}</td>
+            <td data-tooltip="{{ format_percent(episode.bg_count, episode.finished_bgs) }}">
+                <div class="status-bar">
+                  <div class="progress-bar progress-pct progress-{{ css_pct(episode.bg_count, episode.finished_bgs) }}-pct"></div>
+                </div>
+            </td>
+            <td data-tooltip="{{ format_percent(episode.bg_count, episode.approved_bgs) }}">
+                <div class="status-bar">
+                  <div class="progress-bar progress-pct progress-{{ css_pct(episode.bg_count, episode.approved_bgs) }}-pct"></div>
+                </div>
+            </td>
             <td>
                 <ul class="hlinkstrip">
                     <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">view</a></li>

@@ -125,11 +125,25 @@ def get_episode_listings(show_id):
     :param show_id: Show id
     :return: list of Episode objects
     """
+    finished_alias = Episode.alias()
+    finished_sq = (finished_alias
+                   .select(fn.COUNT(finished_alias.id)).where((Background.date_finished.is_null(False)) &
+                                                              (Background.date_finished != ''))
+                   .join(Background)
+                   .where(finished_alias.id == Episode.id)
+                   )
+    approved_sq = (finished_alias
+                   .select(fn.COUNT(finished_alias.id)).where(Background.approved == 1)
+                   .join(Background)
+                   .where(finished_alias.id == Episode.id)
+                   )
     return (Episode
             .select(Episode.id,
                     Episode.number,
                     Episode.title,
                     fn.COUNT(Episode.id).alias('bg_count'),
+                    finished_sq.alias('finished_bgs'),
+                    approved_sq.alias('approved_bgs'),
                     )
             .join(Background)
             .where(Episode.show == show_id)

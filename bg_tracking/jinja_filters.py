@@ -1,3 +1,4 @@
+from math import floor
 from flask import Blueprint
 import jinja2
 import bg_tracking
@@ -11,6 +12,7 @@ def varencode(context, s):
     """
     URL encodes string, after replacing spaces with underscores.
     Formats show titles in expected format for including in routes.
+    :param context: Template context parameter
     :param s: String to encode
     :type s: basestring
     :return: URL encoded string.
@@ -42,3 +44,30 @@ def bg_size_css_class():
             return 'bg-sized-base'
     return dict(bg_size_css_class=_bg_size_css_class)
 
+
+@jinja2.contextfilter
+@blueprint.app_context_processor
+def css_pct():
+    def _css_pct(total, n):
+        """
+        Returns value to insert as percentage value in CSS selector
+        :param total: total number of items
+        :param n: items in set
+        :return: formatted percentage value
+        """
+        return floor((n/total) * 10) * 10
+    return dict(css_pct=_css_pct)
+
+
+@jinja2.contextfilter
+@blueprint.app_context_processor
+def format_percent():
+    def _format_percent(total, n):
+        """
+        Formats percentage value
+        :param total: total number of items
+        :param n: items in set
+        :return: formatted percentage value
+        """
+        return '{}%'.format(round((n/total) * 100))
+    return dict(format_percent=_format_percent)

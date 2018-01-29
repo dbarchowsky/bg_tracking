@@ -12,6 +12,18 @@
 {%- if stats.avg_hours %}
         <div class="stats-cell">{{ stats.avg_hours }}</div>
 {%- endif %}
+        <div class="stats-cell">
+            <div class="label">{{ stats.finished }}</div>
+            <div class="status-bar">
+              <div class="progress-bar progress-pct progress-{{ stats.finished_pct }}-pct"></div>
+            </div>
+        </div>
+        <div class="stats-cell">
+            <div class="label">{{ stats.approved }}</div>
+            <div class="status-bar">
+              <div class="progress-bar progress-pct progress-{{ stats.approved_pct }}-pct"></div>
+            </div>
+        </div>
     </div>
     <table class="data">
         <tr>
