@@ -11,7 +11,7 @@ blueprint = Blueprint('jinja_filters', __name__)
 def varencode(context, s):
     """
     URL encodes string, after replacing spaces with underscores.
-    Formats show titles in expected format for including in routes.
+    Formats show titles in expected format for including in controllers.
     :param context: Template context parameter
     :param s: String to encode
     :type s: basestring

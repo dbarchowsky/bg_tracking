@@ -2,7 +2,7 @@ from flask import render_template
 from peewee import *
 from math import floor
 from bg_tracking.models import *
-from bg_tracking.routes.bg_routes import get_order_by_func, get_sorted_bg_listings_data
+from bg_tracking.controllers.bg_controllers import get_order_by_func, get_sorted_bg_listings_data
 
 
 class EpisodeUtils:

@@ -3,7 +3,7 @@ import os
 import string
 import random
 from bg_tracking.models import *
-from bg_tracking.routes import *
+from bg_tracking.controllers import *
 from bg_tracking import jinja_filters
 
 app = Flask(__name__)

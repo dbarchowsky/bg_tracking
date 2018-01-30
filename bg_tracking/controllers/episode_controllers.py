@@ -2,7 +2,7 @@ from flask import request, Blueprint
 from flask import render_template
 from bg_tracking.models import *
 from bg_tracking.forms import EpisodeForm
-from bg_tracking.routes.episode_utils import EpisodeUtils
+from bg_tracking.controllers.episode_utils import EpisodeUtils
 
 episode_routes = Blueprint('episode_routes', __name__, template_folder='templates')
 

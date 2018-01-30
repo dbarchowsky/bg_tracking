@@ -6,7 +6,7 @@ import bg_tracking
 class BgRoutesTestCase(unittest.TestCase):
 
     """
-    Tests Background-related routes.
+    Tests Background-related controllers.
     """
     def setUp(self):
         bg_tracking.app.testing = True
