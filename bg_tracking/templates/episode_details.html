@@ -34,6 +34,7 @@
             <th>establishing shot</th>
             <th>partial</th>
             <th>pull</th>
+            <th>card</th>
             <th>in progress</th>
             <th>finished</th>
             <th>approved</th>
@@ -50,6 +51,7 @@
             <td class="centered">{% if bg.establishing_shot %}&#9989;{% else %}&ndash;{% endif %}</td>
             <td class="centered">{% if bg.partial %}&#9989;{% else %}&ndash;{% endif %}</td>
             <td class="centered">{% if bg.pull %}&#9989;{% else %}&ndash;{% endif %}</td>
+            <td class="centered">{% if bg.card %}&#9989;{% else %}&ndash;{% endif %}</td>
             <td class="centered">{% if bg.date_started and not bg.date_finished %}&#9989;{% else %}&ndash;{% endif %}</td>
             <td class="centered">{% if bg.date_finished %}&#9989;{% else %}&ndash;{% endif %}</td>
             <td class="centered">{% if bg.approved %}&#9989;{% else %}&ndash;{% endif %}</td>

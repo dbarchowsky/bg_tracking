@@ -8,20 +8,21 @@ from .validator import Validator
 
 class Background(BaseModel):
     id = PrimaryKeyAutoIncrementField()
-    approved = IntegerField(null=True)
-    date_finished = DateField(null=True)
-    date_started = DateField(null=True)
     episode = ForeignKeyField(db_column='episode_id', rel_model=Episode, to_field='id')
-    establishing_shot = IntegerField(null=True)
-    height = IntegerField()
-    hours = FloatField(null=True)
-    location = ForeignKeyField(db_column='location_id', rel_model=Location, to_field='id')
-    pull = IntegerField(default=0)
-    overlay_count = IntegerField()
-    partial = IntegerField(null=True)
     scene = IntegerField(null=False)
     scene_modifier = TextField(null=True)
     width = IntegerField()
+    height = IntegerField()
+    overlay_count = IntegerField()
+    hours = FloatField(null=True)
+    location = ForeignKeyField(db_column='location_id', rel_model=Location, to_field='id')
+    establishing_shot = IntegerField(null=True)
+    partial = IntegerField(null=True)
+    pull = IntegerField(default=0)
+    card = IntegerField(default=0)
+    date_started = DateField(null=True)
+    date_finished = DateField(null=True)
+    approved = IntegerField(null=True)
 
     def collect_form_data(self, form):
         """Validates form data

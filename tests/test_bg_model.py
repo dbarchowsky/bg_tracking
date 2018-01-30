@@ -125,6 +125,11 @@ class BgModelTestCase(unittest.TestCase):
         self.assertEqual(b.date_finished, '2018-01-29')
         self.assertEqual(b.approved, True)
 
+    def test_bg_get_by_id(self):
+        record_id = 56
+        bg = Background.get(Background.id == record_id)
+        self.assertEqual(bg.card, 1)
+
 
 if __name__ == '__main__':
     unittest.main()

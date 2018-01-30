@@ -33,11 +33,15 @@
                     <th>overlays</th>
                     <th>establishing shot</th>
                     <th>partial</th>
+                    <th>pull</th>
+                    <th>card</th>
                 </tr>
                 <tr>
                     <td class="centered">{{ bg.overlay_count }}</td>
                     <td class="centered">{{ 'yes' if bg.establishing_shot else '' }}</td>
                     <td class="centered">{{ 'yes' if bg.partial else '' }}</td>
+                    <td class="centered">{{ 'yes' if bg.pull else '' }}</td>
+                    <td class="centered">{{ 'yes' if bg.card else '' }}</td>
                 </tr>
             </table>
         </div>
