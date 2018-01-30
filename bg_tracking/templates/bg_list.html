@@ -33,12 +33,12 @@
             <td class="{{ bg_size_css_class(bg.width, bg.height) }}">{{ bg.width }} x {{ bg.height }}</td>
             <td class="centered">{{ bg.location.name }}</td>
             <td class="centered">{{ bg.overlay_count }}</td>
-            <td class="centered{% if bg.establishing_shot %} yes{% endif %}">{% if bg.establishing_shot %}yes{% else %}&ndash;{% endif %}</td>
-            <td class="centered{% if bg.partial %} yes{% endif %}">{% if bg.partial %}yes{% else %}&ndash;{% endif %}</td>
-            <td class="centered{% if bg.pull %} yes{% endif %}">{% if bg.pull %}yes{% else %}&ndash;{% endif %}</td>
-            <td class="centered{% if bg.date_started and not bg.date_finished %} yes{% endif %}">{% if bg.date_started and not bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
-            <td class="centered{% if bg.date_finished %} yes{% endif %}">{% if bg.date_finished %}yes{% else %}&ndash;{% endif %}</td>
-            <td class="centered{% if bg.approved %} yes{% endif %}">{% if bg.approved %}yes{% else %}&ndash;{% endif %}</td>
+            <td class="centered">{% if bg.establishing_shot %}&#9989;{% else %}&ndash;{% endif %}</td>
+            <td class="centered">{% if bg.partial %}&#9989;{% else %}&ndash;{% endif %}</td>
+            <td class="centered">{% if bg.pull %}&#9989;{% else %}&ndash;{% endif %}</td>
+            <td class="centered">{% if bg.date_started and not bg.date_finished %}&#9989;{% else %}&ndash;{% endif %}</td>
+            <td class="centered">{% if bg.date_finished %}&#9989;{% else %}&ndash;{% endif %}</td>
+            <td class="centered">{% if bg.approved %}&#9989;{% else %}&ndash;{% endif %}</td>
             <td>{% if bg.hours %}{{ bg.hours }}{% else %}-{% endif %}</td>
             <td class="centered">{{ bg.id }}</td>
             <td>
