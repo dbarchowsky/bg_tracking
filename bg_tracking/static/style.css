@@ -136,7 +136,7 @@ ul.hlinkstrip li:first-child {
   background-color: #ffb000;
 }
 .status-bar .progress-0-pct {
-  width: 0%;
+  width: 0;
 }
 .status-bar .progress-10-pct {
   width: 10%;
@@ -192,19 +192,22 @@ ul.hlinkstrip li:first-child {
 /* tooltips */
 /* Add this attribute to the element that needs a tooltip */
 [data-tooltip] {
-  position: relative;
-  z-index: 2;
-  cursor: pointer;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
 }
 
 /* Hide the tooltip content by default */
 [data-tooltip]:before,
 [data-tooltip]:after {
-  visibility: hidden;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  pointer-events: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    opacity: 1.0;
 }
 
 /* Position tooltip above the element */
@@ -244,13 +247,4 @@ ul.hlinkstrip li:first-child {
     content: " ";
     font-size: 0;
     line-height: 0;
-}
-
-/* Show tooltip content on hover */
-[data-tooltip]:hover:before,
-[data-tooltip]:hover:after {
-    visibility: visible;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
-    opacity: 1;
 }
