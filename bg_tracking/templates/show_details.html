@@ -21,7 +21,7 @@
 {%- for episode in episodes %}
         <tr>
             <td>{{ episode.format_padded_number() }}</td>
-            <td>&ldquo;{{ episode.title }}&rdquo;</td>
+            <td><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">{{ episode.title }}</a></td>
             <td>{{ episode.bg_count }}</td>
             <td data-tooltip="{{ format_percent(episode.bg_count, episode.finished_bgs) }}">
                 <div class="status-bar">
