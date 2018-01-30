@@ -180,6 +180,8 @@ ul.hlinkstrip li:first-child {
     margin-right: .5rem;
     min-width: 7rem;
     background-color: #eeeeee;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
     border-radius: 4px;
 }
 .edit-form input,
@@ -209,11 +211,12 @@ ul.hlinkstrip li:first-child {
 [data-tooltip]:before {
     position: absolute;
     bottom: 150%;
-    left: 50%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 5px;
-    margin-left: -40px;
     padding: 7px;
-    width: 80px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
@@ -230,11 +233,12 @@ ul.hlinkstrip li:first-child {
 [data-tooltip]:after {
     position: absolute;
     bottom: 150%;
-    left: 50%;
-    margin-left: -5px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     width: 0;
-    border-top: 5px solid #000;
-    border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+    border-top: 5px solid hsla(0, 0%, 40%, 0.9);
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
     content: " ";
