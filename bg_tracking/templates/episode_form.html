@@ -19,12 +19,12 @@
     <div class="alert alert-error">{{ status.error }}</div>
     {%- endif %}
 {%- endif %}
-    <form action="{{ url_for('episode_routes.save_edit') }}" method="post" class="edit-form">
+    <form action="{{ action }}" method="post" class="edit-form">
     {%- for field in form %}
         <div class="input-row">{{ field.label }} {{ field }}</div>
     {%- endfor %}
         <div><input type="submit" name="submit" value="submit" /></div>
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     </form>
 </div>
 {%- endblock %}

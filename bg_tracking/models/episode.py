@@ -6,7 +6,7 @@ from .show import Show
 
 class Episode(BaseModel):
     id = PrimaryKeyAutoIncrementField()
-    title = TextField()
+    title = CharField()
     number = IntegerField()
     show = ForeignKeyField(db_column='show_id', rel_model=Show, to_field='id')
 

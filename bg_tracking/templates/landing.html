@@ -2,6 +2,15 @@
 {%- block title %}{{ title }}{% endblock %}
 {%- block page_title %}{{ title }}{% endblock %}
 {%- block breadcrumbs_element %}{% endblock %}
+{%- block flashed_messages %}
+    {%- with messages = get_flashed_messages(with_categories=true) %}
+        {%- if messages %}
+            {%- for category, msg in messages %}
+    <div class="alert alert-{{ category }}">{{ msg }}</div>
+            {% endfor %}
+        {%- endif %}
+    {%- endwith %}
+{%- endblock %}
 {%- block content %}
     <h1>{{ title }}</h1>
     <ul>

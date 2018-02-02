@@ -1,8 +1,9 @@
-from flask import request, Blueprint
+from flask import request, redirect, url_for, flash, Blueprint
 from flask import render_template
 from bg_tracking.models import *
 from bg_tracking.forms import EpisodeForm
 from bg_tracking.controllers.episode_utils import EpisodeUtils
+from bg_tracking.controllers.utils import get_or_404
 
 episode_routes = Blueprint('episode_routes', __name__, template_folder='templates')
 
@@ -38,59 +39,48 @@ def details_view(record_id, sort_criteria, order):
     return EpisodeUtils.render_details_view(record_id, sort_criteria, order)
 
 
-@episode_routes.route('/episode/<int:record_id>/edit/')
-@episode_routes.route('/episode/edit/', methods=['GET'], defaults={'record_id': None})
-def edit_record(record_id):
+@episode_routes.route('/episode/add/', methods=['GET', 'POST'])
+def add_record():
     """
     Process form data & use it to create and update Episode records.
+    :return: Response
+    """
+    e = Episode()
+
+    if request.method == 'POST':
+        form = EpisodeForm(request.form, obj=e)
+        if form.validate():
+            form.populate_obj(e)
+            e.save()
+            flash('Episode “{}” was successfully saved.'.format(e.title), 'info')
+            return redirect(url_for('episode_routes.details_view', record_id=e.id))
+    else:
+        # load show if specified
+        if request.args.get('show_id'):
+            e.show = get_or_404(Show.select(), Show.id == int(request.args.get('show_id')))
+        form = EpisodeForm(obj=e)
+
+    return render_template('episode_form.html', episode=e, form=form, action=request.url_rule.rule)
+
+
+@episode_routes.route('/episode/<int:record_id>/edit/', methods=['GET', 'POST'])
+def edit_record(record_id):
+    """
+    Create new episode record.
     :param record_id: Episode id in database.
     :type record_id: int
     :return: Response
     """
-    if record_id:
-        # editing existing record
-        try:
-            e = Episode.get(Episode.id == record_id)
-        except Episode.DoesNotExist:
-            err = 'The requested episode could not be found.'
-            return render_template('error.html', error_msg=err)
+    e = get_or_404(Episode.select(), Episode.id == record_id)
+
+    if request.method == 'POST':
+        form = EpisodeForm(request.form, obj=e)
+        if form.validate():
+            form.populate_obj(e)
+            e.save()
+            flash('Episode “{}” was successfully updated.'.format(e.title), 'info')
+            return redirect(url_for('episode_routes.details_view', record_id=e.id))
     else:
-        # editing new record
-        e = Episode()
-        if request.args.get('show_id'):
-            # retrieve show details
-            try:
-                e.show = Show.get(Show.id == int(request.args.get('show_id')))
-            except Show.DoesNotExist:
-                err = 'The requested show could not be found.'
-                return render_template('error.html', error_msg=err)
-    form = EpisodeForm(obj=e)
-    return render_template('episode_form.html', form=form, episode=e)
+        form = EpisodeForm(obj=e)
 
-
-@episode_routes.route('/episode/commit/', methods=['POST'])
-def save_edit():
-    """
-    Create new episode record.
-    :return: Response
-    """
-    episode_id = request.form['id']
-    if episode_id:
-        try:
-            e = Episode.get(id=episode_id)
-        except Episode.DoesNotExist:
-            return render_template('error.html', error_msg='The requested episode could not be retrieved.')
-    else:
-        e = Episode()
-
-    status = {'success': None, 'error': None}
-    form = EpisodeForm(request.form, obj=e)
-    if form.validate():
-        form.populate_obj(e)
-        e.save()
-        status['success'] = 'The changes have been saved.'
-    else:
-        status['error'] = 'There were problems saving the changes.'
-        return render_template('episode_form.html', form=form, episode=e, status=status)
-
-    return EpisodeUtils.render_details_view(e.id, 'scene', 'asc', status=status)
+    return render_template('episode_form.html', episode=e, form=form, action=request.url_rule.rule)

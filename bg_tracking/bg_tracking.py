@@ -1,9 +1,9 @@
-from flask import Flask, request, session, abort, redirect
+from flask import Flask, redirect
+from flask_wtf.csrf import CSRFProtect
 import os
-import string
-import random
 from bg_tracking.models import *
 from bg_tracking.controllers import *
+from bg_tracking.controllers.utils import generate_csrf_token
 from bg_tracking import jinja_filters
 
 app = Flask(__name__)
@@ -17,12 +17,6 @@ app.register_blueprint(jinja_filters.blueprint)
 def before_request():
     # database connection
     base_model.db.connect()
-
-    # CSRF token
-    if request.method == "POST":
-        token = session.pop('_csrf_token', None)
-        if not token or token != request.form.get('_csrf_token'):
-            abort(403)
 
 
 @app.after_request
@@ -40,20 +34,12 @@ def landing():
     return redirect('/bgs')
 
 
-def generate_random_string(size=6, chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
-
-
-def generate_csrf_token():
-    if '_csrf_token' not in session:
-        session['_csrf_token'] = generate_random_string(12)
-    return session['_csrf_token']
-
-
 app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
 if not app.secret_key:
     app.secret_key = os.urandom(24)
+
+csrf = CSRFProtect(app)
 
 # allow running from the command line
 if __name__ == '__main__':

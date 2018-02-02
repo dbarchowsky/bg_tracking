@@ -49,5 +49,8 @@ class Show(BaseModel):
         if len(error) > 0:
             raise ValueError(error)
 
+    def __unicode__(self):
+        return self.title
+
     class Meta:
         db_table = 'show'
