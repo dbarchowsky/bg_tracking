@@ -248,3 +248,13 @@ ul.hlinkstrip li:first-child {
     font-size: 0;
     line-height: 0;
 }
+
+ul.form-errors {
+    clear: both;
+    overflow: auto;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: inline-block;
+    color: red;
+}

@@ -21,7 +21,19 @@
 {%- endif %}
     <form action="{{ action }}" method="post" class="edit-form">
     {%- for field in form %}
-        <div class="input-row">{{ field.label }} {{ field }}</div>
+        <div class="input-row">{{ field.label }}
+        {%- if field.errors %}
+            {{ field(class='invalid') }}
+            <ul class="form-errors">
+            {%- for error in field.errors %}
+                <li>{{ error|e }}</li>
+            {%- endfor %}
+            </ul>
+        {%- else %}
+            {{ field }}
+        {%- endif %}
+        {%- if field.description %}<span class="hints">{{ field.description|safe() }}</span>{% endif %}
+        </div>
     {%- endfor %}
         <div><input type="submit" name="submit" value="submit" /></div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />

@@ -61,10 +61,13 @@ class EpisodeUtils:
                 'total_hours': total_hours,
                 'avg_hours': avg_hours,
                 'finished': '{} finished'.format(finished_bgs),
-                'finished_pct': floor((finished_bgs/e.bg_count) * 10) * 10,
+                'finished_pct': 0,
                 'approved': '{} approved'.format(approved_bgs),
-                'approved_pct': floor((approved_bgs/e.bg_count) * 10) * 10,
+                'approved_pct': 0,
             }
+            if e.bg_count > 0:
+                stats['finished_pct'] = floor((finished_bgs/e.bg_count) * 10) * 10
+                stats['approved_pct'] = floor((approved_bgs/e.bg_count) * 10) * 10
         return render_template('episode_details.html', episode=e, bgs=bgs, stats=stats, **kwargs)
 
     @staticmethod

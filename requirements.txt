@@ -1,4 +1,4 @@
-peewee>=2.10.2
+peewee>=3.0.10
 flask>=0.12.2
 markupsafe>=1.0
 python-dateutil>=2.6.1

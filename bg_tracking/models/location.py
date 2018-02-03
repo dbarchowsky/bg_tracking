@@ -1,10 +1,9 @@
 from peewee import *
-from playhouse.sqlite_ext import PrimaryKeyAutoIncrementField
 from .base_model import BaseModel
 
 
 class Location(BaseModel):
-    id = PrimaryKeyAutoIncrementField()
+    id = AutoField()
     name = TextField(unique=True)
 
     class Meta:

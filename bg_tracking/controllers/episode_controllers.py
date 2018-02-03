@@ -46,6 +46,7 @@ def add_record():
     :return: Response
     """
     e = Episode()
+    e.show = Show()
 
     if request.method == 'POST':
         form = EpisodeForm(request.form, obj=e)
