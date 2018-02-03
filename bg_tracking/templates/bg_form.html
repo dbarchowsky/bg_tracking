@@ -1,8 +1,9 @@
 {%- extends "base.html" %}
+{%- import "macros.jinja2" as macros %}
 {%- block title %}{{ title }}{% endblock %}
 {%- block page_title %}{{ title }}{% endblock %}
 {%- block breadcrumbs %}
-    {%- if bg.has_episode() %}
+    {%- if bg.has_episode() and bg.episode.id %}
         <li><a href="{{ url_for('episode_routes.details_view', record_id=bg.episode.id) }}">{{ bg.episode.format_padded_number() }} &ldquo;{{ bg.episode.title }}&rdquo;</a></li>
     {% endif %}
     {%- if bg.id %}
@@ -10,55 +11,32 @@
     {% endif %}
 {%- endblock %}
 {%- block content %}
-    <div>
-        <form action="{{ url_for('bg_routes.save_edit') }}" method="post" class="edit-form">
-            <div class="input-row">
-                <label for="episode">Episode</label>
-                <select title="episode" id="episode" name="episode">
-                    <option value=" "> </option>
-{%- for episode in episodes %}
-                    <option value="{{ episode_id }}"{% if bg.has_episode() and bg.episode.id == episode.id %} selected="selected"{% endif %}>{{ episode.format_padded_number() }} {{ episode.title }}</option>
-{%- endfor %}
-                </select>
-                <label for="scene">Scene</label>
-                <input type="text" value="{{ bg.scene if bg.scene }}" title="scene" id="scene" name="scene" maxlength="6" />
-                <label for="scene_modifier">Modifier</label>
-                <input type="text" value="{{ bg.scene_modifier if bg.scene_modifier }}" title="scene_modifier" id="scene_modifier" name="scene_modifier" maxlength="16" />
-            </div>
-            <div class="input-row">
-                <label for="width">Width</label>
-                <input type="text" value="{{ bg.width if bg.width }}" title="width" id="width" name="width" maxlength="6" />
-                <label for="height">Height</label>
-                <input type="text" value="{{ bg.height if bg.height }}" title="height" id="height" name="height" maxlength="6" />
-            </div>
-            <div class="input-row">
-                <label for="overlay_count">Overlays</label>
-                <input type="text" value="{{ bg.overlay_count if bg.overlay_count }}" title="overlay_count" id="overlay_count" name="overlay_count" maxlength="6" />
-                <label for="establishing_shot">Establishing Shot</label>
-                <input type="checkbox" value="1" title="establishing_shot" id="establishing_shot" name="establishing_shot" />
-                <label for="pull">Pull</label>
-                <input type="checkbox" value="1" title="pull" id="pull" name="pull" />
-                <label for="location">Location</label>
-                <select title="location" id="location" name="location">
-                    <option value="1"{% if bg.has_location() and bg.location == 1 %} selected="selected"{%- endif %}>Interior</option>
-                    <option value="2"{% if bg.has_location() and bg.location == 2 %} selected="selected"{%- endif %}>Exterior</option>
-                </select>
-            </div>
-            <div class="input-row">
-                <label for="hours">Hours</label>
-                <input type="text" value="{{ bg.hours if bg.hours }}" title="hours" id="hours" name="hours" maxlength="6" />
-                <label for="date_started">Date Started</label>
-                <input type="text" value="{{ bg.date_started if bg.date_started }}" title="date_started" id="date_started" name="date_started" maxlength="64" />
-                <label for="date_finished">Date Finished</label>
-                <input type="text" value="{{ bg.date_finished if bg.date_finished }}" title="date_finished" id="date_finished" name="date_finished" maxlength="64" />
-            </div>
-            <div class="input-row">
-                <label for="approved">Approved</label>
-                <input type="checkbox" value="1" title="approved" id="approved" name="approved" />
-            </div>
-            <div class="input-row"><input type="submit" name="submit" value="submit" /></div>
-            <input type="hidden" name="id" value="{{ bg.id if bg.id }}" />
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
-        </form>
-    </div>
+    <form action="{{ action }}" method="post" class="edit-form">
+        <div class="input-row">
+            {{ macros.form_field(form.episode) }}
+            {{ macros.form_field(form.scene) }}
+            {{ macros.form_field(form.scene_modifier) }}
+        </div>
+        <div class="input-row">
+            {{ macros.form_field(form.width) }}
+            {{ macros.form_field(form.height) }}
+        </div>
+        <div class="input-row">
+            {{ macros.form_field(form.overlay_count) }}
+            {{ macros.form_field(form.establishing_shot) }}
+            {{ macros.form_field(form.pull) }}
+            {{ macros.form_field(form.card) }}
+            {{ macros.form_field(form.location) }}
+        </div>
+        <div class="input-row">
+            {{ macros.form_field(form.hours) }}
+            {{ macros.form_field(form.date_started) }}
+            {{ macros.form_field(form.date_finished) }}
+        </div>
+        <div class="input-row">
+            {{ macros.form_field(form.approved) }}
+        </div>
+        <div class="input-row"><input type="submit" name="submit" value="submit" /></div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    </form>
 {%- endblock %}

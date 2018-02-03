@@ -8,7 +8,7 @@ class Background(BaseModel):
     id = AutoField()
     episode = ForeignKeyField(Episode, db_column='episode_id', field='id', backref='backgrounds')
     scene = IntegerField(null=False)
-    scene_modifier = TextField(null=True)
+    scene_modifier = CharField(null=True)
     width = IntegerField()
     height = IntegerField()
     overlay_count = IntegerField()

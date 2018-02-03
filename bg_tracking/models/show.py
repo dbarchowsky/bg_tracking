@@ -1,6 +1,5 @@
 from peewee import *
 from .base_model import BaseModel
-from .validator import Validator
 
 
 class Show(BaseModel):

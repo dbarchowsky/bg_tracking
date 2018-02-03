@@ -2,7 +2,7 @@ from flask import render_template
 from peewee import *
 from math import floor
 from bg_tracking.models import *
-from bg_tracking.controllers.bg_controllers import get_order_by_func, get_sorted_bg_listings_data
+from bg_tracking.controllers.bg_utils import BGUtils
 
 
 class EpisodeUtils:
@@ -35,12 +35,12 @@ class EpisodeUtils:
             return render_template('error.html', error_msg='The requested episode was not found.')
         else:
             try:
-                oby = get_order_by_func(sort_criteria, order)
+                oby = BGUtils.get_order_by_func(sort_criteria, order)
             except AttributeError:
                 return render_template('error.html', error_msg='Invalid sort criteria.')
 
             try:
-                bgs = get_sorted_bg_listings_data(oby, episode_id=e.id)
+                bgs = BGUtils.get_sorted_bg_listings_data(oby, episode_id=e.id)
             except Background.DoesNotExist:
                 err = 'Error retrieving BGs for episode “{}”.'.format(e.title)
                 return render_template('error.html', error_msg=err)

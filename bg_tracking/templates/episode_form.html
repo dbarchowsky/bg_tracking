@@ -1,4 +1,5 @@
 {%- extends "base.html" %}
+{%- import "macros.jinja2" as macros %}
 {%- block title %}{% if episode.id %}Episode {{ episode.format_padded_number() }} {{ episode.title }}{% else %}New Episode{% endif %}{% endblock %}
 {%- block page_title %}{% if episode.id %}Editing {{ episode.format_padded_number() }} {{ episode.title }}{% else %}New Episode{% endif %}{% endblock %}
 {%- block breadcrumbs %}
@@ -21,19 +22,7 @@
 {%- endif %}
     <form action="{{ action }}" method="post" class="edit-form">
     {%- for field in form %}
-        <div class="input-row">{{ field.label }}
-        {%- if field.errors %}
-            {{ field(class='invalid') }}
-            <ul class="form-errors">
-            {%- for error in field.errors %}
-                <li>{{ error|e }}</li>
-            {%- endfor %}
-            </ul>
-        {%- else %}
-            {{ field }}
-        {%- endif %}
-        {%- if field.description %}<span class="hints">{{ field.description|safe() }}</span>{% endif %}
-        </div>
+        <div class="input-row">{{ macros.form_field(field) }}</div>
     {%- endfor %}
         <div><input type="submit" name="submit" value="submit" /></div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />

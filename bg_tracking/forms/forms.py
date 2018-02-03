@@ -3,3 +3,4 @@ from bg_tracking.models import *
 
 
 EpisodeForm = model_form(Episode)
+BGForm = model_form(Background)

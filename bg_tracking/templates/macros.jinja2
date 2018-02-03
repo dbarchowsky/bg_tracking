@@ -1,0 +1,14 @@
+{%- macro form_field(field) %}
+{{ field.label }}
+    {%- if field.errors %}
+        {{ field(class='invalid') }}
+            <ul class="form-errors">
+            {%- for error in field.errors %}
+                <li>{{ error|e }}</li>
+            {%- endfor %}
+            </ul>
+    {%- else %}
+        {{ field }}
+    {%- endif %}
+    {%- if field.description %}<span class="hints">{{ field.description|safe() }}</span>{% endif %}
+{%- endmacro %}

@@ -59,13 +59,6 @@ def add_record():
         if request.args.get('show_id'):
             e.show = get_or_404(Show.select(), Show.id == int(request.args.get('show_id')))
         form = EpisodeForm(obj=e)
-        try:
-            form.show.choices = [(s.id, s.title) for s in (Show
-                                                           .select(Show.id, Show.title)
-                                                           .order_by(Show.title, Show.season)
-                                                           )]
-        except Show.DoesNotExist:
-            abort(404)
 
     return render_template('episode_form.html', episode=e, form=form, action=request.url_rule.rule)
 
@@ -89,13 +82,6 @@ def edit_record(record_id):
             return redirect(url_for('episode_routes.details_view', record_id=e.id))
     else:
         form = EpisodeForm(obj=e)
-        try:
-            form.show.choices = [(s.id, s.title) for s in (Show
-                                                           .select(Show.id, Show.title)
-                                                           .order_by(Show.title, Show.season)
-                                                           )]
-        except Show.DoesNotExist:
-            abort(404)
 
     action = '/episode/{}/edit/'.format(e.id)
     return render_template('episode_form.html', episode=e, form=form, action=action)
