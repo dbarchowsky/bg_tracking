@@ -14,13 +14,13 @@ class Background(BaseModel):
     overlay_count = IntegerField()
     hours = FloatField(null=True)
     location = ForeignKeyField(Location, db_column='location_id', field='id')
-    establishing_shot = IntegerField(null=True)
-    partial = IntegerField(null=True)
-    pull = IntegerField(default=0)
-    card = IntegerField(default=0)
+    establishing_shot = BooleanField(choices=((False, 'f'), (True, 't')), null=True)
+    partial = BooleanField(choices=((False, 'f'), (True, 't')), null=True)
+    pull = BooleanField(choices=((False, 'f'), (True, 't')), null=True)
+    card = BooleanField(choices=((False, 'f'), (True, 't')), null=True)
     date_started = DateField(null=True)
     date_finished = DateField(null=True)
-    approved = IntegerField(null=True)
+    approved = BooleanField(choices=((False, 'f'), (True, 't')), null=True)
 
     def format_padded_scene(self):
         """

@@ -81,8 +81,7 @@ def add_record():
     return render_template('bg_form.html', bg=bg, form=form, title=title, action=request.url_rule.rule)
 
 
-@bg_routes.route('/bg/edit/', methods=['GET'], defaults={'record_id': None})
-@bg_routes.route('/bg/<int:record_id>/edit/')
+@bg_routes.route('/bg/<int:record_id>/edit/', methods=['GET', 'POST'])
 def edit_record(record_id):
     """
     Create new background record.
@@ -90,38 +89,20 @@ def edit_record(record_id):
     :type record_id: int
     :return: Response
     """
-    if record_id:
-        try:
-            bg = Background.get(Background.id == record_id)
-        except Background.DoesNotExist:
-            return BGUtils.record_not_found_response('BG')
+    bg = get_or_404(Background.select(), Background.id == record_id)
+
+    if request.method == 'POST':
+        form = BGForm(request.form, obj=bg)
+        if form.validate():
+            form.populate_obj(bg)
+            bg.save()
+            flash('Scene {} was successfully updated.'.format(bg.scene), 'info')
+            return redirect(url_for('bg_routes.details_view', record_id=bg.id))
     else:
-        bg = Background()
-    if request.args.get('episode_id'):
-        try:
-            bg.episode = Episode.get(Episode.id == int(request.args.get('episode_id')))
-        except Episode.DoesNotExist:
-            return BGUtils.record_not_found_response('episode')
-    if bg.id:
-        title = 'Editing {} “{}” scene {}{}'.format(
-            bg.episode.format_padded_number(),
-            bg.episode.title,
-            bg.format_padded_scene(),
-            bg.scene_modifier if bg.scene_modifier else '',
-        )
-    else:
-        title = 'Editing New BG'
-    try:
-        e = (Episode
-             .select(Episode.id,
-                     Episode.number,
-                     Episode.title,
-                     Show.title,
-                     Show.season
-                     )
-             .join(Show)
-             .order_by(Show.title, Show.season, Episode.number)
-             )
-    except Episode.DoesNotExist:
-        return BGUtils.record_not_found_response('episodes')
-    return render_template('bg_form.html', title=title, bg=bg, episodes=e)
+        form = BGForm(obj=bg)
+
+    action = '/bg/{}/edit/'.format(bg.id)
+    title = 'Editing {} “{}” scene {}'.format(bg.episode.format_padded_number(),
+                                            bg.episode.title,
+                                            bg.format_padded_scene())
+    return render_template('bg_form.html', bg=bg, form=form, title=title, action=action)
