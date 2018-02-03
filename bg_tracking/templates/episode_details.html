@@ -1,6 +1,6 @@
 {%- extends "base.html" %}
-{%- block title %}{{ episode.title }}{% endblock %}
-{%- block page_title %}{{ episode.show.code}}-{{ episode.format_padded_number() }} &ldquo;{{ episode.title }}&rdquo;{% endblock %}
+{%- block title %}{{ episode }}{% endblock %}
+{%- block page_title %}{{ episode }}{% endblock %}
 {%- block breadcrumbs %}
     <li><a href="{{ url_for('episode_routes.listings') }}">all episodes</a></li>
     <li><a href="{{ url_for('show_routes.details_view', record_id=episode.show.id) }}">&ldquo;{{ episode.show.title }}&rdquo; season {{ episode.show.season }}</a></li>

@@ -27,13 +27,12 @@ def details_view(record_id):
         msg = 'The requested show was not found.'
         return render_template('error.html', error_msg=msg)
     else:
-        title = "{} season {}".format(s.title, s.season)
         try:
             episodes = get_episode_listings(s.id)
         except Episode.DoesNotExist:
             msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
-    return render_template('show_details.html', title=title, show=s, episodes=episodes)
+    return render_template('show_details.html', title=str(s), show=s, episodes=episodes)
 
 
 @show_routes.route('/show/<string:show_title>/season/<int:season>')
@@ -53,13 +52,12 @@ def details_by_title(show_title, season):
         msg = 'The show "{}" was not found.'.format(show_title)
         return render_template('error.html', error_msg=msg)
     else:
-        title = "{} season {}".format(s.title, s.season)
         try:
             episodes = get_episode_listings(s.id)
         except Episode.DoesNotExist:
             msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
-    return render_template('show_details.html', title=title, show=s, episodes=episodes)
+    return render_template('show_details.html', title=str(s), show=s, episodes=episodes)
 
 
 @show_routes.route('/show/edit')

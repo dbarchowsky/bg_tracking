@@ -9,8 +9,11 @@ class Show(BaseModel):
     title = TextField()
     season = IntegerField()
 
-    def __unicode__(self):
-        return self.title
+    def __str__(self):
+        if self.code:
+            return '{} {} season {}'.format(self.code, self.title, self.season)
+        else:
+            return '{} season {}'.format(self.title, self.season)
 
     class Meta:
         db_table = 'show'

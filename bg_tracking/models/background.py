@@ -57,5 +57,8 @@ class Background(BaseModel):
         except Location.DoesNotExist:
             return False
 
+    def __str__(self):
+        return 'Sc {}'.format(self.format_padded_scene())
+
     class Meta:
         db_table = 'background'
