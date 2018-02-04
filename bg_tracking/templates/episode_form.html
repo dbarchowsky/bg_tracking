@@ -1,7 +1,7 @@
 {%- extends "base.html" %}
 {%- import "macros.jinja2" as macros %}
-{%- block title %}{% if episode.id %}Episode {{ episode.format_padded_number() }} {{ episode.title }}{% else %}New Episode{% endif %}{% endblock %}
-{%- block page_title %}{% if episode.id %}Editing {{ episode.format_padded_number() }} {{ episode.title }}{% else %}New Episode{% endif %}{% endblock %}
+{%- block title %}{{ title}}{% endblock %}
+{%- block page_title %}{{ title }}{% endblock %}
 {%- block breadcrumbs %}
         <li><a href="{{ url_for('episode_routes.listings') }}">all episodes</a></li>
     {%- if episode.show.id %}
@@ -13,13 +13,6 @@
 {%- endblock %}
 {%- block content %}
 <div>
-{%- if status %}
-    {%- if status.success %}
-    <div class="alert alert-info">{{ status.success }}</div>
-    {%- elif status.error %}
-    <div class="alert alert-error">{{ status.error }}</div>
-    {%- endif %}
-{%- endif %}
     <form action="{{ action }}" method="post" class="edit-form">
     {%- for field in form %}
         <div class="input-row">{{ macros.form_field(field) }}</div>

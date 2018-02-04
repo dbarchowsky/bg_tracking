@@ -1,27 +1,19 @@
 {%- extends "base.html" %}
-{%- block title %}{% if show.id %}Editing {{ show.title }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
-{%- block page_title %}{% if show.id %}Editing {{ show.title }} season {{ show.season }}{% else %}New Show{% endif %}{% endblock %}
+{%- import "macros.jinja2" as macros %}
+{%- block title %}{{ title }}{% endblock %}
+{%- block page_title %}{{ title }}{% endblock %}
 {%- block breadcrumbs %}
         <li><a href="{{ url_for('show_routes.listings') }}">all shows</a></li>
+    {%- if show.id %}
+        <li><a href="{{ url_for('show_routes.details_view', record_id=show.id) }}">view show</a></li>
+    {% endif %}
 {%- endblock %}
 {%- block content %}
-    <div>
-        <form action="{{ url_for('show_routes.save_edit') }}" method="post" class="edit-form">
-            <div class="input-row">
-                <label for="title">Title</label>
-                <input type="text" value="{{ show.title if show.title }}" title="title" id="title" name="title" maxlength="100" />
-            </div>
-            <div class="input-row">
-                <label for="season">Season</label>
-                <input type="text" value="{{ show.season if show.season }}" title="season" id="season" name="season" maxlength="4" />
-            </div>
-            <div class="input-row">
-                <label for="code">Code</label>
-                <input type="text" value="{{ show.code if show.code }}" title="code" id="code" name="code" maxlength="100" />
-            </div>
-            <div class="input-row"><input type="submit" name="submit" value="submit" /></div>
-            <input type="hidden" name="id" value="{{ show.id if show.id }}" />
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
-        </form>
-    </div>
+    <form action="{{ action }}" method="post" class="edit-form">
+    {%- for field in form %}
+        <div class="input-row">{{ macros.form_field(field) }}</div>
+    {%- endfor %}
+        <div><input type="submit" name="submit" value="submit" /></div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    </form>
 {%- endblock %}

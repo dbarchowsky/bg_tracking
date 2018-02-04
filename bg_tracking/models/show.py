@@ -4,8 +4,8 @@ from .base_model import BaseModel
 
 class Show(BaseModel):
     id = AutoField()
-    code = TextField(null=True)
-    title = TextField()
+    code = CharField(null=True)
+    title = CharField()
     season = IntegerField()
 
     def __str__(self):

@@ -1,9 +1,10 @@
-from flask import Blueprint, request
+from flask import Blueprint, flash, redirect, url_for, request
 from flask import render_template
 from peewee import *
 from bg_tracking.models import *
 from bg_tracking.utils import varunencode
 from bg_tracking.controllers.utils import get_or_404
+from bg_tracking.forms.forms import ShowForm
 
 show_routes = Blueprint('show_routes', __name__, template_folder='templates')
 
@@ -63,62 +64,47 @@ def details_by_title(show_title, season):
     return render_template('show_details.html', title=str(s), show=s, episodes=episodes)
 
 
-@show_routes.route('/show/edit')
-def new_record_form():
-    """Edit new show."""
-    title = 'New Show'
+@show_routes.route('/show/add', methods=['GET', 'POST'])
+def add_record():
     s = Show()
-    return render_template('show_form.html', title=title, show=s)
 
-
-@show_routes.route('/show/<int:record_id>/edit')
-def edit_record_form(record_id):
-    """
-    Edit existing show records.
-    """
-    try:
-        s = Show.get(Show.id == record_id)
-    except Show.DoesNotExist:
-        msg = 'The requested show was not found. '
-        return render_template('error.html', error_msg=msg)
+    if request.method == 'POST':
+        form = ShowForm(request.form, obj=s)
+        if form.validate():
+            form.populate_obj(s)
+            s.save()
+            flash('Show “{}” was successfully saved.'.format(s.title), 'info')
+            return redirect(url_for('show_routes.details_view', record_id=s.id))
     else:
-        title = 'Editing {} season {}'.format(s.title, s.season)
-    return render_template('show_form.html', title=title, show=s)
+        form = ShowForm(obj=s)
 
+    title = 'Add New Show'
+    return render_template('show_form.html', show=s, form=form, title=title, action=request.url_rule.rule)
+        
 
-@show_routes.route('/show/edit', methods=['POST', 'GET'])
-def save_edit():
+@show_routes.route('/show/<int:record_id>/edit', methods=['GET', 'POST'])
+def edit_record(record_id):
     """
     Validate and serialize show data.
+    :param record_id: Id of show record to edit
     :return: Response
     """
+    s = get_or_404(Show.select(), Show.id == record_id)
+
     if request.method == 'POST':
-
-        s = Show()
-        try:
-            s.collect_form_data(request.form)
-        except ValueError as e:
-            return render_template('error.html', show=s, error_msg=e)
-
-        try:
-            s.validate_form_data()
-        except ValueError as e:
-            return render_template('error.html', error_msg=e)
-
-        s.save()
-
-        # display record details
-        title = '{} season {}'.format(s.title, s.season)
-        status = 'The changes were successfully saved.'
-        try:
-            episodes = get_episode_listings(s.id)
-        except Episode.DoesNotExist:
-            msg = 'Error retrieving episodes in {}'.format(s.title)
-            return render_template('error.html', error_msg=msg)
-        return render_template('show_details.html', title=title, status=status, episodes=episodes, show=s)
+        form = ShowForm(request.form, obj=s)
+        if form.validate():
+            form.populate_obj(s)
+            s.save()
+            flash('Show “{}” was successfully updated.'.format(s.title), 'info')
+            return redirect(url_for('show_routes.details_view', record_id=s.id))
     else:
-        return render_template('error.html', error_msg='Bad request.')
+        form = ShowForm(obj=s)
 
+    action = '/show/{}/edit/'.format(s.id)
+    title = 'Editing {}'.format(str(s))
+    return render_template('show_form.html', show=s, form=form, title=title, action=action)
+            
 
 def get_episode_listings(show_id):
     """

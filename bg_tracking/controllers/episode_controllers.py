@@ -60,7 +60,8 @@ def add_record():
             e.show = get_or_404(Show.select(), Show.id == int(request.args.get('show_id')))
         form = EpisodeForm(obj=e)
 
-    return render_template('episode_form.html', episode=e, form=form, action=request.url_rule.rule)
+    title = 'Add New Episode'
+    return render_template('episode_form.html', episode=e, form=form, title=title, action=request.url_rule.rule)
 
 
 @episode_routes.route('/episode/<int:record_id>/edit/', methods=['GET', 'POST'])
@@ -84,4 +85,5 @@ def edit_record(record_id):
         form = EpisodeForm(obj=e)
 
     action = '/episode/{}/edit/'.format(e.id)
-    return render_template('episode_form.html', episode=e, form=form, action=action)
+    title = 'Editing {}'.format(str(e))
+    return render_template('episode_form.html', episode=e, form=form, title=title, action=action)
