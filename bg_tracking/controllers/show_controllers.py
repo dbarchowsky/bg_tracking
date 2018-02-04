@@ -101,7 +101,7 @@ def edit_record(record_id):
     else:
         form = ShowForm(obj=s)
 
-    action = '/show/{}/edit/'.format(s.id)
+    action = '/show/{}/edit'.format(s.id)
     title = 'Editing {}'.format(str(s))
     return render_template('show_form.html', show=s, form=form, title=title, action=action)
             
