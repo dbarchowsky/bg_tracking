@@ -4,12 +4,16 @@
 {%- block content %}
     <table class="data">
         <tr>
+           <th class="left-align">code</th>
            <th class="left-align">show</th>
+           <th class="left-align">season</th>
            <th>&nbsp;</th>
        </tr>
 {%- for show in shows %}
         <tr>
-            <td>{{ show.title }} season {{ show.season }}</td>
+            <td>{{ show.code if show.code else 'n/a' }}</td>
+            <td>{{ show.title }}</td>
+            <td>{{ show.season }}</td>
             <td>
                 <ul class="hlinkstrip">
                     <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}">view</a></li>
