@@ -32,7 +32,7 @@ def listings(sort_criteria, order):
     return BGUtils.render_listings(bgs)
 
 
-@bg_routes.route('/bg/<record_id>')
+@bg_routes.route('/bg/<int:record_id>')
 def details_view(record_id):
     """
     Display details for single BG record.
