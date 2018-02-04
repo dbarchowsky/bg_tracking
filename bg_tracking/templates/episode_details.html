@@ -57,17 +57,17 @@
             <td class="centered">{% if bg.approved %}&#9989;{% else %}&ndash;{% endif %}</td>
             <td>{% if bg.hours %}{{ bg.hours }}{% else %}-{% endif %}</td>
             <td class="centered">{{ bg.id }}</td>
-            <td>
-                <ul class="hlinkstrip">
-                    <li><a href="{{ url_for('bg_routes.details_view', record_id=bg.id) }}">view</a></li>
-                    <li><a href="{{ url_for('bg_routes.edit_record', record_id=bg.id) }}">edit</a></li>
+            <td class="centered">
+                <ul class="ops-list">
+                    <li><a href="{{ url_for('bg_routes.details_view', record_id=bg.id) }}" title="view details"><span class="glyphicon glyphicon-file"></span></a></li>
+                    <li><a href="{{ url_for('bg_routes.edit_record', record_id=bg.id) }}" title="edit record"><span class="glyphicon glyphicon-edit"></span></a></li>
                 </ul>
             </td>
         </tr>
 {%- endfor %}
     </table>
-    <ul class="hlinkstrip utility-links">
-        <li><a href="{{ url_for('episode_routes.edit_record', record_id=episode.id) }}">edit</a></li>
-        <li><a href="{{ url_for('bg_routes.add_record', episode_id=episode.id) }}">add bg</a></li>
+    <ul class="ops-list">
+        <li><a href="{{ url_for('episode_routes.edit_record', record_id=episode.id) }}" title="edit episode"><span class="glyphicon glyphicon-edit"></span></a></li>
+        <li><a href="{{ url_for('bg_routes.add_record', episode_id=episode.id) }}" title="add BG"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
     </ul>
 {%- endblock %}

@@ -14,10 +14,10 @@
             <td><a href="{{ url_for('show_routes.details_view', record_id=episode.show.id) }}">{{ episode.show.title }} season {{ episode.show.season }}</a></td>
             <td>{{ episode.format_padded_number() }}</td>
             <td>{{ episode.title }}</td>
-            <td>
-                <ul class="hlinkstrip">
-                    <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">view</a></li>
-                    <li><a href="{{ url_for('episode_routes.edit_record', record_id=episode.id) }}">edit</a></li>
+            <td class="centered">
+                <ul class="ops-list">
+                    <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}" title="view details"><span class="glyphicon glyphicon-file"></span></a></li>
+                    <li><a href="{{ url_for('episode_routes.edit_record', record_id=episode.id) }}" title="edit record"><span class="glyphicon glyphicon-edit"></span></a></li>
                 </ul>
             </td>
         </tr>
@@ -28,5 +28,7 @@
         </tr>
 {%- endif %}
     </table>
-    <div><a href="{{ url_for('episode_routes.add_record') }}">add episode</a></div>
+    <ul class="ops-list">
+        <li><a href="{{ url_for('episode_routes.add_record') }}" title="add episode"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
+    </ul>
 {%- endblock %}

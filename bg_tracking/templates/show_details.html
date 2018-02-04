@@ -33,10 +33,10 @@
                   <div class="progress-bar progress-pct progress-{{ css_pct(episode.bg_count, episode.approved_bgs) }}-pct"></div>
                 </div>
             </td>
-            <td>
-                <ul class="hlinkstrip">
-                    <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">view</a></li>
-                    <li><a href="{{ url_for('episode_routes.edit_record', record_id=episode.id) }}">edit</a></li>
+            <td class="centered">
+                <ul class="ops-list">
+                    <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}" title="view details"><span class="glyphicon glyphicon-file"></span></a></li>
+                    <li><a href="{{ url_for('episode_routes.edit_record', record_id=episode.id) }}" title="edit record"><span class="glyphicon glyphicon-edit"></span></a></li>
                 </ul>
             </td>
         </tr>
@@ -47,8 +47,8 @@
         </tr>
 {%- endif %}
     </table>
-    <ul class="hlinkstrip utility-links">
-        <li><a href="{{ url_for('show_routes.edit_record', record_id=show.id) }}">edit</a></li>
-        <li><a href="{{ url_for('episode_routes.add_record', show_id=show.id) }}">add episode</a></li>
+    <ul class="ops-list">
+        <li><a href="{{ url_for('show_routes.edit_record', record_id=show.id) }}" title="edit show"><span class="glyphicon glyphicon-edit"></span></a></li>
+        <li><a href="{{ url_for('episode_routes.add_record', show_id=show.id) }}" title="add episode"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
     </ul>
 {%- endblock %}

@@ -1,5 +1,15 @@
-* {
-    font-family: arial, sans-serif;
+body, * {
+    font-family: 'Noto Sans', arial, sans-serif;
+    font-size: 1.4rem;
+}
+/* iPad Pro landscape mode */
+@media screen and (max-width: 1024px) {
+    body, * {
+        font-size: 1.2rem;
+    }
+}
+body {
+    margin: .4rem;
 }
 .centered {
     text-align: center;
@@ -14,29 +24,25 @@
     color: #32cd32;
 }
 p, div, li, a {
-    font-size: .9rem;
-}
-/* iPad Pro landscape mode */
-@media screen and (max-width: 1024px) {
-    p, div, li, a {
-        font-size: 1.2rem;
-    }
 }
 table {
     border-collapse: collapse;
 }
 th, td, th a, td a {
-    font-size: .8rem;
+    font-size: 1.4rem;
 }
 td {
     text-align: left;
+}
+table.data {
+    margin-bottom: 1rem;
 }
 table.data th {
     background-color: #feeedf;
 }
 table.data td,
 table.data th {
-    padding: .2rem 1rem;
+    padding: .4rem 1.6rem;
     margin: 0;
 }
 /* iPad Pro landscape mode */
@@ -46,7 +52,7 @@ table.data th {
     }
     table.data td,
     table.data th {
-        padding: .1rem .5rem;
+        padding: .2rem .8rem;
         margin: 0;
     }
 }
@@ -265,16 +271,16 @@ ul.ops-list {
     padding:0;
     list-style:none;  
 }
-ul.db-glyphicons-list li {
+ul.ops-list li {
     float: left;
     text-align: center;
     margin: 0 .3rem .6rem .3rem;
 }
-ul.db-glyphicons-list li:first-child {
+ul.ops-list li:first-child {
     margin: 0 .3rem 0 0;
 }
-.db-glyphicons .glyphicon {
-    font-size: 1.6rem;
+.ops-list .glyphicon {
+    font-size: 1rem;
     color: #ffffff;
     background-color: #c0c0c0;
     -webkit-border-radius: 3px;

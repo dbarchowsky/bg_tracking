@@ -16,10 +16,10 @@
             <td>{{ show.title }}</td>
             <td>{{ show.season }}</td>
             <td class="centered">{{ show.episode_count }}</td>
-            <td>
+            <td class="centered">
                 <ul class="ops-list">
-                    <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}" title="view details"><span class="glyphicon glyphicon-file"><span></a></li>
-                    <li><a href="{{ url_for('show_routes.edit_record', record_id=show.id) }}" title="edit record"><span class="glyphicon glyphicon-edit"><span></a></li>
+                    <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}" title="view details"><span class="glyphicon glyphicon-file"></span></a></li>
+                    <li><a href="{{ url_for('show_routes.edit_record', record_id=show.id) }}" title="edit record"><span class="glyphicon glyphicon-edit"></span></a></li>
                 </ul>
             </td>
         </tr>
@@ -30,7 +30,7 @@
         </tr>
 {%- endif %}
     </table>
-    <ul class="hlinkstrip utility-links">
-        <li><a href="{{ url_for('show_routes.add_record') }}">add show</a></li>
+    <ul class="ops-list">
+        <li><a href="{{ url_for('show_routes.add_record') }}" title="add show"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
     </ul>
 {% endblock %}

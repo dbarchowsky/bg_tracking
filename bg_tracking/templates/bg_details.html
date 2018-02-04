@@ -62,8 +62,8 @@
             </table>
         </div>
     </div>
-    <ul class="hlinkstrip utility-links">
-        <li><a href="{{ url_for('bg_routes.edit_record', record_id=bg.id) }}">edit</a></li>
+    <ul class="ops-list">
+        <li><a href="{{ url_for('bg_routes.edit_record', record_id=bg.id) }}" title="edit BG"><span class="glyphicon glyphicon-edit"></span></a></li>
     </ul>
 {%- endblock %}
 
