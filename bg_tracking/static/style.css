@@ -19,7 +19,7 @@ p, div, li, a {
 /* iPad Pro landscape mode */
 @media screen and (max-width: 1024px) {
     p, div, li, a {
-        font-size: .8rem;
+        font-size: 1.2rem;
     }
 }
 table {
@@ -42,7 +42,7 @@ table.data th {
 /* iPad Pro landscape mode */
 @media screen and (max-width: 1024px) {
     th, td, th a, td a {
-        font-size: .7rem;
+        font-size: 1.2rem;
     }
     table.data td,
     table.data th {
@@ -258,3 +258,32 @@ ul.form-errors {
     display: inline-block;
     color: red;
 }
+
+/* glyphicons */
+ul.ops-list {
+    margin: 0;
+    padding:0;
+    list-style:none;  
+}
+ul.db-glyphicons-list li {
+    float: left;
+    text-align: center;
+    margin: 0 .3rem .6rem .3rem;
+}
+ul.db-glyphicons-list li:first-child {
+    margin: 0 .3rem 0 0;
+}
+.db-glyphicons .glyphicon {
+    font-size: 1.6rem;
+    color: #ffffff;
+    background-color: #c0c0c0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding: .2rem;
+    border-top: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-bottom: 1px solid #b0b0b0;
+    border-right: 1px solid #b0b0b0;
+}
+

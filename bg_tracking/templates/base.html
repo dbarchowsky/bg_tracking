@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}{% if self.title() %} - {% endif %}BG Tracker</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 {%- block page_title_element %}

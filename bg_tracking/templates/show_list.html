@@ -17,9 +17,9 @@
             <td>{{ show.season }}</td>
             <td class="centered">{{ show.episode_count }}</td>
             <td>
-                <ul class="hlinkstrip">
-                    <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}">view</a></li>
-                    <li><a href="{{ url_for('show_routes.edit_record', record_id=show.id) }}">edit</a></li>
+                <ul class="ops-list">
+                    <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}" title="view details"><span class="glyphicon glyphicon-file"><span></a></li>
+                    <li><a href="{{ url_for('show_routes.edit_record', record_id=show.id) }}" title="edit record"><span class="glyphicon glyphicon-edit"><span></a></li>
                 </ul>
             </td>
         </tr>
