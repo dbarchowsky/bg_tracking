@@ -3,13 +3,21 @@ from flask import render_template
 from peewee import *
 from bg_tracking.models import *
 from bg_tracking.utils import varunencode
+from bg_tracking.controllers.utils import get_or_404
 
 show_routes = Blueprint('show_routes', __name__, template_folder='templates')
 
 
 @show_routes.route('/shows/')
 def listings():
-    shows = Show.select().order_by(Show.title).order_by(Show.title, Show.season)
+    shows = (Show
+             .select(Show,
+                     fn.COUNT(Episode.id).alias('episode_count')
+                     )
+             .join(Episode, JOIN.LEFT_OUTER)
+             .order_by(Show.title, Show.season)
+             .group_by(Show.id)
+             )
     return render_template('show_list.html', title='Shows', shows=shows)
 
 
@@ -21,17 +29,12 @@ def details_view(record_id):
     :type record_id: int
     :return: Response
     """
+    s = get_or_404(Show.select().where(Show.id == record_id))
     try:
-        s = Show.get(Show.id == record_id)
-    except Show.DoesNotExist:
-        msg = 'The requested show was not found.'
+        episodes = get_episode_listings(s.id)
+    except Episode.DoesNotExist:
+        msg = 'Error retrieving episodes in {}'.format(s.title)
         return render_template('error.html', error_msg=msg)
-    else:
-        try:
-            episodes = get_episode_listings(s.id)
-        except Episode.DoesNotExist:
-            msg = 'Error retrieving episodes in {}'.format(s.title)
-            return render_template('error.html', error_msg=msg)
     return render_template('show_details.html', title=str(s), show=s, episodes=episodes)
 
 
@@ -139,11 +142,11 @@ def get_episode_listings(show_id):
             .select(Episode.id,
                     Episode.number,
                     Episode.title,
-                    fn.COUNT(Episode.id).alias('bg_count'),
+                    fn.COUNT(Background.id).alias('bg_count'),
                     finished_sq.alias('finished_bgs'),
                     approved_sq.alias('approved_bgs'),
                     )
-            .join(Background)
+            .join(Background, JOIN.LEFT_OUTER)
             .where(Episode.show == show_id)
             .group_by(Episode.id)
             .order_by(Episode.number)

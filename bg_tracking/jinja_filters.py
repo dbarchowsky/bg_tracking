@@ -55,6 +55,8 @@ def css_pct():
         :param n: items in set
         :return: formatted percentage value
         """
+        if total == 0:
+            return 0
         return floor((n/total) * 10) * 10
     return dict(css_pct=_css_pct)
 
@@ -69,5 +71,7 @@ def format_percent():
         :param n: items in set
         :return: formatted percentage value
         """
+        if total == 0:
+            return 0
         return '{}%'.format(round((n/total) * 100))
     return dict(format_percent=_format_percent)
