@@ -1,8 +1,8 @@
-from flask import request, render_template, abort, flash, redirect, url_for, Blueprint
+from flask import request, render_template, flash, Blueprint
 from bg_tracking.models import *
 from bg_tracking.forms.forms import BGForm
 from bg_tracking.controllers.bg_utils import BGUtils
-from bg_tracking.controllers.utils import get_or_404
+from bg_tracking.controllers.utils import get_or_404, redirect_back, get_redirect_target
 
 bg_routes = Blueprint('bg_routes', __name__, template_folder='templates')
 
@@ -63,6 +63,7 @@ def add_record():
     bg = Background()
     bg.episode = Episode()
     bg.location = Location()
+    ref = ''
 
     if request.method == 'POST':
         form = BGForm(request.form, obj=bg)
@@ -70,15 +71,16 @@ def add_record():
             form.populate_obj(bg)
             bg.save()
             flash('Scene {} was successfully saved.'.format(bg.scene), 'info')
-            return redirect(url_for('bg_routes.details_view', record_id=bg.id))
+            return redirect_back('bg_routes.details_view', record_id=bg.id)
     else:
         # load show if specified
-        if request.args.get('show_id'):
+        if request.args.get('episode_id'):
             bg.episode = get_or_404(Episode.select(), Episode.id == int(request.args.get('episode_id')))
+        ref = get_redirect_target()
         form = BGForm(obj=bg)
 
     title = 'Adding New BG'
-    return render_template('bg_form.html', bg=bg, form=form, title=title, action=request.url_rule.rule)
+    return render_template('bg_form.html', bg=bg, form=form, title=title, next=ref, action=request.url_rule.rule)
 
 
 @bg_routes.route('/bg/<int:record_id>/edit/', methods=['GET', 'POST'])
@@ -90,6 +92,7 @@ def edit_record(record_id):
     :return: Response
     """
     bg = get_or_404(Background.select(), Background.id == record_id)
+    ref = ''
 
     if request.method == 'POST':
         form = BGForm(request.form, obj=bg)
@@ -97,12 +100,13 @@ def edit_record(record_id):
             form.populate_obj(bg)
             bg.save()
             flash('Scene {} was successfully updated.'.format(bg.scene), 'info')
-            return redirect(url_for('bg_routes.details_view', record_id=bg.id))
+            return redirect_back('bg_routes.details_view', record_id=bg.id)
     else:
         form = BGForm(obj=bg)
+        ref = get_redirect_target()
 
     action = '/bg/{}/edit/'.format(bg.id)
     title = 'Editing {} “{}” scene {}'.format(bg.episode.format_padded_number(),
                                             bg.episode.title,
                                             bg.format_padded_scene())
-    return render_template('bg_form.html', bg=bg, form=form, title=title, action=action)
+    return render_template('bg_form.html', bg=bg, form=form, title=title, action=action, next=ref)

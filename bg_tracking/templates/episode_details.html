@@ -68,6 +68,6 @@
     </table>
     <ul class="ops-list">
         <li><a href="{{ url_for('episode_routes.edit_record', record_id=episode.id) }}" title="edit episode"><span class="glyphicon glyphicon-edit"></span></a></li>
-        <li><a href="{{ url_for('bg_routes.add_record', episode_id=episode.id) }}" title="add BG"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
+        <li><a href="{{ url_for('bg_routes.add_record', episode_id=episode.id, next=next) }}" title="add BG"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
     </ul>
 {%- endblock %}

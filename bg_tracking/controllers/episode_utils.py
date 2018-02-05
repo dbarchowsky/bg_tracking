@@ -68,7 +68,8 @@ class EpisodeUtils:
             if e.bg_count > 0:
                 stats['finished_pct'] = floor((finished_bgs/e.bg_count) * 10) * 10
                 stats['approved_pct'] = floor((approved_bgs/e.bg_count) * 10) * 10
-        return render_template('episode_details.html', episode=e, bgs=bgs, stats=stats, **kwargs)
+        ref = '/episode/{}'.format(e.id)
+        return render_template('episode_details.html', episode=e, bgs=bgs, next=ref, stats=stats, **kwargs)
 
     @staticmethod
     def get_finished_bg_count(episode_id):
