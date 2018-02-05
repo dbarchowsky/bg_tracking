@@ -121,9 +121,18 @@ ul.hlinkstrip li:first-child {
     margin-right: 1rem;
 }
 .stats-cell .label {
-  display: inline-block;
-  float: left;
-  margin-right: .4rem;
+    color: black;
+    font-size: 1.4rem;
+    font-weight: normal;
+    display: inline-block;
+    float: left;
+    margin-right: .4rem;
+}
+/* iPad Pro landscape mode */
+@media screen and (max-width: 1024px) {
+    .stats-cell .label {
+        font-size: 1.2rem;
+    }
 }
 .status-bar {
   width: 60px;
