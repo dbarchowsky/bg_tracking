@@ -18,6 +18,6 @@ setup(
         'wtf-peewee',
     ],
     dependency_links=[
-        'https://github.com/coleifer/wtf-peewee/tarball/master#egg=package-0.2.6'
+        'https://github.com/coleifer/wtf-peewee/tarball/master#egg=package-3.0.0'
     ],
 )
