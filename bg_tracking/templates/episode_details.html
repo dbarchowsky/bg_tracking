@@ -14,13 +14,13 @@
 {%- endif %}
         <div class="stats-cell">
             <div class="label">{{ stats.finished }}</div>
-            <div class="status-bar">
+            <div class="status-bar" data-tooltip="{{ format_percent(episode.bg_count, stats.finished_count) }}">
               <div class="progress-bar progress-pct progress-{{ stats.finished_pct }}-pct"></div>
             </div>
         </div>
         <div class="stats-cell">
             <div class="label">{{ stats.approved }}</div>
-            <div class="status-bar">
+            <div class="status-bar" data-tooltip="{{ format_percent(episode.bg_count, stats.approved_count) }}">
               <div class="progress-bar progress-pct progress-{{ stats.approved_pct }}-pct"></div>
             </div>
         </div>

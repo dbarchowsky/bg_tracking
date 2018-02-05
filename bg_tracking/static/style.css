@@ -112,8 +112,8 @@ ul.hlinkstrip li:first-child {
 
 /* statistics */
 .record-details {
-    overflow: hidden;
     margin-bottom: 1rem;
+    display: inline-block;
 }
 .stats-cell {
     display: inline-block;

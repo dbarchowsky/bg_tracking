@@ -60,8 +60,10 @@ class EpisodeUtils:
                 'count': '{} BG{}'.format(e.bg_count, '' if e.bg_count == 1 else 's'),
                 'total_hours': total_hours,
                 'avg_hours': avg_hours,
+                'finished_count': finished_bgs,
                 'finished': '{} finished'.format(finished_bgs),
                 'finished_pct': 0,
+                'approved_count': approved_bgs,
                 'approved': '{} approved'.format(approved_bgs),
                 'approved_pct': 0,
             }
