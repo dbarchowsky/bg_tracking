@@ -1,4 +1,4 @@
-from flask import request, render_template, flash, Blueprint
+from flask import request, render_template, flash, abort, Blueprint
 from bg_tracking.models import *
 from bg_tracking.forms.forms import BGForm
 from bg_tracking.controllers.bg_utils import BGUtils
@@ -110,3 +110,25 @@ def edit_record(record_id):
                                             bg.episode.title,
                                             bg.format_padded_scene())
     return render_template('bg_form.html', bg=bg, form=form, title=title, action=action, next=ref)
+    
+
+@bg_routes.route('/bg/<int:record_id>/delete/', methods=['GET', 'POST'])
+def delete(record_id):
+    """
+    Display confirmation form before deleting BG record.
+    :param record_id: Id of BG record to delete.
+    :return: HTML Response
+    """
+    bg = get_or_404(Background.select(), Background.id == record_id)
+
+    if request.method == 'POST':
+        bg_name = str(bg)
+        bg.delete_instance()
+        flash('{} BG was successfully deleted.'.format(bg_name))
+        return redirect_back('bg_routes.listings')
+    else:
+        title = 'Deleting {}'.format(str(bg))
+        ref = get_redirect_target()
+
+    return render_template('bg_confirm_delete.html', bg=bg, title=title, next=ref)
+
