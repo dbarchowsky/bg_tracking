@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, abort, flash, Blu
 from bg_tracking.models import *
 from bg_tracking.forms import EpisodeForm
 from bg_tracking.controllers.episode_utils import EpisodeUtils
-from bg_tracking.controllers.utils import get_or_404
+from bg_tracking.controllers.utils import get_or_404, redirect_back, get_redirect_target
 
 episode_routes = Blueprint('episode_routes', __name__, template_folder='templates')
 
@@ -87,3 +87,32 @@ def edit_record(record_id):
     action = '/episode/{}/edit/'.format(e.id)
     title = 'Editing {}'.format(str(e))
     return render_template('episode_form.html', episode=e, form=form, title=title, action=action)
+    
+
+@episode_routes.route('/episode/<int:record_id>/delete/', methods=['GET', 'POST'])
+def delete(record_id):
+    """
+    Display confirmation form before deleting Episode record.
+    :param record_id: Id of Episode record to delete.
+    :return: HTML Response
+    """
+    e = get_or_404(Episode.select(), Episode.id == record_id)
+
+    if request.method == 'POST':
+        episode_title = str(e)
+        cnt = 0
+        bgs = Background.select().where(Episode == e.id)
+        for bg in bgs:
+            bg.delete_instance()
+            cnt = cnt + 1
+        e.delete_instance()
+        flash('Episode {} was successfully deleted along with {} BG{}.'.format(episode_title,
+                                                                               cnt,
+                                                                               '' if cnt == 1 else 's'))
+        return redirect_back('episode_routes.listings')
+    else:
+        title = 'Deleting {}'.format(str(e))
+        ref = get_redirect_target()
+
+    return render_template('episode_confirm_delete.html', episode=e, title=title, next=ref)
+

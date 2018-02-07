@@ -1,0 +1,20 @@
+{%- extends "base.html" %}
+{%- block title %}{{ title }}{% endblock %}
+{%- block page_title %}{{ title }}{% endblock %}
+{%- block breadcrumbs %}
+        <li><a href="{{ url_for('show_routes.details_view', record_id=episode.show.id) }}">{{ episode.show }}</a></li>
+        <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">view episode</a></li>
+{%- endblock %}
+{%- block content %}
+    <form action="{{ url_for('episode_routes.delete', record_id=episode.id) }}" method="post" class="form form-delete">
+        <p class="alert alert-warning">The Episode {{ episode }} will be <span class="strong-emphasis">permanently</span> deleted along with all any BGs belonging to it!</p>
+        <p>Are you certain that you want to do this?</p>
+        <div class="input-row">
+            <button class="btn primary" type="submit">delete</button>
+            <a class="btn" href="{{ next }}">cancel</a>
+        </div>
+        <input type="hidden" name="next" value="{{ next }}" />
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    </form>
+{%- endblock %}
+

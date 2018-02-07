@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, url_for, request
 from flask import render_template
 from peewee import *
 from bg_tracking.models import *
-from bg_tracking.utils import varunencode
+from bg_tracking.utils import varencode, varunencode
 from bg_tracking.controllers.utils import get_or_404
 from bg_tracking.forms.forms import ShowForm
 
@@ -36,7 +36,8 @@ def details_view(record_id):
     except Episode.DoesNotExist:
         msg = 'Error retrieving episodes in {}'.format(s.title)
         return render_template('error.html', error_msg=msg)
-    return render_template('show_details.html', title=str(s), show=s, episodes=episodes)
+    ref = '/show/{}'.format(s.id)
+    return render_template('show_details.html', title=str(s), show=s, episodes=episodes, next=ref)
 
 
 @show_routes.route('/show/<string:show_title>/season/<int:season>')
@@ -61,6 +62,7 @@ def details_by_title(show_title, season):
         except Episode.DoesNotExist:
             msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
+    ref = '/show/{}/season/{}'.format(varencode(s.title), s.season)
     return render_template('show_details.html', title=str(s), show=s, episodes=episodes)
 
 
