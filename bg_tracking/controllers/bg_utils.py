@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request
 from peewee import *
 from bg_tracking.models import *
 
@@ -98,4 +98,5 @@ class BGUtils:
                  'total_hours': total,
                  'avg_hours': avg,
                  }
-        return render_template('bg_list.html', title='BGs', bgs=bgs, stats=stats)
+        ref = request.path
+        return render_template('bg_list.html', title='BGs', bgs=bgs, stats=stats, next=ref)

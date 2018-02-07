@@ -53,7 +53,7 @@ def add_record():
             form.populate_obj(e)
             e.save()
             flash('Episode “{}” was successfully saved.'.format(e.title), 'info')
-            return redirect(url_for('episode_routes.details_view', record_id=e.id))
+            return redirect_back('episode_routes.details_view', record_id=e.id)
     else:
         # load show if specified
         if request.args.get('show_id'):
@@ -61,7 +61,8 @@ def add_record():
         form = EpisodeForm(obj=e)
 
     title = 'Add New Episode'
-    return render_template('episode_form.html', episode=e, form=form, title=title, action=request.url_rule.rule)
+    ref = get_redirect_target()
+    return render_template('episode_form.html', episode=e, form=form, title=title, next=ref, action=request.url_rule.rule)
 
 
 @episode_routes.route('/episode/<int:record_id>/edit/', methods=['GET', 'POST'])
@@ -80,13 +81,14 @@ def edit_record(record_id):
             form.populate_obj(e)
             e.save()
             flash('Episode “{}” was successfully updated.'.format(e.title), 'info')
-            return redirect(url_for('episode_routes.details_view', record_id=e.id))
+            return redirect_back('episode_routes.details_view', record_id=e.id)
     else:
         form = EpisodeForm(obj=e)
 
     action = '/episode/{}/edit/'.format(e.id)
     title = 'Editing {}'.format(str(e))
-    return render_template('episode_form.html', episode=e, form=form, title=title, action=action)
+    ref = get_redirect_target()
+    return render_template('episode_form.html', episode=e, form=form, title=title, next=ref, action=action)
     
 
 @episode_routes.route('/episode/<int:record_id>/delete/', methods=['GET', 'POST'])

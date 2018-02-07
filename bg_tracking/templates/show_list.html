@@ -32,6 +32,6 @@
 {%- endif %}
     </table>
     <ul class="ops-list">
-        <li><a href="{{ url_for('show_routes.add_record') }}" title="add show"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
+        <li><a href="{{ url_for('show_routes.add_record', next=next) }}" title="add show"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
     </ul>
 {% endblock %}

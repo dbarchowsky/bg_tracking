@@ -19,7 +19,8 @@ def listings():
              .order_by(Show.title, Show.season)
              .group_by(Show.id)
              )
-    return render_template('show_list.html', title='Shows', shows=shows)
+    ref = request.path
+    return render_template('show_list.html', title='Shows', next=ref, shows=shows)
 
 
 @show_routes.route('/show/<int:record_id>')
@@ -76,12 +77,13 @@ def add_record():
             form.populate_obj(s)
             s.save()
             flash('Show “{}” was successfully saved.'.format(s.title), 'info')
-            return redirect(url_for('show_routes.details_view', record_id=s.id))
+            return redirect_back('show_routes.details_view', record_id=s.id)
     else:
         form = ShowForm(obj=s)
 
     title = 'Add New Show'
-    return render_template('show_form.html', show=s, form=form, title=title, action=request.url_rule.rule)
+    ref = get_redirect_target()
+    return render_template('show_form.html', show=s, form=form, title=title, next=ref, action=request.url_rule.rule)
         
 
 @show_routes.route('/show/<int:record_id>/edit', methods=['GET', 'POST'])
@@ -99,13 +101,14 @@ def edit_record(record_id):
             form.populate_obj(s)
             s.save()
             flash('Show “{}” was successfully updated.'.format(s.title), 'info')
-            return redirect(url_for('show_routes.details_view', record_id=s.id))
+            return redirect_back('show_routes.details_view', record_id=s.id)
     else:
         form = ShowForm(obj=s)
 
     action = '/show/{}/edit'.format(s.id)
     title = 'Editing {}'.format(str(s))
-    return render_template('show_form.html', show=s, form=form, title=title, action=action)
+    ref = get_redirect_target()
+    return render_template('show_form.html', show=s, form=form, title=title, next=ref, action=action)
             
 
 def get_episode_listings(show_id):
