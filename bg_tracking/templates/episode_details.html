@@ -25,27 +25,27 @@
             </div>
         </div>
     </div>
-    <table class="data">
+    <table class="table">
         <tr>
             <th><a href="{{ url_for('episode_routes.details_view', record_id=episode.id, sort_criteria='scene') }}">scene</a></th>
-            <th>dims</th>
-            <th>location</th>
-            <th><a href="{{ url_for('episode_routes.details_view', record_id=episode.id, sort_criteria='overlay_count', order='desc') }}">overlays</a></th>
-            <th data-tooltip="establishing shot">estab.</th>
-            <th>partial</th>
-            <th>pull</th>
-            <th>card</th>
-            <th>in progress</th>
-            <th>finished</th>
-            <th>approved</th>
+            <th class="centered">dims</th>
+            <th class="centered">location</th>
+            <th class="centered"><a href="{{ url_for('episode_routes.details_view', record_id=episode.id, sort_criteria='overlay_count', order='desc') }}">overlays</a></th>
+            <th class="centered" data-tooltip="establishing shot">estab.</th>
+            <th class="centered">partial</th>
+            <th class="centered">pull</th>
+            <th class="centered">card</th>
+            <th class="centered">in progress</th>
+            <th class="centered">finished</th>
+            <th class="centered">approved</th>
             <th><a href="{{ url_for('episode_routes.details_view', record_id=episode.id, sort_criteria='hours', order='desc') }}">hours</a></th>
-            <th>id</th>
+            <th class="centered">id</th>
             <th>&nbsp;</th>
         </tr>
 {%- for bg in bgs %}
         <tr>
             <td>{{ bg.format_padded_scene() }}</td>
-            <td class="{{ bg_size_css_class(bg.width, bg.height) }}">{{ bg.width }} x {{ bg.height }}</td>
+            <td class="centered {{ bg_size_css_class(bg.width, bg.height) }}">{{ bg.width }} x {{ bg.height }}</td>
             <td class="centered">{{ bg.location.name }}</td>
             <td class="centered">{{ bg.overlay_count }}</td>
             <td class="centered">{% if bg.establishing_shot %}&#9989;{% else %}&ndash;{% endif %}</td>

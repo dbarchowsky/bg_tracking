@@ -2,19 +2,19 @@
 {%- block title %}{{ title }}{% endblock %}
 {%- block page_title %}{{ title }}{% endblock %}
 {%- block content %}
-    <table class="data">
+    <table class="table">
         <tr>
            <th class="left-align">code</th>
            <th class="left-align">show</th>
-           <th class="left-align">season</th>
-           <th class="left-align">episodes</th>
+           <th class="centered">season</th>
+           <th class="centered">episodes</th>
            <th>&nbsp;</th>
        </tr>
 {%- for show in shows %}
         <tr>
             <td>{{ show.code if show.code else 'n/a' }}</td>
             <td>{{ show.title }}</td>
-            <td>{{ show.season }}</td>
+            <td class="centered">{{ show.season }}</td>
             <td class="centered">{{ show.episode_count }}</td>
             <td class="centered">
                 <ul class="ops-list">

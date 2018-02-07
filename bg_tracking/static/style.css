@@ -34,35 +34,19 @@ th, td, th a, td a {
 td {
     text-align: left;
 }
-table.data {
-    margin-bottom: 1rem;
-}
-table.data th {
-    background-color: #feeedf;
-}
-table.data td,
-table.data th {
-    padding: .4rem 1.6rem;
-    margin: 0;
+table.table th {
+    font-weight: bold;
 }
 /* iPad Pro landscape mode */
 @media screen and (max-width: 1024px) {
     th, td, th a, td a {
         font-size: 1.2rem;
     }
-    table.data td,
-    table.data th {
-        padding: .2rem .8rem;
-        margin: 0;
-    }
 }
-table.data td {
-    border-bottom: 1px solid #dddddd;
-}
-table.data tr:hover {
+table.table tr:hover {
     background-color: #fff8ef;
 }
-table.data tr:first-child:hover {
+table.table tr:first-child:hover {
     background-color: transparent;
 }
 
