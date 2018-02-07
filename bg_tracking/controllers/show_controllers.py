@@ -3,7 +3,7 @@ from flask import render_template
 from peewee import *
 from bg_tracking.models import *
 from bg_tracking.utils import varencode, varunencode
-from bg_tracking.controllers.utils import get_or_404
+from bg_tracking.controllers.utils import get_or_404, redirect_back, get_redirect_target
 from bg_tracking.forms.forms import ShowForm
 
 show_routes = Blueprint('show_routes', __name__, template_folder='templates')
@@ -139,3 +139,25 @@ def get_episode_listings(show_id):
             .group_by(Episode.id)
             .order_by(Episode.number)
             )
+
+
+@show_routes.route('/show/<int:record_id>/delete/', methods=['GET', 'POST'])
+def delete(record_id):
+    """
+    Display confirmation form before deleting Show record.
+    :param record_id: Id of Show record to delete.
+    :return: HTML Response
+    """
+    s = get_or_404(Show.select(), Show.id == record_id)
+
+    if request.method == 'POST':
+        show_title = str(s)
+        s.delete_instance()
+        flash('Show {} was successfully deleted.'.format(show_title))
+        return redirect_back('show_routes.listings')
+    else:
+        title = 'Deleting {}'.format(str(s))
+        ref = get_redirect_target()
+
+    return render_template('show_confirm_delete.html', show=s, title=title, next=ref)
+

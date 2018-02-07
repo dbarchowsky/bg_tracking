@@ -6,7 +6,7 @@ from .location import Location
 
 class Background(BaseModel):
     id = AutoField()
-    episode = ForeignKeyField(Episode, db_column='episode_id', field='id', backref='backgrounds')
+    episode = ForeignKeyField(Episode, db_column='episode_id', field='id', backref='backgrounds', on_delete='CASCADE')
     scene = IntegerField(null=False)
     scene_modifier = CharField(null=True)
     width = IntegerField()

@@ -100,15 +100,8 @@ def delete(record_id):
 
     if request.method == 'POST':
         episode_title = str(e)
-        cnt = 0
-        bgs = Background.select().where(Episode == e.id)
-        for bg in bgs:
-            bg.delete_instance()
-            cnt = cnt + 1
         e.delete_instance()
-        flash('Episode {} was successfully deleted along with {} BG{}.'.format(episode_title,
-                                                                               cnt,
-                                                                               '' if cnt == 1 else 's'))
+        flash('Episode {} was successfully deleted.'.format(episode_title))
         return redirect_back('episode_routes.listings')
     else:
         title = 'Deleting {}'.format(str(e))

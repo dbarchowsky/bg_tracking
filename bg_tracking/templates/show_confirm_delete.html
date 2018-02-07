@@ -2,12 +2,12 @@
 {%- block title %}{{ title }}{% endblock %}
 {%- block page_title %}{{ title }}{% endblock %}
 {%- block breadcrumbs %}
-        <li><a href="{{ url_for('show_routes.details_view', record_id=episode.show.id) }}">{{ episode.show }}</a></li>
-        <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">view episode</a></li>
+        <li><a href="{{ url_for('show_routes.listings') }}">shows</a></li>
+        <li><a href="{{ url_for('show_routes.details_view', record_id=show.id) }}">view show</a></li>
 {%- endblock %}
 {%- block content %}
-    <form action="{{ url_for('episode_routes.delete', record_id=episode.id) }}" method="post" class="form form-delete">
-        <p class="alert alert-warning">The Episode {{ episode }} will be <span class="strong-emphasis">permanently</span> deleted along with all BGs belonging to it!</p>
+    <form action="{{ url_for('show_routes.delete', record_id=show.id) }}" method="post" class="form form-delete">
+        <p class="alert alert-warning">The Show {{ show }} will be <span class="strong-emphasis">permanently</span> deleted along with all Episodes and BGs belonging to it!</p>
         <p>Are you certain that you want to do this?</p>
         <div class="input-row">
             <button class="btn primary" type="submit">delete</button>

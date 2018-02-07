@@ -19,7 +19,8 @@
             <td class="centered">
                 <ul class="ops-list">
                     <li><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}" title="view details"><span class="glyphicon glyphicon-file"></span></a></li>
-                    <li><a href="{{ url_for('show_routes.edit_record', record_id=show.id) }}" title="edit record"><span class="glyphicon glyphicon-edit"></span></a></li>
+                    <li><a href="{{ url_for('show_routes.edit_record', record_id=show.id, next=next) }}" title="edit record"><span class="glyphicon glyphicon-edit"></span></a></li>
+                    <li><a href="{{ url_for('show_routes.delete', record_id=show.id, next=next) }}" title="delete"><span class="glyphicon glyphicon-remove-sign"></span></a></li>
                 </ul>
             </td>
         </tr>
