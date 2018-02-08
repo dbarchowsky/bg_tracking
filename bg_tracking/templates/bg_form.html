@@ -30,8 +30,8 @@
         </div>
         <div class="input-row">
             {{ macros.form_field(form.hours) }}
-            {{ macros.form_field(form.date_started) }}
-            {{ macros.form_field(form.date_finished) }}
+            {{ macros.form_field(form.date_started, is_date=True) }}
+            {{ macros.form_field(form.date_finished, is_date=True) }}
         </div>
         <div class="input-row">
             {{ macros.form_field(form.approved) }}

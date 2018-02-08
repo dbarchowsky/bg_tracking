@@ -1,14 +1,22 @@
-{%- macro form_field(field) %}
+{%- macro form_field(field, is_date=False) %}
 {{ field.label }}
     {%- if field.errors %}
-        {{ field(class='invalid') }}
+        {%- if is_date %}
+            {{ field(class='datepicker invalid') }}
+        {%- else %}
+            {{ field(class='invalid') }}
+        {%- endif %}
             <ul class="form-errors">
             {%- for error in field.errors %}
                 <li>{{ error|e }}</li>
             {%- endfor %}
             </ul>
     {%- else %}
-        {{ field }}
+        {%- if is_date %}
+            {{ field(class='datepicker') }}
+        {%- else %}
+            {{ field }}
+        {%- endif %}
     {%- endif %}
     {%- if field.description %}<span class="hints">{{ field.description|safe() }}</span>{% endif %}
 {%- endmacro %}

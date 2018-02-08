@@ -179,9 +179,10 @@ ul.breadcrumbs li:first-child::before {
 
 /* forms */
 .edit-form .input-row {
-    margin-bottom: .7rem;
+    margin-bottom: 2rem;
 }
 .edit-form label {
+    font-weight: normal;
     display: inline-block;
     padding: .4rem .5rem;
     margin-right: .5rem;
@@ -193,7 +194,14 @@ ul.breadcrumbs li:first-child::before {
 }
 .edit-form input,
 .edit-form select {
-    margin-right: .5rem;
+    margin-right: 2.5rem;
+}
+.edit-form input {
+    border: 1px solid #cccccc;
+    padding: .3rem;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
 
 /* tooltips */
@@ -284,6 +292,7 @@ ul.ops-list li:first-child {
     font-size: 1rem;
     color: #ffffff;
     background-color: #c0c0c0;
+    display: inline;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
