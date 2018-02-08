@@ -10,8 +10,8 @@
         <p class="alert alert-warning">The Episode {{ episode }} will be <span class="strong-emphasis">permanently</span> deleted along with all BGs belonging to it!</p>
         <p>Are you certain that you want to do this?</p>
         <div class="input-row">
-            <button class="btn primary" type="submit">delete</button>
-            <a class="btn" href="{{ next }}">cancel</a>
+            <button class="btn btn-danger" type="submit">delete</button>
+            <a class="btn btn-default" href="{{ next }}">cancel</a>
         </div>
         <input type="hidden" name="next" value="{{ next }}" />
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />

@@ -13,7 +13,10 @@
     {%- for field in form %}
         <div class="input-row">{{ macros.form_field(field) }}</div>
     {%- endfor %}
-        <div><input type="submit" name="submit" value="submit" /></div>
+        <div class="input-row">
+            <button class="btn btn-default">submit</button>
+            <a class="btn btn-default" href="{{ next }}">cancel</a>
+        </div>
         <input type="hidden" name="next" value="{{ next }}" />
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     </form>
