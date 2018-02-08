@@ -103,7 +103,7 @@ def delete(record_id):
     if request.method == 'POST':
         episode_title = str(e)
         e.delete_instance()
-        flash('Episode {} was successfully deleted.'.format(episode_title))
+        flash('Episode {} was successfully deleted.'.format(episode_title), 'info')
         return redirect_back('episode_routes.listings')
     else:
         title = 'Deleting {}'.format(str(e))

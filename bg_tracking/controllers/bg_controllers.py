@@ -124,7 +124,7 @@ def delete(record_id):
     if request.method == 'POST':
         bg_name = str(bg)
         bg.delete_instance()
-        flash('{} BG was successfully deleted.'.format(bg_name))
+        flash('{} BG was successfully deleted.'.format(bg_name), 'info')
         return redirect_back('bg_routes.listings')
     else:
         title = 'Deleting {}'.format(str(bg))

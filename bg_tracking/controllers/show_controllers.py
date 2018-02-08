@@ -156,7 +156,7 @@ def delete(record_id):
     if request.method == 'POST':
         show_title = str(s)
         s.delete_instance()
-        flash('Show {} was successfully deleted.'.format(show_title))
+        flash('Show {} was successfully deleted.'.format(show_title), 'info')
         return redirect_back('show_routes.listings')
     else:
         title = 'Deleting {}'.format(str(s))
