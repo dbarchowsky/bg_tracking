@@ -1,4 +1,4 @@
-from flask import request, render_template, flash, abort, Blueprint
+from flask import request, render_template, flash, Blueprint
 from bg_tracking.models import *
 from bg_tracking.forms.forms import BGForm
 from bg_tracking.controllers.bg_utils import BGUtils
@@ -107,8 +107,8 @@ def edit_record(record_id):
 
     action = '/bg/{}/edit/'.format(bg.id)
     title = 'Editing {} “{}” scene {}'.format(bg.episode.format_padded_number(),
-                                            bg.episode.title,
-                                            bg.format_padded_scene())
+                                              bg.episode.title,
+                                              bg.format_padded_scene())
     return render_template('bg_form.html', bg=bg, form=form, title=title, action=action, next=ref)
     
 
@@ -131,4 +131,3 @@ def delete(record_id):
         ref = get_redirect_target()
 
     return render_template('bg_confirm_delete.html', bg=bg, title=title, next=ref)
-

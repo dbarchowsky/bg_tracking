@@ -1,4 +1,5 @@
 {%- extends "base.html" %}
+{%- import "macros.jinja2" as macros %}
 {%- block title %}{{ episode }}{% endblock %}
 {%- block page_title %}{{ episode }}{% endblock %}
 {%- block breadcrumbs %}
@@ -14,15 +15,11 @@
 {%- endif %}
         <div class="stats-cell">
             <div class="label">{{ stats.finished }}</div>
-            <div class="status-bar" data-tooltip="{{ format_percent(episode.bg_count, stats.finished_count) }}">
-              <div class="progress-bar progress-pct progress-{{ stats.finished_pct }}-pct"></div>
-            </div>
+            {{ macros.progress_bar(format_percent(episode.bg_count, episode.finished_bgs), css_pct(episode.bg_count, episode.finished_bgs)) }}
         </div>
         <div class="stats-cell">
             <div class="label">{{ stats.approved }}</div>
-            <div class="status-bar" data-tooltip="{{ format_percent(episode.bg_count, stats.approved_count) }}">
-              <div class="progress-bar progress-pct progress-{{ stats.approved_pct }}-pct"></div>
-            </div>
+            {{ macros.progress_bar(format_percent(episode.bg_count, episode.approved_bgs), css_pct(episode.bg_count, episode.approved_bgs)) }}
         </div>
     </div>
     <table class="table">

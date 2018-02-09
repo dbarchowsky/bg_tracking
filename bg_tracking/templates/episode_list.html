@@ -1,4 +1,5 @@
 {%- extends "base.html" %}
+{%- import "macros.jinja2" as macros %}
 {%- block title %}{{ title }}{% endblock %}
 {%- block page_title %}{{ title }}{% endblock %}
 {%- block breadcrumbs %}
@@ -7,16 +8,22 @@
 {%- block content %}
     <table class="table">
         <tr>
-           <th class="left-align">title</th>
-           <th class="left-align">show</th>
-           <th class="left-align">episode</th>
+           <th>title</th>
+           <th>show</th>
+           <th class="centered">episode</th>
+           <th class="centered">BGs</th>
+           <th class="centered">finished</th>
+           <th class="centered">approved</th>
            <th>&nbsp;</th>
        </tr>
 {%- for episode in episodes %}
         <tr>
             <td><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">{{ episode.title }}</a></td>
             <td><a href="{{ url_for('show_routes.details_view', record_id=episode.show.id) }}">{{ episode.show.title }} season {{ episode.show.season }}</a></td>
-            <td>{{ episode.format_padded_number() }}</td>
+            <td class="centered">{{ episode.format_padded_number() }}</td>
+            <td class="centered">{{ episode.bg_count }}</td>
+            <td class="centered">{{ macros.progress_bar(format_percent(episode.bg_count, episode.finished_bgs), css_pct(episode.bg_count, episode.finished_bgs)) }}</td>
+            <td class="centered">{{ macros.progress_bar(format_percent(episode.bg_count, episode.approved_bgs), css_pct(episode.bg_count, episode.approved_bgs)) }}</td>
             <td class="centered">
                 <ul class="ops-list">
                     <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}" title="view details"><span class="glyphicon glyphicon-file"></span></a></li>

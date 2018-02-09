@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{%- import "macros.jinja2" as macros %}
 {% block title %}{{ title }}{% endblock %}
 {% block page_title %}{{ title }}{% endblock %}
 {% block breadcrumbs %}
@@ -23,16 +24,8 @@
             <td>{{ episode.format_padded_number() }}</td>
             <td><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">{{ episode.title }}</a></td>
             <td>{{ episode.bg_count }}</td>
-            <td data-tooltip="{{ format_percent(episode.bg_count, episode.finished_bgs) }}">
-                <div class="status-bar">
-                  <div class="progress-bar progress-pct progress-{{ css_pct(episode.bg_count, episode.finished_bgs) }}-pct"></div>
-                </div>
-            </td>
-            <td data-tooltip="{{ format_percent(episode.bg_count, episode.approved_bgs) }}">
-                <div class="status-bar">
-                  <div class="progress-bar progress-pct progress-{{ css_pct(episode.bg_count, episode.approved_bgs) }}-pct"></div>
-                </div>
-            </td>
+            <td>{{ macros.progress_bar(format_percent(episode.bg_count, episode.finished_bgs), css_pct(episode.bg_count, episode.finished_bgs)) }}</td>
+            <td>{{ macros.progress_bar(format_percent(episode.bg_count, episode.approved_bgs), css_pct(episode.bg_count, episode.approved_bgs)) }}</td>
             <td class="centered">
                 <ul class="ops-list">
                     <li><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}" title="view details"><span class="glyphicon glyphicon-file"></span></a></li>

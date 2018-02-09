@@ -1,4 +1,5 @@
-from flask import render_template, request, redirect, url_for, abort, flash, Blueprint
+from flask import render_template, request, flash, Blueprint
+from peewee import fn, JOIN
 from bg_tracking.models import *
 from bg_tracking.forms import EpisodeForm
 from bg_tracking.controllers.episode_utils import EpisodeUtils
@@ -10,10 +11,29 @@ episode_routes = Blueprint('episode_routes', __name__, template_folder='template
 @episode_routes.route('/episodes/')
 def listings():
     """List all episodes in database."""
+    finished_sq = (Background
+                   .select(fn.COUNT(Background.id))
+                   .where((Background.episode == Episode.id) &
+                          (Background.date_finished.is_null(False)) &
+                          (Background.date_finished != '')
+                          )
+                   )
+    approved_sq = (Background
+                   .select(fn.COUNT(Background.id))
+                   .where((Background.episode == Episode.id) & (Background.approved == 1))
+                   )
     episodes = (Episode
-                .select()
+                .select(Episode,
+                        Show,
+                        fn.COUNT(Background.id).alias('bg_count'),
+                        finished_sq.alias('finished_bgs'),
+                        approved_sq.alias('approved_bgs'),
+                        )
                 .join(Show)
-                .order_by(Show.title, Episode.number)
+                .switch(Episode)
+                .join(Background, JOIN.LEFT_OUTER)
+                .group_by(Episode.id)
+                .order_by(Show.title, Show.season, Episode.number)
                 )
     return render_template('episode_list.html', title='Episodes', episodes=episodes)
 
@@ -62,7 +82,13 @@ def add_record():
 
     title = 'Add New Episode'
     ref = get_redirect_target()
-    return render_template('episode_form.html', episode=e, form=form, title=title, next=ref, action=request.url_rule.rule)
+    return render_template('episode_form.html',
+                           episode=e,
+                           form=form,
+                           title=title,
+                           next=ref,
+                           action=request.url_rule.rule
+                           )
 
 
 @episode_routes.route('/episode/<int:record_id>/edit/', methods=['GET', 'POST'])
@@ -110,4 +136,3 @@ def delete(record_id):
         ref = get_redirect_target()
 
     return render_template('episode_confirm_delete.html', episode=e, title=title, next=ref)
-

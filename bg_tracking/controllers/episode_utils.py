@@ -20,10 +20,23 @@ class EpisodeUtils:
         :param kwargs: extra arguments to pass to flask's render_template()
         :return: Response
         """
+        finished_sq = (Background
+                       .select(fn.COUNT(Background.id))
+                       .where((Background.episode == Episode.id) &
+                              (Background.date_finished.is_null(False)) &
+                              (Background.date_finished != '')
+                              )
+                       )
+        approved_sq = (Background
+                       .select(fn.COUNT(Background.id))
+                       .where((Background.episode == Episode.id) & (Background.approved == 1))
+                       )
         try:
             e = (Episode
                  .select(Episode,
                          fn.COUNT(Background.id).alias('bg_count'),
+                         finished_sq.alias('finished_bgs'),
+                         approved_sq.alias('approved_bgs'),
                          fn.SUM(Background.hours).alias('total_hours'),
                          fn.AVG(Background.hours).alias('avg_hours'),
                          )
@@ -45,9 +58,6 @@ class EpisodeUtils:
                 err = 'Error retrieving BGs for episode “{}”.'.format(e.title)
                 return render_template('error.html', error_msg=err)
 
-            finished_bgs = EpisodeUtils.get_finished_bg_count(e.id)
-            approved_bgs = EpisodeUtils.get_approved_bg_count(e.id)
-
             if e.total_hours:
                 total_hours = '{:.2f} total hour{}'.format(e.total_hours, '' if e.total_hours == 1 else 's')
             else:
@@ -60,16 +70,14 @@ class EpisodeUtils:
                 'count': '{} BG{}'.format(e.bg_count, '' if e.bg_count == 1 else 's'),
                 'total_hours': total_hours,
                 'avg_hours': avg_hours,
-                'finished_count': finished_bgs,
-                'finished': '{} finished'.format(finished_bgs),
+                'finished': '{} finished'.format(e.finished_bgs),
                 'finished_pct': 0,
-                'approved_count': approved_bgs,
-                'approved': '{} approved'.format(approved_bgs),
+                'approved': '{} approved'.format(e.approved_bgs),
                 'approved_pct': 0,
             }
             if e.bg_count > 0:
-                stats['finished_pct'] = floor((finished_bgs/e.bg_count) * 10) * 10
-                stats['approved_pct'] = floor((approved_bgs/e.bg_count) * 10) * 10
+                stats['finished_pct'] = floor((e.finished_bgs/e.bg_count) * 10) * 10
+                stats['approved_pct'] = floor((e.approved_bgs/e.bg_count) * 10) * 10
         ref = '/episode/{}'.format(e.id)
         return render_template('episode_details.html', episode=e, bgs=bgs, next=ref, stats=stats, **kwargs)
 

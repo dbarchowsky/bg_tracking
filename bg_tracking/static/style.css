@@ -127,54 +127,55 @@ ul.breadcrumbs li:first-child::before {
     }
 }
 .status-bar {
-  width: 60px;
-  height: 18px;
-  background-color: #dddddd;
-  border-radius: 6px;
+    width: 60px;
+    height: 18px;
+    display: inline-block;
+    background-color: #dddddd;
+    border-radius: 6px;
 }
 .stats-cell .status-bar {
-  float: left;
+    float: left;
 }
 .status-bar .progress-bar {
-  height: 100%;
-  border-radius: 6px;
+    height: 100%;
+    border-radius: 6px;
 }
 .status-bar .progress-pct {
-  background-color: #ffb000;
+    background-color: #ffb000;
 }
 .status-bar .progress-0-pct {
-  width: 0;
+    width: 0;
 }
 .status-bar .progress-10-pct {
-  width: 10%;
+    width: 10%;
 }
 .status-bar .progress-20-pct {
-  width: 20%;
+    width: 20%;
 }
 .status-bar .progress-30-pct {
-  width: 30%;
+    width: 30%;
 }
 .status-bar .progress-40-pct {
-  width: 40%;
+    width: 40%;
 }
 .status-bar .progress-50-pct {
-  width: 50%;
+    width: 50%;
 }
 .status-bar .progress-60-pct {
-  width: 60%;
+    width: 60%;
 }
 .status-bar .progress-70-pct {
-  width: 70%;
+    width: 70%;
 }
 .status-bar .progress-80-pct {
-  width: 80%;
+    width: 80%;
 }
 .status-bar .progress-90-pct {
-  width: 90%;
+    width: 90%;
 }
 .status-bar .progress-100-pct {
-  background-color: #33ff33;
-  width: 100%;
+    background-color: #33ff33;
+    width: 100%;
 }
 
 /* forms */

@@ -20,4 +20,9 @@
     {%- endif %}
     {%- if field.description %}<span class="hints">{{ field.description|safe() }}</span>{% endif %}
 {%- endmacro %}
+{%- macro progress_bar(pct, css_pct) %}
+        <div class="status-bar" data-tooltip="{{ pct }}">
+          <div class="progress-bar progress-pct progress-{{ css_pct }}-pct"></div>
+        </div>
+{%- endmacro %}
 
