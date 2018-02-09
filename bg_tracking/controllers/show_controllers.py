@@ -1,9 +1,10 @@
-from flask import Blueprint, flash, redirect, url_for, request
+from flask import Blueprint, flash, request
 from flask import render_template
 from peewee import *
 from bg_tracking.models import *
 from bg_tracking.utils import varencode, varunencode
-from bg_tracking.controllers.utils import get_or_404, redirect_back, get_redirect_target
+from bg_tracking.controllers.utils import get_or_404, get_redirect_target
+from bg_tracking.controllers.show_utils import redirect_back
 from bg_tracking.forms.forms import ShowForm
 
 show_routes = Blueprint('show_routes', __name__, template_folder='templates')
@@ -64,7 +65,7 @@ def details_by_title(show_title, season):
             msg = 'Error retrieving episodes in {}'.format(s.title)
             return render_template('error.html', error_msg=msg)
     ref = '/show/{}/season/{}'.format(varencode(s.title), s.season)
-    return render_template('show_details.html', title=str(s), show=s, episodes=episodes)
+    return render_template('show_details.html', title=str(s), show=s, episodes=episodes, next=ref)
 
 
 @show_routes.route('/show/add', methods=['GET', 'POST'])
@@ -77,7 +78,7 @@ def add_record():
             form.populate_obj(s)
             s.save()
             flash('Show “{}” was successfully saved.'.format(s.title), 'info')
-            return redirect_back('show_routes.details_view', record_id=s.id)
+            return redirect_back(s, 'show_routes.details_view', record_id=s.id)
     else:
         form = ShowForm(obj=s)
 
@@ -101,7 +102,7 @@ def edit_record(record_id):
             form.populate_obj(s)
             s.save()
             flash('Show “{}” was successfully updated.'.format(s.title), 'info')
-            return redirect_back('show_routes.details_view', record_id=s.id)
+            return redirect_back(s, 'show_routes.details_view', record_id=s.id)
     else:
         form = ShowForm(obj=s)
 
@@ -157,10 +158,9 @@ def delete(record_id):
         show_title = str(s)
         s.delete_instance()
         flash('Show {} was successfully deleted.'.format(show_title), 'info')
-        return redirect_back('show_routes.listings')
+        return redirect_back(s, 'show_routes.listings')
     else:
         title = 'Deleting {}'.format(str(s))
         ref = get_redirect_target()
 
     return render_template('show_confirm_delete.html', show=s, title=title, next=ref)
-
