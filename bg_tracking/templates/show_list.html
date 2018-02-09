@@ -13,7 +13,7 @@
 {%- for show in shows %}
         <tr>
             <td>{{ show.code if show.code else 'n/a' }}</td>
-            <td>{{ show.title }}</td>
+            <td><a href="{{ url_for('show_routes.details_by_title', show_title=show.title | varencode, season=show.season) }}">{{ show.title }}</a></td>
             <td class="centered">{{ show.season }}</td>
             <td class="centered">{{ show.episode_count }}</td>
             <td class="centered">
