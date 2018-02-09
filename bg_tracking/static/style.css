@@ -279,7 +279,8 @@ ul.form-errors {
 ul.ops-list {
     margin: 0;
     padding:0;
-    list-style:none;  
+    list-style:none;
+    display: inline-block;
 }
 ul.ops-list li {
     float: left;
