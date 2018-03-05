@@ -15,6 +15,7 @@
             <th class="left-align">#</th>
             <th class="left-align">title</th>
             <th class="left-align">BGs</th>
+            <th class="left-align">hours</th>
             <th class="left-align">finished</th>
             <th class="left-align">approved</th>
             <th>&nbsp;</th>
@@ -24,6 +25,7 @@
             <td>{{ episode.format_padded_number() }}</td>
             <td><a href="{{ url_for('episode_routes.details_view', record_id=episode.id) }}">{{ episode.title }}</a></td>
             <td>{{ episode.bg_count }}</td>
+            <td>{{ episode.hours }}</td>
             <td>{{ macros.progress_bar(format_percent(episode.bg_count, episode.finished_bgs), css_pct(episode.bg_count, episode.finished_bgs)) }}</td>
             <td>{{ macros.progress_bar(format_percent(episode.bg_count, episode.approved_bgs), css_pct(episode.bg_count, episode.approved_bgs)) }}</td>
             <td class="centered">
