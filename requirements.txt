@@ -1,5 +1,12 @@
-peewee>=3.0.10
-flask>=0.12.2
-flask_wtf>=0.14.2
-markupsafe>=1.0
-python-dateutil>=2.6.1
+click==6.7
+Flask==0.12.2
+Flask-WTF==0.14.2
+itsdangerous==0.24
+Jinja2==2.10
+MarkupSafe==1.0
+peewee==3.2.2
+python-dateutil==2.7.2
+six==1.11.0
+Werkzeug==0.14.1
+wtf-peewee==3.0.0
+WTForms==2.1
