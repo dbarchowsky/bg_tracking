@@ -3,6 +3,11 @@ App that tracks animation background painting progress.
 
 ## Prerequisites
 
+### Utilities
+
+- **pip** installed with `sudo easy_install pip` or follow [these instructions](https://gist.github.com/haircut/14705555d58432a5f01f9188006a04ed) for installing `pip` without admin priviledges.
+- **virtualenv** installed with `pip install virtualenv`.
+
 ### Virtual environment
 
 Start the virtual environment with:
